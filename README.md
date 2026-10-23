@@ -1,9 +1,9 @@
-# Athao 学汉语（VietChinese）— 越南人从 0 学中文
+# 越学中文（VietChinese）— 越南人从 0 学中文
 
 基于 **[ALiangPang/hsk1-chinese-learning](https://github.com/ALiangPang/hsk1-chinese-learning)**
 二次开发的**离线**中文学习 App。目标是让**零基础越南人**从拼音到会说会认中文。
 
-> **Athao 学汉语** · 研究用途 · 非商用 · v9
+> **越学汉语** · 研究用途 · 非商用 · v9
 
 ## v9 能力一览
 
@@ -141,6 +141,6 @@ Gradle 会自动把 `web/` 同步到 assets。
 
 ## 授权
 
-原版主框架与 learn-chinese 仓库**均无 LICENSE**（默认保留所有权利）。
+欢迎进行二次开发，但切勿商用（默认保留所有权利）。
 本项目研究/非商用，请保留原作者署名。详见
 [docs/data-sources.md](docs/data-sources.md)。
