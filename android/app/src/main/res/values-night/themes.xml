@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 深色模式主题：状态栏转为更深的红，窗口背景为深灰，
+         避免系统深色模式下窗口仍是白底闪一下。
+         同 light 版，color* 三个属性也必须带 android: 前缀。 -->
+    <style name="Theme.VietChinese" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:colorPrimary">#8E2A20</item>
+        <item name="android:colorPrimaryDark">#6E2018</item>
+        <item name="android:colorAccent">#14B8A6</item>
+        <item name="android:statusBarColor">#8E2A20</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">#141110</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>

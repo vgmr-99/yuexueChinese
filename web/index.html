@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <!-- 移动端关键：viewport-fit=cover 让内容延伸到刘海/圆角区域，配合 CSS 的 env(safe-area-inset-*) 做安全区避让；interactive-widget 让键盘弹出时不改变布局 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <title>Athao 学汉语 · HSK 1-6</title>
+
+  <!--
+    关键样式内联兜底：部分浏览器（实测 vivo 自带浏览器）在「省流量/加速」模式下
+    会拦截外部样式表，导致整站毫无样式。约 2KB 的内联关键样式保证即使
+    style.css 完全加载失败，页面依然可用、依然像样。
+    完整样式仍由 css/style.css 提供，这里只覆盖骨架层。
+  -->
+  <style>
+    /* ============================================================
+       关键样式兜底 —— 仅在 style.css 加载失败时才生效
+       ------------------------------------------------------------
+       为什么要有这层：部分浏览器（实测 vivo 自带浏览器）在省流量/加速
+       模式下会拦截外部样式表，导致整站毫无样式。
+
+       为什么加 .nc 前缀：内联 <style> 在 <link> 之前，若不加限定，
+       内联块里 style.css 从未声明的属性会**残留**下来，反而破坏真实布局。
+       （历史上已因此出过三次事故：.nav 的 top:0 撑高导航盖住整页、
+         .logo-icon 底色写白而真实是金色、.nav-more 的 display:flex
+         把 5 列面板挤到右侧。）
+       加了 html.nc 限定后，style.css 正常时这段完全不参与计算，
+       彻底消除冲突可能。.nc 由 js/css-guard.js 在检测到样式表失效时添加。
+       ============================================================ */
+    html.nc{--red:#c0392b;--red-light:#e74c3c;--gold:#d4a017;--gold-light:#f1c40f;--cream:#fdf6ec;--white:#fff;--text:#2c1810;--text-light:#6b5344;--border:#e8d5c4;--radius:16px}
+    html.nc *{box-sizing:border-box;margin:0;padding:0}
+    html.nc button,html.nc input,html.nc select,html.nc textarea{font-family:inherit}
+    html.nc body{font-family:'Nunito',system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(135deg,#fdf6ec 0%,#fce4d6 50%,#f5e6d3 100%);color:var(--text);min-height:100vh;line-height:1.6;-webkit-text-size-adjust:100%}
+    html.nc .app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--white)}
+    html.nc .header{background:linear-gradient(135deg,var(--red),var(--red-light));color:#fff;padding:10px 16px}
+    html.nc.in-app .header{padding-top:calc(4px + env(safe-area-inset-top, 0px))}
+    html.nc .header-inner{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    html.nc .logo{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+    html.nc .logo>div{min-width:0}
+    html.nc .logo-icon{width:44px;height:44px;padding:5px;border-radius:12px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    html.nc .logo-icon img{width:100%;height:100%;object-fit:contain;display:block}
+    html.nc .logo h1{font-size:1.15rem;font-weight:700;color:#fff;white-space:nowrap;line-height:1.2}
+    html.nc .logo-sub{font-size:11px;color:#ffd97a;white-space:nowrap;font-weight:600;line-height:1.25;margin-top:1px}
+    html.nc .lang-toggle{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:700;cursor:pointer}
+    html.nc .lang-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:5px 9px;min-width:34px;font-size:12px;cursor:pointer}
+    html.nc .lang-toggle:active{transform:scale(.96)}
+    html.nc .main{padding:20px}
+    html.nc .section{display:none}
+    html.nc .section.active{display:block}
+    html.nc .section-header h2{font-size:1.25rem;margin-bottom:14px}
+    html.nc .card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:13px}
+    html.nc .btn{border:0;border-radius:10px;padding:10px 16px;font-size:.9rem;cursor:pointer;font-weight:600}
+    html.nc .btn-primary{background:var(--red);color:#fff}
+    html.nc .btn-outline{background:transparent;border:1px solid var(--red);color:var(--red)}
+    html.nc .modal{position:fixed;top:0;right:0;bottom:0;left:0;display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+    html.nc .modal.open{display:flex}
+    html.nc .modal-backdrop{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,.45)}
+    html.nc .modal-card{position:relative;background:var(--white);border-radius:var(--radius);padding:20px;max-width:420px;width:100%;max-height:88vh;overflow:auto}
+    html.nc .modal-close{position:absolute;top:10px;right:12px;background:none;border:0;font-size:1.1rem;cursor:pointer}
+    html.nc .nav{position:fixed;bottom:0;left:0;right:0;z-index:45;display:flex;background:rgba(255,255,255,.98);border-top:1px solid var(--border)}
+    html.nc .nav-btn{flex:1;background:none;border:0;padding:8px 2px;cursor:pointer;color:var(--text-light);font-size:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+    html.nc .nav-btn.active{color:var(--red);font-weight:700}
+    html.nc .nav-more{position:fixed;bottom:54px;left:0;right:0;z-index:60;background:#fff;border-top:1px solid var(--border);padding:12px 10px;display:none}
+    html.nc .nav-more.open{display:block}
+    html.nc .nav-more-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+    html.nc .nav-more-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px;min-width:0;padding:8px 2px;border:1px solid var(--border);border-radius:12px;background:var(--cream);font-size:11px;font-weight:700;color:var(--text);cursor:pointer}
+    html.nc .section-bottom-bar{position:sticky;bottom:0;z-index:30;background:rgba(255,255,255,.97);border-top:1px solid var(--border);padding:8px 20px}
+    html.nc .level-tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+    html.nc .level-tab{border:1px solid var(--border);background:var(--white);border-radius:9px;padding:5px 2px;min-height:34px;font-size:11px;line-height:1.1;color:var(--text-light);cursor:pointer;white-space:nowrap;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+    html.nc .level-tab .lvl-count{font-size:9.5px;font-weight:600;opacity:.55;padding:1px 5px;background:rgba(15,23,42,.05);border-radius:5px;line-height:1.1}
+    html.nc .level-tab.active{background:var(--red);color:#fff;border-color:var(--red);font-weight:700}
+    html.nc .course-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    html.nc .course-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:left;cursor:pointer}
+    @media (prefers-color-scheme:dark){
+      html.nc body{background:#1a1614}
+      html.nc .app,html.nc .card,html.nc .modal-card,html.nc .level-tab,html.nc .course-card,html.nc .lang-btn.active{background:#241f1d;color:var(--text)}
+      html.nc .main,html.nc .section{color:#f5efe9}
+    }
+  </style>
+  <link rel="stylesheet" href="css/style.css?v=80878cbd">
+  <script src="js/css-guard.js?v=c24d2693"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-inner">
+        <div class="logo">
+          <span class="logo-icon"><img src="images/logo-panda.png?v=149e02d0" alt=""></span>
+          <div>
+            <h1 data-i18n="appTitle">Học Tiếng Trung</h1>
+            <p class="logo-sub" data-i18n="appSub">越汉通 · HSK · có Hán-Việt</p>
+          </div>
+        </div>
+        <!-- 语言切换：只有中/越两种，改成一枚「切到另一种语言」的按钮，
+             比原来三颗小药丸更清爽、点击区域也更大。 -->
+        <div class="header-right">
+          <button class="lang-toggle" id="lang-toggle" type="button"
+                  aria-live="polite" aria-label="Đổi ngôn ngữ / 切换语言">
+            <span class="lang-toggle-ico" aria-hidden="true">文</span>
+            <span class="lang-toggle-txt" id="lang-toggle-txt">中</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 移动端优先：底部导航只放 5 个主项（9 个分区全平铺会拥挤），
+         其余功能收进「更多」面板，一指直达 -->
+    <nav class="nav">
+      <button class="nav-btn active" data-section="home"><i class="nav-ico">🏠</i><span data-i18n="navHome">Trang</span></button>
+      <button class="nav-btn" data-section="learn"><i class="nav-ico">📖</i><span data-i18n="navLearn">Học</span></button>
+      <button class="nav-btn" data-section="sentence"><i class="nav-ico">📝</i><span data-i18n="navSent">Câu</span></button>
+      <button class="nav-btn" data-section="quiz"><i class="nav-ico">✨</i><span data-i18n="navQuiz">Đề</span></button>
+      <button class="nav-btn nav-more-btn" id="nav-more-btn" data-more="1" aria-expanded="false"><i class="nav-ico">☰</i><span data-i18n="navMore">Thêm</span></button>
+    </nav>
+
+    <!-- 「更多」面板：底部抽屉，3 列网格大热区 -->
+    <div class="nav-more-scrim" id="nav-more-scrim" data-close-more="1"></div>
+    <div class="nav-more" id="nav-more" role="dialog" aria-modal="false">
+      <div class="nav-more-title" data-i18n="navMoreTitle">Tất cả chức năng</div>
+      <div class="nav-more-grid">
+        <button class="nav-more-item" data-section="review"><i class="nav-ico">🔁</i><span data-i18n="navReview">Ôn</span></button>
+        <button class="nav-more-item" data-section="hanzi"><i class="nav-ico">✍️</i><span data-i18n="navWrite">Nét</span></button>
+        <button class="nav-more-item" data-section="pinyin"><i class="nav-ico">🔤</i><span data-i18n="navPinyin">Pinyin</span></button>
+        <button class="nav-more-item" data-section="dictation"><i class="nav-ico">🎧</i><span data-i18n="navDict">Nghe</span></button>
+        <button class="nav-more-item" data-section="settings"><i class="nav-ico">⚙️</i><span data-i18n="navSet">Cấu</span></button>
+      </div>
+    </div>
+
+    <main class="main">
+      <!-- ============ 首页 ============ -->
+      <section id="home" class="section active">
+        <div class="welcome-card">
+          <div class="welcome-decoration">🌸</div>
+          <h2 data-i18n="hello">Xin chào! 你好!</h2>
+          <p class="welcome-text" data-i18n="homeIntro">
+            Tài liệu học tiếng Trung dành cho người Việt — bắt đầu từ con số 0.
+          </p>
+          <p class="gift-note" data-i18n="homeTip">Gợi ý: bấm vào thẻ từ để nghe phát âm.</p>
+
+          <!-- 每日目标面板 -->
+          <div id="goal-widget" class="goal-widget"></div>
+
+          <div class="feature-grid">
+            <div class="feature-item"><span class="feature-icon">🀄</span><strong data-i18n="hanViet">Hán-Việt</strong><p>Cách đọc Hán-Việt</p></div>
+            <div class="feature-item"><span class="feature-icon">🔊</span><strong>TTS</strong><p>Giọng đọc tự nhiên</p></div>
+            <div class="feature-item"><span class="feature-icon">✍️</span><strong data-i18n="hanzi">Nét viết</strong><p>Thứ tự nét HSK1</p></div>
+            <div class="feature-item"><span class="feature-icon">🔁</span><strong>SRS</strong><p data-i18n="review">Ôn tập</p></div>
+            <div class="feature-item"><span class="feature-icon">📚</span><strong>HSK 1-6</strong><p>5456 từ</p></div>
+            <div class="feature-item"><span class="feature-icon">🌐</span><strong>3 ngôn ngữ</strong><p>中 / VI / EN</p></div>
+          </div>
+
+          <div class="home-actions">
+            <button class="btn btn-primary btn-large" data-goto="learn" data-i18n="startLearn">Học từ vựng</button>
+            <button class="btn btn-outline btn-large" data-goto="review" data-i18n="startReview">Ôn tập SRS</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 学词 ============ -->
+      <section id="learn" class="section">
+        <div class="section-header">
+          <h2>📖 <span data-i18n="learn">Học từ</span></h2>
+        </div>
+        <div class="search-bar">
+          <input type="search" id="search-input" data-i18n-ph="searchVocab" placeholder="Tìm từ...">
+          <span class="result-count"><b id="vocab-count">0</b> <span data-i18n="all">Tất cả</span></span>
+        </div>
+        <div id="vocab-grid" class="vocab-grid"></div>
+        <!-- 等级筛选固定底部：内容优先，筛选不挡视线（移动端 sticky bottom） -->
+        <div class="section-bottom-bar">
+          <div id="level-tabs" class="level-tabs"></div>
+        </div>
+      </section>
+
+      <!-- ============ SRS 复习 ============ -->
+      <section id="review" class="section">
+        <div class="section-header">
+          <h2>🔁 <span data-i18n="review">Ôn tập</span></h2>
+        </div>
+        <div id="srs-stats" class="srs-stats"></div>
+        <div class="srs-start-wrap">
+          <button id="srs-start" class="btn btn-primary btn-large" data-i18n="startReview">Ôn tập SRS</button>
+        </div>
+        <div id="srs-area" class="quiz-area"></div>
+      </section>
+
+      <!-- ============ 笔顺 ============ -->
+      <section id="hanzi" class="section">
+        <div class="section-header">
+          <h2>✍️ <span data-i18n="hanzi">Nét viết</span></h2>
+        </div>
+        <div class="search-bar">
+          <input type="search" id="hanzi-search" data-i18n-ph="searchHanzi" placeholder="Tìm chữ Hán...">
+        </div>
+        <div id="hanzi-list" class="hanzi-list"></div>
+      </section>
+
+      <!-- ============ 拼音 ============ -->
+      <section id="pinyin" class="section">
+        <div class="section-header">
+          <h2>🔤 <span data-i18n="pinyin">Pinyin</span></h2>
+        </div>
+        <div class="pinyin-tabs" role="tablist">
+          <button class="pinyin-tab active" data-ptab="initial" data-i18n="pinyinTabInitial">Phụ âm</button>
+          <button class="pinyin-tab" data-ptab="final" data-i18n="pinyinTabFinal">Nguyên âm</button>
+          <button class="pinyin-tab" data-ptab="tone" data-i18n="pinyinTabTone">Thanh điệu</button>
+          <button class="pinyin-tab" data-ptab="syllable" data-i18n="pinyinTabSyllable">Ghép âm</button>
+        </div>
+        <div id="pinyin-content" class="pinyin-content"></div>
+      </section>
+
+      <!-- ============ 句子 ============ -->
+      <section id="sentence" class="section">
+        <div class="section-header">
+          <h2>📝 <span data-i18n="sentence">Câu</span></h2>
+        </div>
+        <!-- 课程卡片网格 / 课程句子内容（JS 渲染） -->
+        <div id="course-content" class="course-content"></div>
+        <!-- HSK 等级筛选固定底部 -->
+        <div class="section-bottom-bar">
+          <div id="sent-level-tabs" class="level-tabs"></div>
+        </div>
+      </section>
+
+      <!-- ============ 测验 ============ -->
+      <section id="quiz" class="section">
+        <div class="section-header">
+          <h2>✨ <span data-i18n="quiz">Kiểm tra</span></h2>
+        </div>
+        <div id="quiz-area" class="quiz-area"></div>
+      </section>
+
+
+      <!-- ============ 听写模式 ============ -->
+      <section id="dictation" class="section">
+        <div class="section-header">
+          <h2>🎧 <span data-i18n="dictation">Nghe chép</span></h2>
+          <span class="badge-level" data-i18n="dictBadge">Nghe - Viết</span>
+        </div>
+        <div id="dict-area" class="quiz-area"></div>
+      </section>
+
+      <!-- ============ 设置与数据 ============ -->
+      <section id="settings" class="section">
+        <div class="section-header">
+          <h2>⚙️ <span data-i18n="settings">Cài đặt</span></h2>
+        </div>
+
+        <div class="settings-card">
+          <div id="goal-settings"></div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title" data-i18n="strokeRecord">Kết quả viết chữ</div>
+          <div id="stroke-summary" class="stroke-summary"></div>
+          <div id="stroke-records" class="stroke-records"></div>
+          <button id="btn-clear-stroke" class="btn btn-outline btn-sm"
+            data-i18n="clearStroke">Xóa kết quả viết</button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title" data-i18n="stats">Thống kê học tập</div>
+          <div id="stat-grid" class="stat-grid"></div>
+          <div id="stat-levels" class="stat-levels"></div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title" data-i18n="asService">Dịch vụ chấm điểm phát âm</div>
+          <p class="settings-desc" data-i18n="asServiceDesc">
+            Kết nối máy chủ trung gian (PHP) của bạn để chấm điểm phát âm bằng Xunfei.
+            Để trống nếu chưa cấu hình — các chức năng khác vẫn dùng bình thường.
+          </p>
+          <div class="settings-actions">
+            <input id="ise-endpoint" class="ise-input" type="url" spellcheck="false"
+              placeholder="留空则关闭发音评测功能" />
+            <button id="btn-ise-save" class="btn btn-primary btn-sm" data-i18n="save">Lưu</button>
+          </div>
+          <div id="ise-state" class="ise-state"></div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title" data-i18n="dataMgmt">Quản lý dữ liệu</div>
+          <p class="settings-desc" data-i18n="dataDesc">
+            Xuất toàn bộ tiến độ để sao lưu hoặc chuyển sang máy khác.
+          </p>
+          <div class="settings-actions">
+            <button id="btn-export" class="btn btn-outline" data-i18n="export">Xuất dữ liệu</button>
+            <button id="btn-import" class="btn btn-outline" data-i18n="import">Nhập dữ liệu</button>
+          </div>
+          <textarea id="data-io" class="data-io" rows="4" spellcheck="false"
+            placeholder="Dữ liệu sẽ hiện ở đây..."></textarea>
+        </div>
+
+
+        <div class="settings-card">
+          <div class="settings-title" data-i18n="wrongBook">Sổ từ sai</div>
+          <p class="settings-desc" data-i18n="wrongDesc">
+            Các từ bạn trả lời sai. Trả lời đúng sẽ tự động xóa.
+          </p>
+          <div id="wrong-list" class="wrong-list"></div>
+          <button id="btn-clear-wrong" class="btn btn-outline btn-sm"
+            data-i18n="clearWrong">Xóa sổ từ sai</button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title" data-i18n="reset">Đặt lại tiến độ</div>
+          <p class="settings-desc" data-i18n="resetDesc">
+            Xóa tiến độ của một cấp độ, hoặc xóa toàn bộ.
+          </p>
+          <div id="reset-levels" class="settings-actions"></div>
+          <button id="btn-reset-all" class="btn btn-danger" data-i18n="resetAll">
+            Xóa toàn bộ dữ liệu
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 笔顺弹窗 -->
+  <div id="toast" class="toast"></div>
+
+  <!-- 词卡弹窗：点击任意单词必弹，保证 100% 可点开 -->
+  <div id="vocab-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-vocab></div>
+    <div class="modal-card vocab-modal-card">
+      <button class="modal-close" data-close-vocab aria-label="Đóng">✕</button>
+      <div class="vm-head">
+        <div id="vm-hanzi" class="vm-hanzi">爱</div>
+        <div class="vm-head-info">
+          <div id="vm-pinyin" class="vm-pinyin">ài</div>
+          <div id="vm-hanviet" class="vm-hanviet">🀄 ái</div>
+        </div>
+      </div>
+      <div id="vm-meaning" class="vm-meaning"></div>
+      <div id="vm-meta" class="vm-meta"></div>
+      <div class="vm-actions">
+        <button id="vm-speak" class="btn btn-primary">🔊 <span data-i18n="playAudio">Nghe</span></button>
+        <button id="vm-stroke" class="btn btn-outline">✍️ <span data-i18n="writeStroke">Viết</span></button>
+        <button id="vm-assess" class="btn btn-outline">🎤 <span data-i18n="asAssess">Phát âm</span></button>
+        <button id="vm-mark" class="btn btn-outline">✓ <span data-i18n="mark">Đã học</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="stroke-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <button class="modal-close" data-close-modal aria-label="Đóng">✕</button>
+      <div class="stroke-head">
+        <span id="stroke-char" class="stroke-char">人</span>
+        <div>
+          <div id="stroke-hanviet" class="stroke-hanviet">nhân</div>
+          <div id="stroke-meta" class="stroke-meta">2 nét</div>
+        </div>
+      </div>
+      <div id="stroke-target" class="stroke-target"></div>
+      <div id="stroke-result-box" class="stroke-result-box"></div>
+      <div class="stroke-controls">
+        <button id="stroke-play" class="btn btn-primary">▶ <span data-i18n="playStroke">Phát nét</span></button>
+        <button id="stroke-quiz" class="btn btn-outline">✍️ <span data-i18n="quizStroke">Tập viết</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 发音评测（讯飞 ISE，需配置服务端代理） ============ -->
+  <div id="assess-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-assess></div>
+    <div class="modal-card assess-card">
+      <button class="modal-close" data-close-assess aria-label="Đóng">✕</button>
+
+      <div class="assess-head">
+        <div id="as-target" class="as-target">长城</div>
+        <div id="as-pinyin" class="as-pinyin">chángchéng</div>
+      </div>
+
+      <!-- 录音区 -->
+      <div class="as-rec">
+        <div class="as-meter"><div id="as-meter-fill" class="as-meter-fill"></div></div>
+        <button id="as-mic" class="as-mic" aria-label="Ghi âm">
+          <span class="as-mic-ico">🎤</span>
+        </button>
+        <div id="as-hint" class="as-hint" data-i18n="asHint">Nhấn mic rồi đọc to</div>
+        <div id="as-timer" class="as-timer"></div>
+      </div>
+
+      <!-- 结果区 -->
+      <div id="as-result" class="as-result" hidden>
+        <div class="as-overall">
+          <div id="as-score" class="as-score">0</div>
+          <div class="as-score-label" data-i18n="asTotal">Điểm</div>
+        </div>
+        <div id="as-dims" class="as-dims"></div>
+        <div id="as-chars" class="as-chars">
+        <div id="as-raw" class="as-raw" hidden></div></div>
+        <p id="as-tip" class="as-tip"></p>
+      </div>
+
+      <div id="as-status" class="as-status" hidden></div>
+
+      <div class="assess-actions">
+        <button id="as-play" class="btn btn-outline">🔊 <span data-i18n="asListen">Nghe chuẩn</span></button>
+        <button id="as-again" class="btn btn-primary" data-i18n="asAgain">Đọc lại</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/hanzi-writer.min.js?v=b1ec916b"></script>
+  <script src="js/pinyin.js?v=184c2ce8"></script>
+  <script src="data/app-data.js?v=dd33b970"></script>
+  <script src="js/i18n.js?v=575c4310"></script>
+  <script src="js/srs.js?v=af0edf80"></script>
+  <script src="js/settings.js?v=5823ad3d"></script>
+  <script src="js/dictation.js?v=07e0f220"></script>
+  <script src="js/dailyGoal.js?v=82097ea3"></script>
+  <script src="js/strokeScore.js?v=a9107079"></script>
+  <script src="js/speech.js?v=91b0c5fa"></script>
+  <script src="js/app.js?v=7cc814d2"></script>
+</body>
+</html>

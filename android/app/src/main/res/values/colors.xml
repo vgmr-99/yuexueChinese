@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 与首页 .logo-icon 同款白底 -->
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>

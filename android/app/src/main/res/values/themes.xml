@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主题色与 Web 端 header 渐变保持一致（深红 #C0392B）。
+         原先用的是青绿 #0F766E（笔顺组件的强调色），与红色 header 不搭，
+         在真机上会出现「青状态栏 + 红标题栏」的割裂感。
+         仍使用平台内置 Material 主题，避免引入 AppCompat 依赖，让 APK 保持轻量。
+
+         注意：这三个 color* 属性属于 AppCompat，必须写成
+         android:colorPrimary 等（平台属性），
+         写成不带前缀的 colorPrimary 会报
+         "style attribute 'attr/colorPrimary' not found"。 -->
+    <style name="Theme.VietChinese" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">#C0392B</item>
+        <item name="android:colorPrimaryDark">#A93226</item>
+        <!-- 强调色保留青绿：笔顺/汉越音/进度条等强调元素用这个 -->
+        <item name="android:colorAccent">#0F766E</item>
+        <!-- 状态栏与 header 同色，视觉连续 -->
+        <item name="android:statusBarColor">#C0392B</item>
+        <!-- 深色状态栏图标：红底需要白图标 -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">#F8FAFC</item>
+        <!-- 不强制深色，WebView 自行跟随系统（CSS 已适配） -->
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>

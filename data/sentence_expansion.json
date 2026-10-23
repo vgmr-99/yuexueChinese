@@ -1,0 +1,2448 @@
+{
+ "hsk1-01": [
+  {
+   "hanzi": "早上好，王老师！",
+   "translation": "Chào buổi sáng, thầy Vương!"
+  },
+  {
+   "hanzi": "你好，请坐。",
+   "translation": "Xin chào, mời ngồi."
+  },
+  {
+   "hanzi": "很高兴认识你。",
+   "translation": "Rất vui được quen bạn."
+  },
+  {
+   "hanzi": "我姓李，叫李明。",
+   "translation": "Tôi họ Lý, tên là Lý Minh."
+  },
+  {
+   "hanzi": "你叫什么名字？",
+   "translation": "Bạn tên là gì?"
+  },
+  {
+   "hanzi": "她是我的同学。",
+   "translation": "Cô ấy là bạn cùng lớp của tôi."
+  },
+  {
+   "hanzi": "请进，请随便坐。",
+   "translation": "Mời vào, mời ngồi tùy ý."
+  },
+  {
+   "hanzi": "不好意思，我来晚了。",
+   "translation": "Xin lỗi, tôi đến muộn."
+  },
+  {
+   "hanzi": "再见，明天见。",
+   "translation": "Tạm biệt, hẹn gặp lại ngày mai."
+  },
+  {
+   "hanzi": "您贵姓？",
+   "translation": "Ngài quý danh là gì ạ?"
+  },
+  {
+   "hanzi": "初次见面，请多关照。",
+   "translation": "Rất vui lần đầu gặp mặt, mong được quan tâm."
+  },
+  {
+   "hanzi": "一路顺风。",
+   "translation": "Chúc bạn thuận lợi trên đường."
+  },
+  {
+   "hanzi": "对不起，打扰一下。",
+   "translation": "Xin lỗi, làm phiền bạn một chút."
+  },
+  {
+   "hanzi": "没关系，你坐吧。",
+   "translation": "Không sao, bạn ngồi đi."
+  },
+  {
+   "hanzi": "欢迎来我家。",
+   "translation": "Chào mừng bạn đến nhà tôi."
+  }
+ ],
+ "hsk1-02": [
+  {
+   "hanzi": "我今年二十八岁。",
+   "translation": "Năm nay tôi hai mươi tám tuổi."
+  },
+  {
+   "hanzi": "你是学生吗？",
+   "translation": "Bạn là học sinh à?"
+  },
+  {
+   "hanzi": "我在公司工作。",
+   "translation": "Tôi làm việc ở công ty."
+  },
+  {
+   "hanzi": "他是我哥哥。",
+   "translation": "Anh ấy là anh trai tôi."
+  },
+  {
+   "hanzi": "我们都是中国人。",
+   "translation": "Chúng tôi đều là người Trung Quốc."
+  },
+  {
+   "hanzi": "这是我的学生。",
+   "translation": "Đây là học sinh của tôi."
+  },
+  {
+   "hanzi": "我住在河内。",
+   "translation": "Tôi sống ở Hà Nội."
+  },
+  {
+   "hanzi": "你叫什么名字？我叫阮氏梅。",
+   "translation": "Bạn tên gì? Tôi tên Nguyễn Thị Mai."
+  },
+  {
+   "hanzi": "很高兴认识你，我是张华。",
+   "translation": "Rất vui được quen bạn, tôi tên Trương Hoa."
+  },
+  {
+   "hanzi": "这是我妹妹。",
+   "translation": "Đây là em gái tôi."
+  },
+  {
+   "hanzi": "我是一个老师。",
+   "translation": "Tôi là giáo viên."
+  },
+  {
+   "hanzi": "我们是从越南来的。",
+   "translation": "Chúng tôi đến từ Việt Nam."
+  },
+  {
+   "hanzi": "他很高，我不高。",
+   "translation": "Anh ấy cao, tôi không cao."
+  },
+  {
+   "hanzi": "很高兴见到你。",
+   "translation": "Rất vui được gặp bạn."
+  }
+ ],
+ "hsk1-03": [
+  {
+   "hanzi": "中国在亚洲。",
+   "translation": "Trung Quốc nằm ở châu Á."
+  },
+  {
+   "hanzi": "我去过北京。",
+   "translation": "Tôi đã từng đến Bắc Kinh."
+  },
+  {
+   "hanzi": "你说汉语吗？",
+   "translation": "Bạn nói tiếng Trung không?"
+  },
+  {
+   "hanzi": "我学中文。",
+   "translation": "Tôi học tiếng Trung."
+  },
+  {
+   "hanzi": "北京是中国的首都。",
+   "translation": "Bắc Kinh là thủ đô của Trung Quốc."
+  },
+  {
+   "hanzi": "越南在亚洲。",
+   "translation": "Việt Nam nằm ở châu Á."
+  },
+  {
+   "hanzi": "我不会说英语。",
+   "translation": "Tôi không nói được tiếng Anh."
+  },
+  {
+   "hanzi": "这是我的国家越南。",
+   "translation": "Đây là nước nhà Việt Nam của tôi."
+  },
+  {
+   "hanzi": "中国人说中文。",
+   "translation": "Người Trung Quốc nói tiếng Trung."
+  },
+  {
+   "hanzi": "你会说越南语吗？",
+   "translation": "Bạn có nói được tiếng Việt không?"
+  },
+  {
+   "hanzi": "我来自越南。",
+   "translation": "Tôi đến từ Việt Nam."
+  },
+  {
+   "hanzi": "中文和越南语很难。",
+   "translation": "Tiếng Trung và tiếng Việt rất khó."
+  },
+  {
+   "hanzi": "日本人也说中文。",
+   "translation": "Người Nhật cũng nói tiếng Trung."
+  },
+  {
+   "hanzi": "我在中国学中文。",
+   "translation": "Tôi học tiếng Trung ở Trung Quốc."
+  },
+  {
+   "hanzi": "我的老师是中国人。",
+   "translation": "Giáo viên của tôi là người Trung Quốc."
+  }
+ ],
+ "hsk1-04": [
+  {
+   "hanzi": "今天星期几？",
+   "translation": "Hôm nay là thứ mấy?"
+  },
+  {
+   "hanzi": "现在是上午十点。",
+   "translation": "Bây giờ là mười giờ sáng."
+  },
+  {
+   "hanzi": "你有几本书？",
+   "translation": "Bạn có mấy quyển sách?"
+  },
+  {
+   "hanzi": "我的生日是五月一号。",
+   "translation": "Sinh nhật của tôi là ngày mốt tháng Năm."
+  },
+  {
+   "hanzi": "明天星期天。",
+   "translation": "Ngày mai là chủ nhật."
+  },
+  {
+   "hanzi": "我每天早上七点起床。",
+   "translation": "Sáng nào tôi cũng dậy lúc bảy giờ."
+  },
+  {
+   "hanzi": "他二十三岁。",
+   "translation": "Anh ấy hai mươi ba tuổi."
+  },
+  {
+   "hanzi": "这个月是几月？",
+   "translation": "Tháng này là tháng mấy?"
+  },
+  {
+   "hanzi": "今天很热。",
+   "translation": "Hôm nay trời rất nóng."
+  },
+  {
+   "hanzi": "我们六点吃晚饭。",
+   "translation": "Chúng tôi ăn tối lúc sáu giờ."
+  },
+  {
+   "hanzi": "去年我住在上海。",
+   "translation": "Năm ngoái tôi sống ở Thượng Hải."
+  },
+  {
+   "hanzi": "现在是十二月。",
+   "translation": "Bây giờ là tháng Mười Hai."
+  },
+  {
+   "hanzi": "这个星期有七天。",
+   "translation": "Một tuần có bảy ngày."
+  },
+  {
+   "hanzi": "现在是下午三点。",
+   "translation": "Bây giờ là ba giờ chiều."
+  },
+  {
+   "hanzi": "他每天工作八小时。",
+   "translation": "Mỗi ngày anh ấy làm việc tám tiếng."
+  }
+ ],
+ "hsk1-05": [
+  {
+   "hanzi": "这是我的家。",
+   "translation": "Đây là nhà tôi."
+  },
+  {
+   "hanzi": "我们家有四口人。",
+   "translation": "Nhà tôi có bốn người."
+  },
+  {
+   "hanzi": "我爱人很会做饭。",
+   "translation": "Người thân của tôi rất giỏi nấu ăn."
+  },
+  {
+   "hanzi": "我有两个孩子。",
+   "translation": "Tôi có hai đứa con."
+  },
+  {
+   "hanzi": "孩子的奶奶来了。",
+   "translation": "Bà của các con đã đến."
+  },
+  {
+   "hanzi": "这是我的爷爷。",
+   "translation": "Đây là ông nội của tôi."
+  },
+  {
+   "hanzi": "我妈妈是医生。",
+   "translation": "Mẹ tôi là bác sĩ."
+  },
+  {
+   "hanzi": "我爸爸在工厂工作。",
+   "translation": "Bố tôi làm việc ở nhà máy."
+  },
+  {
+   "hanzi": "他们是我的家人。",
+   "translation": "Họ là gia đình tôi."
+  },
+  {
+   "hanzi": "我们住在一起。",
+   "translation": "Chúng tôi sống cùng nhau."
+  },
+  {
+   "hanzi": "姐姐教我说中文。",
+   "translation": "Chị tôi dạy tôi nói tiếng Trung."
+  },
+  {
+   "hanzi": "我爷爷每天都看报纸。",
+   "translation": "Ông nội tôi mỗi ngày đều đọc báo."
+  },
+  {
+   "hanzi": "我们家的狗很可爱。",
+   "translation": "Con chó nhà tôi rất đáng yêu."
+  },
+  {
+   "hanzi": "她是我奶奶。",
+   "translation": "Bà ấy là bà nội của tôi."
+  }
+ ],
+ "hsk1-06": [
+  {
+   "hanzi": "学校在我的家旁边。",
+   "translation": "Trường học ở cạnh nhà tôi."
+  },
+  {
+   "hanzi": "我去公司要坐地铁。",
+   "translation": "Đi làm tôi phải đi tàu điện ngầm."
+  },
+  {
+   "hanzi": "这里有很多商店。",
+   "translation": "Ở đây có nhiều cửa hàng."
+  },
+  {
+   "hanzi": "医院在银行对面。",
+   "translation": "Bệnh viện ở đối diện ngân hàng."
+  },
+  {
+   "hanzi": "你在哪里工作？",
+   "translation": "Bạn làm việc ở đâu?"
+  },
+  {
+   "hanzi": "我在办公室工作。",
+   "translation": "Tôi làm việc ở văn phòng."
+  },
+  {
+   "hanzi": "我家在学校前面。",
+   "translation": "Nhà tôi ở trước trường học."
+  },
+  {
+   "hanzi": "这条街很长。",
+   "translation": "Con đường này rất dài."
+  },
+  {
+   "hanzi": "前面有一个公园。",
+   "translation": "Phía trước có một công viên."
+  },
+  {
+   "hanzi": "请你给我一张地图。",
+   "translation": "Bạn cho tôi một tấm bản đồ với."
+  },
+  {
+   "hanzi": "我家离地铁站很近。",
+   "translation": "Nhà tôi gần ga tàu điện ngầm."
+  },
+  {
+   "hanzi": "市政府在中心。",
+   "translation": "Ủy ban thành phố ở trung tâm."
+  },
+  {
+   "hanzi": "旁边有一个书店。",
+   "translation": "Bên cạnh có một tiệm sách."
+  },
+  {
+   "hanzi": "我在公司附近租房。",
+   "translation": "Tôi thuê nhà gần công ty."
+  }
+ ],
+ "hsk1-07": [
+  {
+   "hanzi": "我早上六点起床。",
+   "translation": "Sáng nào tôi cũng dậy lúc sáu giờ."
+  },
+  {
+   "hanzi": "我在家吃早饭。",
+   "translation": "Tôi ăn sáng ở nhà."
+  },
+  {
+   "hanzi": "晚上我在家看电视。",
+   "translation": "Tối tôi xem truyền hình ở nhà."
+  },
+  {
+   "hanzi": "我每天锻炼身体。",
+   "translation": "Tôi tập thể dục mỗi ngày."
+  },
+  {
+   "hanzi": "他每天七点去上班。",
+   "translation": "Mỗi ngày bảy giờ anh ấy đi làm."
+  },
+  {
+   "hanzi": "我先洗手，再吃饭。",
+   "translation": "Tôi rửa tay trước, rồi ăn cơm."
+  },
+  {
+   "hanzi": "妈妈在厨房做饭。",
+   "translation": "Mẹ đang nấu ăn ở nhà bếp."
+  },
+  {
+   "hanzi": "我晚上十一点睡觉。",
+   "translation": "Tôi đi ngủ lúc mười một giờ tối."
+  },
+  {
+   "hanzi": "今天是星期天，我休息。",
+   "translation": "Hôm nay chủ nhật, tôi nghỉ."
+  },
+  {
+   "hanzi": "我周末去公园。",
+   "translation": "Cuối tuần tôi đi công viên."
+  },
+  {
+   "hanzi": "他喜欢在家看书。",
+   "translation": "Anh ấy thích đọc sách ở nhà."
+  },
+  {
+   "hanzi": "我们一起做饭。",
+   "translation": "Chúng tôi nấu ăn cùng nhau."
+  },
+  {
+   "hanzi": "我每天刷牙两次。",
+   "translation": "Tôi đánh răng hai lần mỗi ngày."
+  },
+  {
+   "hanzi": "他早上喝咖啡。",
+   "translation": "Sáng anh ấy uống cà phê."
+  },
+  {
+   "hanzi": "晚上我和家人一起吃饭。",
+   "translation": "Tối tôi ăn cơm cùng gia đình."
+  }
+ ],
+ "hsk1-08": [
+  {
+   "hanzi": "我要买一件衣服。",
+   "translation": "Tôi muốn mua một cái áo."
+  },
+  {
+   "hanzi": "这个多少钱？",
+   "translation": "Cái này bao nhiêu tiền?"
+  },
+  {
+   "hanzi": "太贵了，便宜一点。",
+   "translation": "Đắt quá, rẻ hơn một chút."
+  },
+  {
+   "hanzi": "我去超市买东西。",
+   "translation": "Tôi đi siêu thị mua đồ."
+  },
+  {
+   "hanzi": "我要两公斤苹果。",
+   "translation": "Tôi muốn mua hai ký thơm."
+  },
+  {
+   "hanzi": "这个商店很小。",
+   "translation": "Cửa hàng này rất nhỏ."
+  },
+  {
+   "hanzi": "我在网上买东西。",
+   "translation": "Tôi mua hàng trên mạng."
+  },
+  {
+   "hanzi": "可以便宜十块吗？",
+   "translation": "Có thể rẻ hơn mười tệ không?"
+  },
+  {
+   "hanzi": "我要试试这件。",
+   "translation": "Tôi muốn thử cái này."
+  },
+  {
+   "hanzi": "不买这个，我买那个。",
+   "translation": "Không mua cái này, tôi mua cái kia."
+  },
+  {
+   "hanzi": "我要买一双鞋。",
+   "translation": "Tôi muốn mua một đôi giày."
+  },
+  {
+   "hanzi": "这个手机多少钱？",
+   "translation": "Chiếc điện thoại này bao nhiêu tiền?"
+  },
+  {
+   "hanzi": "我去市场买菜。",
+   "translation": "Tôi đi chợ mua thức ăn."
+  },
+  {
+   "hanzi": "我买了一件衣服和一条裤子。",
+   "translation": "Tôi mua một cái áo và một cái quần."
+  }
+ ],
+ "hsk1-09": [
+  {
+   "hanzi": "今天天气很好。",
+   "translation": "Hôm nay thời tiết rất đẹp."
+  },
+  {
+   "hanzi": "外面在下雨。",
+   "translation": "Bên ngoài đang mưa."
+  },
+  {
+   "hanzi": "北京冬天很冷。",
+   "translation": "Mùa đông Bắc Kinh rất lạnh."
+  },
+  {
+   "hanzi": "夏天我很喜欢游泳。",
+   "translation": "Mùa hè tôi rất thích bơi."
+  },
+  {
+   "hanzi": "今天多云，很凉爽。",
+   "translation": "Hôm nay nhiều mây, rất mát."
+  },
+  {
+   "hanzi": "秋天在中国很舒服。",
+   "translation": "Mùa thu ở Trung Quốc rất dễ chịu."
+  },
+  {
+   "hanzi": "我要带雨伞。",
+   "translation": "Tôi sẽ mang theo dù."
+  },
+  {
+   "hanzi": "春天花都开了。",
+   "translation": "Mùa xuân hoa đều nở rồi."
+  },
+  {
+   "hanzi": "明天天气怎么样？",
+   "translation": "Ngày mai thời tiết thế nào?"
+  },
+  {
+   "hanzi": "这里一年四季都很热。",
+   "translation": "Nơi này bốn mùa đều rất nóng."
+  },
+  {
+   "hanzi": "今天太阳很大。",
+   "translation": "Hôm nay nắng rất to."
+  },
+  {
+   "hanzi": "昨天很冷。",
+   "translation": "Hôm qua rất lạnh."
+  },
+  {
+   "hanzi": "下雨了，我们回家吧。",
+   "translation": "Mưa rồi, chúng ta về nhà thôi."
+  },
+  {
+   "hanzi": "这个季节的花最漂亮。",
+   "translation": "Hoa mùa này đẹp nhất."
+  },
+  {
+   "hanzi": "我最喜欢秋天。",
+   "translation": "Tôi thích mùa thu nhất."
+  }
+ ],
+ "hsk1-10": [
+  {
+   "hanzi": "我要去坐公交车。",
+   "translation": "Tôi muốn đi xe buýt."
+  },
+  {
+   "hanzi": "火车站在哪里？",
+   "translation": "Nhà ga tàu ở đâu?"
+  },
+  {
+   "hanzi": "我们走路去学校。",
+   "translation": "Chúng tôi đi bộ đến trường."
+  },
+  {
+   "hanzi": "飞机起飞了。",
+   "translation": "Máy bay đã cất cánh."
+  },
+  {
+   "hanzi": "我坐出租车回家。",
+   "translation": "Tôi bắt taxi về nhà."
+  },
+  {
+   "hanzi": "这条地铁线不通。",
+   "translation": "Tuyến tàu điện ngầm này không thông."
+  },
+  {
+   "hanzi": "请在下一站下车。",
+   "translation": "Xin bạn xuống xe ở trạm kế tiếp."
+  },
+  {
+   "hanzi": "开车要小心。",
+   "translation": "Lái xe phải cẩn thận."
+  },
+  {
+   "hanzi": "我去机场接你。",
+   "translation": "Tôi ra sân bay đón bạn."
+  },
+  {
+   "hanzi": "我们骑自行车去。",
+   "translation": "Chúng tôi đi xe đạp."
+  },
+  {
+   "hanzi": "我坐出租车去机场。",
+   "translation": "Tôi bắt taxi đi sân bay."
+  },
+  {
+   "hanzi": "汽车比火车快。",
+   "translation": "Ô tô nhanh hơn tàu hỏa."
+  },
+  {
+   "hanzi": "我在车站等车。",
+   "translation": "Tôi đợi xe ở bến."
+  },
+  {
+   "hanzi": "我们走路十分钟就到。",
+   "translation": "Đi bộ mười phút là tới."
+  },
+  {
+   "hanzi": "这条路不通车。",
+   "translation": "Con đường này không cho xe chạy."
+  }
+ ],
+ "hsk1-11": [
+  {
+   "hanzi": "我给你打电话。",
+   "translation": "Tôi gọi điện cho bạn."
+  },
+  {
+   "hanzi": "你的电话号码是多少？",
+   "translation": "Số điện thoại của bạn là bao nhiêu?"
+  },
+  {
+   "hanzi": "现在他在开会。",
+   "translation": "Bây giờ anh ấy đang họp."
+  },
+  {
+   "hanzi": "请你等一会儿。",
+   "translation": "Bạn đợi một lát nhé."
+  },
+  {
+   "hanzi": "我明天给你回电话。",
+   "translation": "Ngày mai tôi sẽ gọi lại cho bạn."
+  },
+  {
+   "hanzi": "对不起，我听不清楚。",
+   "translation": "Xin lỗi, tôi nghe không rõ."
+  },
+  {
+   "hanzi": "我发邮件给你。",
+   "translation": "Tôi gửi email cho bạn."
+  },
+  {
+   "hanzi": "他正在打电话。",
+   "translation": "Anh ấy đang gọi điện thoại."
+  },
+  {
+   "hanzi": "下次再聊吧。",
+   "translation": "Để lần sau mình nói chuyện nhé."
+  },
+  {
+   "hanzi": "我手机没电了。",
+   "translation": "Điện thoại của tôi hết pin rồi."
+  },
+  {
+   "hanzi": "我现在不在办公室。",
+   "translation": "Bây giờ tôi không ở văn phòng."
+  },
+  {
+   "hanzi": "请稍等，我查一下。",
+   "translation": "Xin đợi một chút, để tôi kiểm tra."
+  },
+  {
+   "hanzi": "我的电话是八一二三四五六。",
+   "translation": "Số điện thoại của tôi là tám một hai ba bốn năm sáu."
+  },
+  {
+   "hanzi": "我们用微信联系。",
+   "translation": "Chúng tôi liên lạc qua WeChat."
+  },
+  {
+   "hanzi": "他会打你的电话吗？",
+   "translation": "Anh ấy sẽ gọi cho bạn không?"
+  }
+ ],
+ "hsk1-12": [
+  {
+   "hanzi": "我在学校学中文。",
+   "translation": "Tôi học tiếng Trung ở trường."
+  },
+  {
+   "hanzi": "今天有三节课。",
+   "translation": "Hôm nay có ba tiết."
+  },
+  {
+   "hanzi": "我们班有二十个学生。",
+   "translation": "Lớp chúng tôi có hai mươi học sinh."
+  },
+  {
+   "hanzi": "我要借一本书。",
+   "translation": "Tôi muốn mượn một quyển sách."
+  },
+  {
+   "hanzi": "老师在教室里。",
+   "translation": "Giáo viên đang ở trong lớp."
+  },
+  {
+   "hanzi": "这个学期我学汉语。",
+   "translation": "Học kỳ này tôi học tiếng Trung."
+  },
+  {
+   "hanzi": "我的书包很重。",
+   "translation": "Cặp sách của tôi rất nặng."
+  },
+  {
+   "hanzi": "我们在学校吃饭。",
+   "translation": "Chúng tôi ăn cơm ở trường."
+  },
+  {
+   "hanzi": "明天有考试。",
+   "translation": "Ngày mai có kỳ thi."
+  },
+  {
+   "hanzi": "下课了，我们走吧。",
+   "translation": "Tan học rồi, chúng ta đi thôi."
+  },
+  {
+   "hanzi": "我每天上午上课。",
+   "translation": "Sáng nào tôi cũng đi học."
+  },
+  {
+   "hanzi": "学校有一个大图书馆。",
+   "translation": "Trường có một thư viện rộng lớn."
+  },
+  {
+   "hanzi": "我忘记带课本了。",
+   "translation": "Tôi quên mang sách giáo khoa."
+  },
+  {
+   "hanzi": "同学们都很认真。",
+   "translation": "Các bạn học sinh đều rất chăm chỉ."
+  },
+  {
+   "hanzi": "我在教室写汉字。",
+   "translation": "Tôi viết chữ Hán trong lớp."
+  },
+  {
+   "hanzi": "这周的课很多。",
+   "translation": "Tuần này có rất nhiều tiết."
+  }
+ ],
+ "hsk1-13": [
+  {
+   "hanzi": "我喜欢踢足球。",
+   "translation": "Tôi thích đá bóng."
+  },
+  {
+   "hanzi": "你每天运动吗？",
+   "translation": "Bạn có tập thể dục mỗi ngày không?"
+  },
+  {
+   "hanzi": "他弹钢琴弹得很好。",
+   "translation": "Anh ấy đánh piano rất hay."
+  },
+  {
+   "hanzi": "我喜欢听音乐。",
+   "translation": "Tôi thích nghe nhạc."
+  },
+  {
+   "hanzi": "我们一起打篮球。",
+   "translation": "Chúng tôi chơi bóng rổ cùng nhau."
+  },
+  {
+   "hanzi": "她喜欢画画。",
+   "translation": "Cô ấy thích vẽ tranh."
+  },
+  {
+   "hanzi": "周末我去游泳。",
+   "translation": "Cuối tuần tôi đi bơi."
+  },
+  {
+   "hanzi": "我不太会唱歌。",
+   "translation": "Tôi không giỏi hát lắm."
+  },
+  {
+   "hanzi": "他最喜欢看电影。",
+   "translation": "Anh ấy thích xem phim nhất."
+  },
+  {
+   "hanzi": "我们要多运动。",
+   "translation": "Chúng ta nên tập thể dục nhiều."
+  },
+  {
+   "hanzi": "他每天早上跑步。",
+   "translation": "Sáng nào anh ấy cũng chạy bộ."
+  },
+  {
+   "hanzi": "我喜欢看中国电影。",
+   "translation": "Tôi thích xem phim Trung Quốc."
+  },
+  {
+   "hanzi": "她会跳中国舞。",
+   "translation": "Cô ấy biết múa Trung Quốc."
+  },
+  {
+   "hanzi": "运动对身体好。",
+   "translation": "Tập thể dục tốt cho sức khỏe."
+  },
+  {
+   "hanzi": "我们要一起去看电影。",
+   "translation": "Chúng ta cùng đi xem phim nhé."
+  }
+ ],
+ "hsk1-14": [
+  {
+   "hanzi": "你要多练习。",
+   "translation": "Bạn phải luyện tập nhiều hơn."
+  },
+  {
+   "hanzi": "你学得很快。",
+   "translation": "Bạn học rất nhanh."
+  },
+  {
+   "hanzi": "别着急，慢慢来。",
+   "translation": "Đừng vội, cứ từ từ."
+  },
+  {
+   "hanzi": "这个字很难写。",
+   "translation": "Chữ này rất khó viết."
+  },
+  {
+   "hanzi": "我明天继续学。",
+   "translation": "Ngày mai tôi học tiếp."
+  },
+  {
+   "hanzi": "你已经做得很好了。",
+   "translation": "Bạn đã làm rất tốt rồi."
+  },
+  {
+   "hanzi": "不要害怕说中文。",
+   "translation": "Đừng sợ nói tiếng Trung."
+  },
+  {
+   "hanzi": "有问题可以问我。",
+   "translation": "Có vấn đề gì bạn cứ hỏi tôi."
+  },
+  {
+   "hanzi": "坚持练习，你会进步的。",
+   "translation": "Kiên trì luyện tập, bạn sẽ tiến bộ."
+  },
+  {
+   "hanzi": "复习很重要。",
+   "translation": "Ôn tập rất quan trọng."
+  },
+  {
+   "hanzi": "你的汉字写得很好。",
+   "translation": "Chữ Hán của bạn viết rất tốt."
+  },
+  {
+   "hanzi": "多听多说，很快就会了。",
+   "translation": "Nghe nói nhiều, nhanh thôi sẽ thành thôi."
+  },
+  {
+   "hanzi": "这个词我记不住。",
+   "translation": "Từ này tôi không nhớ được."
+  },
+  {
+   "hanzi": "没关系，我们再来一次。",
+   "translation": "Không sao, chúng ta làm lại một lần."
+  },
+  {
+   "hanzi": "你的发音进步了。",
+   "translation": "Phát âm của bạn tiến bộ rồi."
+  },
+  {
+   "hanzi": "每天读十分钟就很好。",
+   "translation": "Mỗi ngày đọc mười phút là tốt rồi."
+  }
+ ],
+ "hsk2-01": [
+  {
+   "hanzi": "我最近身体不太好。",
+   "translation": "Gần đây sức khỏe của tôi không tốt lắm."
+  },
+  {
+   "hanzi": "你哪里不舒服？",
+   "translation": "Bạn khó chỗ nào?"
+  },
+  {
+   "hanzi": "我头疼了两天。",
+   "translation": "Tôi bị đau đầu hai ngày rồi."
+  },
+  {
+   "hanzi": "我建议你去看医生。",
+   "translation": "Tôi khuyên bạn nên đi khám bác sĩ."
+  },
+  {
+   "hanzi": "我每天运动，身体很好。",
+   "translation": "Tôi tập thể dục mỗi ngày, sức khỏe rất tốt."
+  },
+  {
+   "hanzi": "我要多喝水，少吃糖。",
+   "translation": "Tôi phải uống nhiều nước, ăn ít đường."
+  },
+  {
+   "hanzi": "医生让我休息三天。",
+   "translation": "Bác sĩ bảo tôi nghỉ ba ngày."
+  },
+  {
+   "hanzi": "我有点感冒。",
+   "translation": "Tôi hơi bị cảm."
+  },
+  {
+   "hanzi": "我的牙很疼。",
+   "translation": "Tôi đau răng dữ lắm."
+  },
+  {
+   "hanzi": "你需要休息，不要太累。",
+   "translation": "Bạn cần nghỉ ngơi, đừng quá mệt."
+  },
+  {
+   "hanzi": "我以前很胖，现在瘦了。",
+   "translation": "Tôi trước đây rất mập, giờ gầy rồi."
+  },
+  {
+   "hanzi": "这个药一天吃三次。",
+   "translation": "Thuốc này mỗi ngày uống ba lần."
+  },
+  {
+   "hanzi": "你要多注意身体。",
+   "translation": "Bạn phải chú ý sức khỏe hơn."
+  },
+  {
+   "hanzi": "我妈妈最近身体也不好。",
+   "translation": "Gần đây sức khỏe mẹ tôi cũng không tốt."
+  }
+ ],
+ "hsk2-02": [
+  {
+   "hanzi": "我们的房子不大，但很干净。",
+   "translation": "Căn nhà chúng tôi không lớn, nhưng rất sạch."
+  },
+  {
+   "hanzi": "你家有几间房间？",
+   "translation": "Nhà bạn có mấy phòng?"
+  },
+  {
+   "hanzi": "我住在三楼的左边。",
+   "translation": "Tôi sống bên trái tầng ba."
+  },
+  {
+   "hanzi": "客厅里有一台电视机。",
+   "translation": "Trong phòng khách có một chiếc ti vi."
+  },
+  {
+   "hanzi": "厨房旁边是卫生间。",
+   "translation": "Bếp nằm cạnh nhà vệ sinh."
+  },
+  {
+   "hanzi": "我的房间窗户朝南。",
+   "translation": "Cửa sổ phòng tôi hướng nam."
+  },
+  {
+   "hanzi": "房东要涨房租。",
+   "translation": "Chủ nhà muốn tăng tiền thuê."
+  },
+  {
+   "hanzi": "我们在网上租房子。",
+   "translation": "Chúng tôi thuê nhà trên mạng."
+  },
+  {
+   "hanzi": "这张桌子是木头的。",
+   "translation": "Cái bàn này làm bằng gỗ."
+  },
+  {
+   "hanzi": "我要搬到大房子里。",
+   "translation": "Tôi sẽ chuyển vào căn nhà lớn hơn."
+  },
+  {
+   "hanzi": "冰箱里有牛奶和鸡蛋。",
+   "translation": "Trong tủ lạnh có sữa và trứng."
+  },
+  {
+   "hanzi": "睡觉前请关灯。",
+   "translation": "Trước khi ngủ xin hãy tắt đèn."
+  },
+  {
+   "hanzi": "房子的前面有一个花园。",
+   "translation": "Phía trước căn nhà có một khu vườn."
+  },
+  {
+   "hanzi": "这把椅子是新买的。",
+   "translation": "Ghế này mới mua."
+  },
+  {
+   "hanzi": "我们每月十号交房租。",
+   "translation": "Chúng tôi nộp tiền thuê mỗi tháng ngày mười."
+  }
+ ],
+ "hsk2-03": [
+  {
+   "hanzi": "我不喜欢吃辣。",
+   "translation": "Tôi không thích ăn cay."
+  },
+  {
+   "hanzi": "这道菜太咸了。",
+   "translation": "Món này mặn quá."
+  },
+  {
+   "hanzi": "你想吃什么？",
+   "translation": "Bạn muốn ăn gì?"
+  },
+  {
+   "hanzi": "我早餐吃面条。",
+   "translation": "Tôi ăn mì cho bữa sáng."
+  },
+  {
+   "hanzi": "请给我一杯水，不要加糖。",
+   "translation": "Cho tôi một ly nước, đừng thêm đường."
+  },
+  {
+   "hanzi": "我最爱吃越南春卷。",
+   "translation": "Tôi thích ăn chả giò Việt Nam nhất."
+  },
+  {
+   "hanzi": "这个餐厅的菜很有名。",
+   "translation": "Món ăn nhà hàng này rất nổi tiếng."
+  },
+  {
+   "hanzi": "我不吃猪肉。",
+   "translation": "Tôi không ăn thịt lợn."
+  },
+  {
+   "hanzi": "请给我一双筷子。",
+   "translation": "Cho tôi một đôi đũa."
+  },
+  {
+   "hanzi": "这道菜很清淡。",
+   "translation": "Món này rất nhạt."
+  },
+  {
+   "hanzi": "我早餐喝咖啡。",
+   "translation": "Sáng tôi uống cà phê."
+  },
+  {
+   "hanzi": "甜点太甜了，我吃不完。",
+   "translation": "Món tráng miệng quá ngọt, tôi ăn không nổi."
+  },
+  {
+   "hanzi": "我们在这里吃饭。",
+   "translation": "Chúng tôi ăn cơm ở đây."
+  },
+  {
+   "hanzi": "我很喜欢中国菜。",
+   "translation": "Tôi rất thích món Trung Quốc."
+  },
+  {
+   "hanzi": "我点了两个菜。",
+   "translation": "Tôi gọi hai món."
+  }
+ ],
+ "hsk2-04": [
+  {
+   "hanzi": "我的职业是医生。",
+   "translation": "Nghề của tôi là bác sĩ."
+  },
+  {
+   "hanzi": "你在哪里工作？",
+   "translation": "Bạn làm việc ở đâu?"
+  },
+  {
+   "hanzi": "我换工作了。",
+   "translation": "Tôi đã đổi việc."
+  },
+  {
+   "hanzi": "他刚毕业就找到了工作。",
+   "translation": "Anh ấy vừa tốt nghiệp đã tìm được việc."
+  },
+  {
+   "hanzi": "我的老板很好。",
+   "translation": "Sếp của tôi rất tốt."
+  },
+  {
+   "hanzi": "我每天工作八个小时。",
+   "translation": "Tôi làm việc tám tiếng mỗi ngày."
+  },
+  {
+   "hanzi": "这个工作很有意思。",
+   "translation": "Công việc này rất thú vị."
+  },
+  {
+   "hanzi": "他要加薪。",
+   "translation": "Anh ấy muốn được tăng lương."
+  },
+  {
+   "hanzi": "我正在面试。",
+   "translation": "Tôi đang phỏng vấn."
+  },
+  {
+   "hanzi": "他想学会计。",
+   "translation": "Anh ấy muốn học kế toán."
+  },
+  {
+   "hanzi": "我在公司负责销售。",
+   "translation": "Tôi phụ trách kinh doanh ở công ty."
+  },
+  {
+   "hanzi": "这份工作很累。",
+   "translation": "Công việc này rất mệt."
+  },
+  {
+   "hanzi": "我们公司有一百个人。",
+   "translation": "Công ty chúng tôi có một trăm người."
+  },
+  {
+   "hanzi": "他换工作以后心情很好。",
+   "translation": "Sau khi đổi việc, tâm trạng anh ấy rất tốt."
+  }
+ ],
+ "hsk2-05": [
+  {
+   "hanzi": "我们明天下午三点开会。",
+   "translation": "Chiều mai ba giờ chúng ta họp."
+  },
+  {
+   "hanzi": "你什么时候有空？",
+   "translation": "Khi nào bạn rảnh?"
+  },
+  {
+   "hanzi": "这个计划太紧了。",
+   "translation": "Kế hoạch này quá gấp."
+  },
+  {
+   "hanzi": "我们推迟到明天吧。",
+   "translation": "Chúng ta dời đến ngày mai nhé."
+  },
+  {
+   "hanzi": "请提前十分钟到。",
+   "translation": "Xin đến sớm mười phút."
+  },
+  {
+   "hanzi": "我整个星期都很忙。",
+   "translation": "Cả tuần tôi đều bận."
+  },
+  {
+   "hanzi": "我们约定三点见。",
+   "translation": "Chúng ta hẹn gặp lúc ba giờ."
+  },
+  {
+   "hanzi": "会议取消了。",
+   "translation": "Cuộc họp đã bị hủy."
+  },
+  {
+   "hanzi": "你有空的时候给我打电话。",
+   "translation": "Khi nào rảnh bạn gọi cho tôi."
+  },
+  {
+   "hanzi": "我要提前两个小时到。",
+   "translation": "Tôi phải đến sớm hai tiếng."
+  },
+  {
+   "hanzi": "我们按原计划进行。",
+   "translation": "Chúng ta tiến hành theo kế hoạch cũ."
+  },
+  {
+   "hanzi": "周末你有安排吗？",
+   "translation": "Cuối tuần bạn có việc gì không?"
+  },
+  {
+   "hanzi": "请告诉我具体时间。",
+   "translation": "Xin cho tôi biết thời gian cụ thể."
+  },
+  {
+   "hanzi": "我明天有一整天的时间。",
+   "translation": "Ngày mai tôi có cả ngày."
+  }
+ ],
+ "hsk2-06": [
+  {
+   "hanzi": "请问最近的地铁站怎么走？",
+   "translation": "Xin hỏi ga tàu điện ngầm gần nhất đi thế nào?"
+  },
+  {
+   "hanzi": "一直往前走，然后左转。",
+   "translation": "Cứ đi thẳng, rồi rẽ trái."
+  },
+  {
+   "hanzi": "你住在哪个城市？",
+   "translation": "Bạn sống ở thành phố nào?"
+  },
+  {
+   "hanzi": "我打算去云南旅行。",
+   "translation": "Tôi định đi du lịch Vân Nam."
+  },
+  {
+   "hanzi": "请给我一张旅游地图。",
+   "translation": "Cho tôi một tấm bản đồ du lịch với."
+  },
+  {
+   "hanzi": "这里离海边很近。",
+   "translation": "Ở đây gần biển lắm."
+  },
+  {
+   "hanzi": "我住在海边的一个小城。",
+   "translation": "Tôi sống ở một thị trấn nhỏ bên bờ."
+  },
+  {
+   "hanzi": "我要住三天。",
+   "translation": "Tôi sẽ ở ba ngày."
+  },
+  {
+   "hanzi": "这个城市的天气很好。",
+   "translation": "Thời tiết thành phố này rất đẹp."
+  },
+  {
+   "hanzi": "请问门票多少钱？",
+   "translation": "Xin hỏi vé vào cửa bao nhiêu tiền?"
+  },
+  {
+   "hanzi": "从这里到机场要多久？",
+   "translation": "Từ đây đến sân bay mất bao lâu?"
+  },
+  {
+   "hanzi": "我第一次来中国。",
+   "translation": "Tôi lần đầu đến Trung Quốc."
+  },
+  {
+   "hanzi": "你有没有去过长城？",
+   "translation": "Bạn đã từng đi Vạn Lý Trường thành chưa?"
+  },
+  {
+   "hanzi": "我们在这里住三天两晚。",
+   "translation": "Chúng tôi ở đây ba ngày hai đêm."
+  }
+ ],
+ "hsk2-07": [
+  {
+   "hanzi": "我的爱好是看书法。",
+   "translation": "Sở thích của tôi là xem thư pháp."
+  },
+  {
+   "hanzi": "他收集了很多邮票。",
+   "translation": "Anh ấy sưu tầm rất nhiều tem bưu chính."
+  },
+  {
+   "hanzi": "我喜欢做中国菜。",
+   "translation": "Tôi thích nấu món Trung Quốc."
+  },
+  {
+   "hanzi": "她喜欢弹古筝。",
+   "translation": "Cô ấy thích đánh đàn tranh."
+  },
+  {
+   "hanzi": "周末我经常去图书馆。",
+   "translation": "Cuối tuần tôi hay đến thư viện."
+  },
+  {
+   "hanzi": "他对历史很感兴趣。",
+   "translation": "Anh ấy rất quan tâm lịch sử."
+  },
+  {
+   "hanzi": "我最喜欢摄影。",
+   "translation": "Tôi thích nhiếp ảnh nhất."
+  },
+  {
+   "hanzi": "他喜欢打太极拳。",
+   "translation": "Anh ấy thích tập Thái Cực Quyền."
+  },
+  {
+   "hanzi": "我在学吉他。",
+   "translation": "Tôi đang học đàn ghi ta."
+  },
+  {
+   "hanzi": "她每天都练钢琴。",
+   "translation": "Cô ấy tập piano mỗi ngày."
+  },
+  {
+   "hanzi": "我们一起去看画展吧。",
+   "translation": "Chúng ta cùng đi xem triển lãm nhé."
+  },
+  {
+   "hanzi": "我的兴趣很广泛。",
+   "translation": "Sở thích của tôi rất rộng."
+  },
+  {
+   "hanzi": "他不喜欢运动。",
+   "translation": "Anh ấy không thích thể thao."
+  },
+  {
+   "hanzi": "我喜欢看纪录片。",
+   "translation": "Tôi thích xem phim tài liệu."
+  },
+  {
+   "hanzi": "下班后我去游泳。",
+   "translation": "Sau giờ làm việc tôi đi bơi."
+  }
+ ],
+ "hsk2-08": [
+  {
+   "hanzi": "我想开一个银行账户。",
+   "translation": "Tôi muốn mở một tài khoản ngân hàng."
+  },
+  {
+   "hanzi": "我要去邮局寄信。",
+   "translation": "Tôi đi bưu điện gửi thư."
+  },
+  {
+   "hanzi": "请问邮局几点关门？",
+   "translation": "Xin hỏi bưu điện mấy giờ đóng cửa?"
+  },
+  {
+   "hanzi": "我要取钱。",
+   "translation": "Tôi muốn rút tiền."
+  },
+  {
+   "hanzi": "这个包裹寄到河内。",
+   "translation": "Kiện hàng này gửi đi Hà Nội."
+  },
+  {
+   "hanzi": "请帮我存钱。",
+   "translation": "Xin giúp tôi gửi tiền."
+  },
+  {
+   "hanzi": "我的卡丢了。",
+   "translation": "Thẻ của tôi bị mất."
+  },
+  {
+   "hanzi": "银行三点关门。",
+   "translation": "Ngân hàng đóng cửi lúc ba giờ."
+  },
+  {
+   "hanzi": "我要办一张新卡。",
+   "translation": "Tôi muốn làm một thẻ mới."
+  },
+  {
+   "hanzi": "邮费是多少钱？",
+   "translation": "Phí bưu điện là bao nhiêu?"
+  },
+  {
+   "hanzi": "我的钱存在银行里。",
+   "translation": "Tiền của tôi gửi trong ngân hàng."
+  },
+  {
+   "hanzi": "请问在哪里换钱？",
+   "translation": "Xin hỏi ở đâu đổi tiền?"
+  },
+  {
+   "hanzi": "请把这个信封寄出去。",
+   "translation": "Xin gửi phong bì này đi."
+  },
+  {
+   "hanzi": "密码我忘记了。",
+   "translation": "Tôi quên mật khẩu rồi."
+  },
+  {
+   "hanzi": "我要给家里寄钱。",
+   "translation": "Tôi muốn gửi tiền về nhà."
+  }
+ ],
+ "hsk3-01": [
+  {
+   "hanzi": "我觉得这样做不太对。",
+   "translation": "Tôi thấy làm thế này không đúng lắm."
+  },
+  {
+   "hanzi": "你同意我的看法吗？",
+   "translation": "Bạn đồng ý với quan điểm của tôi không?"
+  },
+  {
+   "hanzi": "在我看来，这个问题很严重。",
+   "translation": "Theo tôi, vấn đề này rất nghiêm trọng."
+  },
+  {
+   "hanzi": "我不太明白你的意思。",
+   "translation": "Tôi chưa hiểu ý bạn lắm."
+  },
+  {
+   "hanzi": "这件事要分两种情况。",
+   "translation": "Việc này phải chia thành hai trường hợp."
+  },
+  {
+   "hanzi": "你说得很有道理。",
+   "translation": "Bạn nói rất có lý."
+  },
+  {
+   "hanzi": "我持不同的看法。",
+   "translation": "Tôi có quan điểm khác."
+  },
+  {
+   "hanzi": "这个决定可能不太合适。",
+   "translation": "Quyết định này có thể không phù hợp."
+  },
+  {
+   "hanzi": "我们再讨论一下吧。",
+   "translation": "Chúng ta thảo luận thêm nhé."
+  },
+  {
+   "hanzi": "我认为可以试试看。",
+   "translation": "Tôi nghĩ có thể thử xem."
+  },
+  {
+   "hanzi": "这取决于具体情况。",
+   "translation": "Điều này tùy thuộc vào tình hình cụ thể."
+  },
+  {
+   "hanzi": "你的理由是什么？",
+   "translation": "Lý do của bạn là gì?"
+  },
+  {
+   "hanzi": "我同意你的大部分看法。",
+   "translation": "Tôi đồng ý với phần lớn quan điểm của bạn."
+  },
+  {
+   "hanzi": "我们现在还不能下结论。",
+   "translation": "Hiện giờ chúng ta chưa thể kết luận."
+  }
+ ],
+ "hsk3-02": [
+  {
+   "hanzi": "这篇论文的结论很重要。",
+   "translation": "Kết luận của bài luận văn này rất quan trọng."
+  },
+  {
+   "hanzi": "他正在准备考试。",
+   "translation": "Anh ấy đang chuẩn bị cho kỳ thi."
+  },
+  {
+   "hanzi": "考试结果下周公布。",
+   "translation": "Kết quả thi sẽ công bố tuần sau."
+  },
+  {
+   "hanzi": "她获得了奖学金。",
+   "translation": "Cô ấy đã nhận được học bổng."
+  },
+  {
+   "hanzi": "这学期我选了五门课。",
+   "translation": "Học kỳ này tôi chọn năm môn."
+  },
+  {
+   "hanzi": "图书馆晚上九点关门。",
+   "translation": "Thư viện đóng cửu lúc chín giờ tối."
+  },
+  {
+   "hanzi": "老师布置了很多作业。",
+   "translation": "Giáo viên giao rất nhiều bài tập."
+  },
+  {
+   "hanzi": "我们需要参考资料。",
+   "translation": "Chúng ta cần tài liệu tham khảo."
+  },
+  {
+   "hanzi": "他通过了所有的考试。",
+   "translation": "Anh ấy đã đỗ tất cả các kỳ thi."
+  },
+  {
+   "hanzi": "讨论课很有意思。",
+   "translation": "Giờ thảo luận rất thú vị."
+  },
+  {
+   "hanzi": "我在写一篇毕业论文。",
+   "translation": "Tôi đang viết một luận văn tốt nghiệp."
+  },
+  {
+   "hanzi": "这个实验室不对外开放。",
+   "translation": "Phòng thí nghiệm này không mở cho bên ngoài."
+  },
+  {
+   "hanzi": "课堂讨论非常热烈。",
+   "translation": "Thảo luận trên lớp rất sôi nổi."
+  },
+  {
+   "hanzi": "她每天复习两个小时。",
+   "translation": "Cô ấy ôn bài mỗi ngày hai tiếng."
+  },
+  {
+   "hanzi": "请把书还到图书馆。",
+   "translation": "Xin trả sách về thư viện."
+  }
+ ],
+ "hsk3-03": [
+  {
+   "hanzi": "我们应该保护环境。",
+   "translation": "Chúng ta nên bảo vệ môi trường."
+  },
+  {
+   "hanzi": "空气污染越来越严重。",
+   "translation": "Ô nhiễm không khí ngày càng nghiêm trọng."
+  },
+  {
+   "hanzi": "请不要乱扔垃圾。",
+   "translation": "Xin đừng vứt rác bừa bãi."
+  },
+  {
+   "hanzi": "节约用水很重要。",
+   "translation": "Tiết kiệm nước rất quan trọng."
+  },
+  {
+   "hanzi": "这个城市交通很拥堵。",
+   "translation": "Giao thông thành phố này rất ùn tắc."
+  },
+  {
+   "hanzi": "我们要注意食品安全。",
+   "translation": "Chúng ta cần chú ý an toàn thực phẩm."
+  },
+  {
+   "hanzi": "政府正在治理污染。",
+   "translation": "Chính phủ đang xử lý ô nhiễm."
+  },
+  {
+   "hanzi": "塑料垃圾很难处理。",
+   "translation": "Rác thải nhựa rất khó xử lý."
+  },
+  {
+   "hanzi": "我们要减少浪费。",
+   "translation": "Chúng ta nên giảm lãng phí."
+  },
+  {
+   "hanzi": "骑自行车比较环保。",
+   "translation": "Đi xe đạp thì thân thiện với môi trường hơn."
+  },
+  {
+   "hanzi": "这个湖以前非常干净。",
+   "translation": "Hồ này trước đây rất sạch."
+  },
+  {
+   "hanzi": "很多人开始关注环保。",
+   "translation": "Nhiều người bắt đầu quan tâm đến môi trường."
+  },
+  {
+   "hanzi": "我们一起为环保做点事。",
+   "translation": "Chúng ta cùng làm gì đó cho môi trường."
+  },
+  {
+   "hanzi": "垃圾分类很有意义。",
+   "translation": "Phân loại rác rất có ý nghĩa."
+  },
+  {
+   "hanzi": "我们从今天开始节约用电。",
+   "translation": "Chúng ta bắt đầu tiết kiệm điện từ hôm nay."
+  }
+ ],
+ "hsk3-04": [
+  {
+   "hanzi": "互联网改变了我们的生活方式。",
+   "translation": "Internet đã thay đổi cách sống của chúng ta."
+  },
+  {
+   "hanzi": "手机已经成为必需品。",
+   "translation": "Điện thoại đã trở thành nhu cầu thiết yếu."
+  },
+  {
+   "hanzi": "人工智能越来越重要。",
+   "translation": "Trí tuệ nhân tạo ngày càng quan trọng."
+  },
+  {
+   "hanzi": "网络有时候不稳定。",
+   "translation": "Mạng đôi khi không ổn định."
+  },
+  {
+   "hanzi": "网上购物很方便。",
+   "translation": "Mua sắm trên mạng rất tiện lợi."
+  },
+  {
+   "hanzi": "他自学了编程。",
+   "translation": "Anh ấy tự học lập trình."
+  },
+  {
+   "hanzi": "电子支付越来越普遍。",
+   "translation": "Thanh toán điện tử ngày càng phổ biến."
+  },
+  {
+   "hanzi": "我们要学会保护个人信息。",
+   "translation": "Chúng ta cần biết bảo vệ thông tin cá nhân."
+  },
+  {
+   "hanzi": "新技术改变了教育。",
+   "translation": "Công nghệ mới đã thay đổi giáo dục."
+  },
+  {
+   "hanzi": "他用手机学中文。",
+   "translation": "Anh ấy dùng điện thoại học tiếng Trung."
+  },
+  {
+   "hanzi": "视频通话很方便。",
+   "translation": "Gọi video rất tiện lợi."
+  },
+  {
+   "hanzi": "这个软件很好用。",
+   "translation": "Phần mềm này rất dễ dùng."
+  },
+  {
+   "hanzi": "数字时代带来了便利。",
+   "translation": "Thời đại số mang lại sự tiện lợi."
+  },
+  {
+   "hanzi": "我们要注意网络安全。",
+   "translation": "Chúng ta cần chú ý an ninh mạng."
+  },
+  {
+   "hanzi": "他用手机管理日程。",
+   "translation": "Anh ấy dùng điện thoại để quản lý lịch trình."
+  }
+ ],
+ "hsk3-05": [
+  {
+   "hanzi": "去年我在中国工作了三年。",
+   "translation": "Năm ngoái tôi làm việc ở Trung Quốc ba năm."
+  },
+  {
+   "hanzi": "那是我第一次出国。",
+   "translation": "Đó là lần đầu tiên tôi ra nước ngoài."
+  },
+  {
+   "hanzi": "我在那里认识了很多朋友。",
+   "translation": "Tôi đã quen nhiều bạn ở đó."
+  },
+  {
+   "hanzi": "刚去的时候，我很不习惯。",
+   "translation": "Lúc mới đi, tôi rất không quen."
+  },
+  {
+   "hanzi": "后来我慢慢适应了。",
+   "translation": "Sau đó tôi dần dần quen rồi."
+  },
+  {
+   "hanzi": "这件事让我印象很深。",
+   "translation": "Việc này để lại ấn tượng sâu cho tôi."
+  },
+  {
+   "hanzi": "我曾经遇到过很多困难。",
+   "translation": "Tôi từng gặp rất nhiều khó khăn."
+  },
+  {
+   "hanzi": "这段经历对我影响很大。",
+   "translation": "Trải nghiệm này ảnh hưởng rất lớn đến tôi."
+  },
+  {
+   "hanzi": "我在上海住了三年。",
+   "translation": "Tôi đã sống ở Thượng Hải ba năm."
+  },
+  {
+   "hanzi": "最难忘的是那里的春天。",
+   "translation": "Điều không thể quên nhất là mùa xuân ở đó."
+  },
+  {
+   "hanzi": "他第一次讲中文很紧张。",
+   "translation": "Lần đầu nói tiếng Trung anh ấy rất hồi hộp."
+  },
+  {
+   "hanzi": "经过练习，他说得很好。",
+   "translation": "Sau khi luyện tập, anh ấy nói rất tốt."
+  },
+  {
+   "hanzi": "我一直记得那一天。",
+   "translation": "Tôi luôn nhớ ngày hôm đó."
+  },
+  {
+   "hanzi": "我希望你也有类似的经历。",
+   "translation": "Tôi hy vọng bạn cũng có trải nghiệm tương tự."
+  },
+  {
+   "hanzi": "刚到中国的时候，我常常迷路。",
+   "translation": "Lúc mới đến Trung Quốc, tôi hay bị lạc đường."
+  },
+  {
+   "hanzi": "现在我已经习惯了中国的生活。",
+   "translation": "Giờ tôi đã quen với cuộc sống ở Trung Quốc."
+  },
+  {
+   "hanzi": "这段日子让我学到很多。",
+   "translation": "Thời gian này cho tôi học được rất nhiều."
+  }
+ ],
+ "hsk3-06": [
+  {
+   "hanzi": "我建议你早点出发。",
+   "translation": "Tôi khuyên bạn nên xuất phát sớm."
+  },
+  {
+   "hanzi": "我们最好提前预约。",
+   "translation": "Chúng ta tốt nhất nên đặt trước."
+  },
+  {
+   "hanzi": "如果有问题，随时联系我。",
+   "translation": "Nếu có vấn đề, liên lạc với tôi bất cứ lúc nào."
+  },
+  {
+   "hanzi": "我的建议是先做调研。",
+   "translation": "Lời khuyên của tôi là hãy khảo sát trước."
+  },
+  {
+   "hanzi": "这样安排会更合理。",
+   "translation": "Sắp xếp như vậy sẽ hợp lý hơn."
+  },
+  {
+   "hanzi": "你可以考虑另一个方案。",
+   "translation": "Bạn có thể cân nhắc một phương án khác."
+  },
+  {
+   "hanzi": "我们决定先试试看。",
+   "translation": "Chúng tôi quyết định thử trước đã."
+  },
+  {
+   "hanzi": "如果不行，我们再商量。",
+   "translation": "Nếu không được, chúng ta bàn tiếp."
+  },
+  {
+   "hanzi": "这个方法值得一试。",
+   "translation": "Cách này đáng thử."
+  },
+  {
+   "hanzi": "我建议你提前做好准备。",
+   "translation": "Tôi khuyên bạn chuẩn bị trước."
+  },
+  {
+   "hanzi": "计划赶不上变化。",
+   "translation": "Kế hoạch không kịp biến đổi."
+  },
+  {
+   "hanzi": "我们要灵活处理。",
+   "translation": "Chúng ta cần linh hoạt xử lý."
+  },
+  {
+   "hanzi": "你有更好的建议吗？",
+   "translation": "Bạn có đề nghị tốt hơn không?"
+  },
+  {
+   "hanzi": "我们先做最紧急的事。",
+   "translation": "Chúng ta làm việc gấp nhất trước."
+  },
+  {
+   "hanzi": "我们需要接受他提出的修改意见。",
+   "translation": "Chúng ta cần chấp nhận ý kiến sửa đổi của anh ấy."
+  }
+ ],
+ "hsk4-01": [
+  {
+   "hanzi": "他做事很认真，从不马虎。",
+   "translation": "Anh ấy làm việc rất cẩn thận, không bao giờ cẩu thả."
+  },
+  {
+   "hanzi": "她性格开朗，很讨人喜欢。",
+   "translation": "Cô ấy tính tình vui vẻ, rất được mọi người yêu mến."
+  },
+  {
+   "hanzi": "这个人很有责任感。",
+   "translation": "Người này rất có trách nhiệm."
+  },
+  {
+   "hanzi": "他有点固执，不听别人的意见。",
+   "translation": "Anh ấy hơi cố chấp, không nghe ý kiến người khác."
+  },
+  {
+   "hanzi": "她工作能力很强。",
+   "translation": "Khả năng làm việc của cô ấy rất mạnh."
+  },
+  {
+   "hanzi": "他待人友善，很谦虚。",
+   "translation": "Anh ấy đối xử với người khác thân thiện, rất khiêm tốn."
+  },
+  {
+   "hanzi": "这个人不太可靠。",
+   "translation": "Người này không đáng tin cậy lắm."
+  },
+  {
+   "hanzi": "她做事很有耐心。",
+   "translation": "Cô ấy làm việc rất có kiên nhẫn."
+  },
+  {
+   "hanzi": "他性格外向，认识很多人。",
+   "translation": "Anh ấy tính tình hướng nội, quen biết nhiều người."
+  },
+  {
+   "hanzi": "她有幽默感，跟她聊天很愉快。",
+   "translation": "Cô ấy có tính hài hước, trò chuyện với cô ấy rất vui."
+  },
+  {
+   "hanzi": "他有点急躁，做事不够仔细。",
+   "translation": "Anh ấy hơi nóng tính, làm việc chưa đủ cẩn thận."
+  },
+  {
+   "hanzi": "她学习非常刻苦。",
+   "translation": "Cô ấy học rất chăm chỉ."
+  },
+  {
+   "hanzi": "这个人很会说话。",
+   "translation": "Người này rất khéo miệng."
+  },
+  {
+   "hanzi": "他从来不计较得失。",
+   "translation": "Anh ấy không bao giờ so đo được mất."
+  },
+  {
+   "hanzi": "她心地善良，乐于助人。",
+   "translation": "Cô ấy tốt bụng, thích giúp người."
+  },
+  {
+   "hanzi": "他很有主见，不轻易改变想法。",
+   "translation": "Anh ấy rất có chủ kiến, không dễ đổi ý."
+  }
+ ],
+ "hsk4-02": [
+  {
+   "hanzi": "越来越多的人开始关注这个问题。",
+   "translation": "Ngày càng nhiều người bắt đầu quan tâm vấn đề này."
+  },
+  {
+   "hanzi": "人口增长带来了很多压力。",
+   "translation": "Dân số tăng mang lại nhiều áp lực."
+  },
+  {
+   "hanzi": "这个现象值得深思。",
+   "translation": "Hiện tượng này đáng để suy nghĩ sâu."
+  },
+  {
+   "hanzi": "传统习俗正在慢慢改变。",
+   "translation": "Phong tục truyền thống đang dần thay đổi."
+  },
+  {
+   "hanzi": "很多年轻人选择大城市工作。",
+   "translation": "Nhiều người trẻ chọn làm việc ở thành phố lớn."
+  },
+  {
+   "hanzi": "房价上涨得太快了。",
+   "translation": "Giá nhà đất tăng quá nhanh."
+  },
+  {
+   "hanzi": "这个问题需要社会共同关注。",
+   "translation": "Vấn đề này cần toàn xã hội cùng quan tâm."
+  },
+  {
+   "hanzi": "很多人在外地打工。",
+   "translation": "Nhiều người đi làm công ở nơi khác."
+  },
+  {
+   "hanzi": "城市之间的差距越来越大。",
+   "translation": "Khoảng cách giữa các thành phố ngày càng lớn."
+  },
+  {
+   "hanzi": "人们的生活水平提高了。",
+   "translation": "Mức sống của người dân đã được cải thiện."
+  },
+  {
+   "hanzi": "这个习惯已经延续了几百年。",
+   "translation": "Thói quen này đã kéo dài mấy trăm năm."
+  },
+  {
+   "hanzi": "很多人担心养老问题。",
+   "translation": "Nhiều người lo lắng về vấn đề hưu trí."
+  },
+  {
+   "hanzi": "城市化进程还在加快。",
+   "translation": "Quá trình đô thị hóa vẫn đang tăng tốc."
+  },
+  {
+   "hanzi": "这种风气需要遏制。",
+   "translation": "Tệ nạo này cần ngăn chặn."
+  },
+  {
+   "hanzi": "社会越来越重视心理健康。",
+   "translation": "Xã hội ngày càng coi trọng sức khỏe tâm thần."
+  },
+  {
+   "hanzi": "农村人口大量流入城市。",
+   "translation": "Dân số nông thôn dồn vào thành phố rất nhiều."
+  }
+ ],
+ "hsk4-03": [
+  {
+   "hanzi": "我们要提高工作效率。",
+   "translation": "Chúng ta cần nâng cao hiệu suất công việc."
+  },
+  {
+   "hanzi": "合理安排时间很重要。",
+   "translation": "Sắp xếp thời gian hợp lý rất quan trọng."
+  },
+  {
+   "hanzi": "他的工作效率比我们高。",
+   "translation": "Hiệu suất làm việc của anh ấy cao hơn chúng tôi."
+  },
+  {
+   "hanzi": "我们要学会同时做几件事。",
+   "translation": "Chúng ta cần biết làm nhiều việc cùng lúc."
+  },
+  {
+   "hanzi": "拖延会浪费很多时间。",
+   "translation": "Trì hoãn sẽ lãng phí rất nhiều thời gian."
+  },
+  {
+   "hanzi": "她总能在压力下完成任务。",
+   "translation": "Cô ấy luôn hoàn thành công việc dưới áp lực."
+  },
+  {
+   "hanzi": "我们要减少不必要的会议。",
+   "translation": "Chúng ta nên giảm bớt những cuộc họp không cần thiết."
+  },
+  {
+   "hanzi": "工具选得好，工作就快一半。",
+   "translation": "Chọn đúng công cụ thì công việc nhanh gấp đôi."
+  },
+  {
+   "hanzi": "他工作起来非常专注。",
+   "translation": "Anh ấy làm việc rất tập trung."
+  },
+  {
+   "hanzi": "我们要先明确目标再动手。",
+   "translation": "Chúng ta cần xác định mục tiêu trước khi bắt tay."
+  },
+  {
+   "hanzi": "他把事情安排得井井有条。",
+   "translation": "Anh ấy sắp xếp công việc rất chỉn chu."
+  },
+  {
+   "hanzi": "过度加班会影响健康。",
+   "translation": "Làm quá giờ sẽ ảnh hưởng sức khỏe."
+  },
+  {
+   "hanzi": "我们要把重要的事先做。",
+   "translation": "Chúng ta nên làm việc quan trọng trước."
+  },
+  {
+   "hanzi": "效率比时间更重要。",
+   "translation": "Hiệu suất quan trọng hơn thời gian."
+  },
+  {
+   "hanzi": "他的工作方法很值得学习。",
+   "translation": "Phương pháp làm việc của anh ấy rất đáng học."
+  },
+  {
+   "hanzi": "我们要减少不必要的流程。",
+   "translation": "Chúng ta nên rút gọn những quy trình thừa."
+  },
+  {
+   "hanzi": "完成任务比赶时间更重要。",
+   "translation": "Hoàn thành công việc quan trọng hơn việc vội vã."
+  }
+ ],
+ "hsk4-04": [
+  {
+   "hanzi": "每个国家的文化都不一样。",
+   "translation": "Văn hóa mỗi nước đều khác nhau."
+  },
+  {
+   "hanzi": "文化差异会带来很多误解。",
+   "translation": "Khác biệt văn hóa sẽ mang lại nhiều hiểu lầm."
+  },
+  {
+   "hanzi": "学习别国的语言很有必要。",
+   "translation": "Học ngôn ngữ của nước khác rất cần thiết."
+  },
+  {
+   "hanzi": "传统节日是文化的一部分。",
+   "translation": "Lễ hội truyền thống là một phần của văn hóa."
+  },
+  {
+   "hanzi": "我们尊重不同的生活方式。",
+   "translation": "Chúng tôi tôn trọng những cách sống khác nhau."
+  },
+  {
+   "hanzi": "学习中文有助于了解中国文化。",
+   "translation": "Học tiếng Trung giúp hiểu văn hóa Trung Quốc hơn."
+  },
+  {
+   "hanzi": "饮食文化差异很大。",
+   "translation": "Văn hóa ẩm thực khác biệt rất lớn."
+  },
+  {
+   "hanzi": "节日祝福方式各有不同。",
+   "translation": "Cách chúc mừng lễ tết mỗi nơi mỗi khác."
+  },
+  {
+   "hanzi": "我们需要相互理解。",
+   "translation": "Chúng ta cần hiểu và thấu cho nhau."
+  },
+  {
+   "hanzi": "很多人对中国文化很感兴趣。",
+   "translation": "Nhiều người rất quan tâm văn hóa Trung Quốc."
+  },
+  {
+   "hanzi": "茶文化有几千年历史。",
+   "translation": "Văn hóa trà có lịch sử mấy nghìn năm."
+  },
+  {
+   "hanzi": "交流让文化更加丰富。",
+   "translation": "Giao lưu làm cho văn hóa phong phú hơn."
+  },
+  {
+   "hanzi": "我们要尊重文化差异。",
+   "translation": "Chúng ta cần tôn trọng sự khác biệt văn hóa."
+  },
+  {
+   "hanzi": "过春节是重要的家庭团聚。",
+   "translation": "Đón Tết Nguyên Đánh là dịp sum họp quan trọng."
+  },
+  {
+   "hanzi": "书法是独特的艺术形式。",
+   "translation": "Thư pháp là một hình thức nghệ thuật độc đáo."
+  },
+  {
+   "hanzi": "语言是文化交流的桥梁。",
+   "translation": "Ngôn ngữ là cầu nối giao lưu văn hóa."
+  }
+ ],
+ "hsk5-01": [
+  {
+   "hanzi": "自由需要规则的约束。",
+   "translation": "Tự do cần có sự ràng buộc của quy tắc."
+  },
+  {
+   "hanzi": "我们无法改变已经发生的事。",
+   "translation": "Chúng ta không thể thay đổi những gì đã xảy ra."
+  },
+  {
+   "hanzi": "意义往往取决于看问题的角度。",
+   "translation": "Ý nghĩa thường phụ thuộc vào góc nhìn vấn đề."
+  },
+  {
+   "hanzi": "每个人对幸福的理解不同。",
+   "translation": "Mỗi người có cách hiểu về hạnh phúc khác nhau."
+  },
+  {
+   "hanzi": "知识本身并不能解决所有问题。",
+   "translation": "Tri thức bản thân không giải quyết được mọi vấn đề."
+  },
+  {
+   "hanzi": "我们常常高估短期而低估长期。",
+   "translation": "Chúng ta thường đánh giá cao ngắn hạn và thấp dài hạn."
+  },
+  {
+   "hanzi": "选择往往意味着放弃另一些可能。",
+   "translation": "Lựa chọn thường có nghĩa là từ bỏ những khả năng khác."
+  },
+  {
+   "hanzi": "抽象的概念需要具体例子来说明。",
+   "translation": "Khái niệm trừu tượng cần ví dụ cụ thể để minh họa."
+  },
+  {
+   "hanzi": "很多价值判断标准并不一致。",
+   "translation": "Nhiều tiêu chuẩn đánh giá giá trị không thống nhất."
+  },
+  {
+   "hanzi": "真正的理解需要长期的积累。",
+   "translation": "Hiểu biết thật sự cần sự tích lũy lâu dài."
+  },
+  {
+   "hanzi": "我们习惯于接受表面的事实。",
+   "translation": "Chúng ta quen với việc chấp nhận sự thật bề mặt."
+  },
+  {
+   "hanzi": "动机往往比结果更重要。",
+   "translation": "Động cơ thường quan trọng hơn kết quả."
+  },
+  {
+   "hanzi": "平衡是一种重要的能力。",
+   "translation": "Cân bằng là một năng lực quan trọng."
+  },
+  {
+   "hanzi": "思维方式决定了判断的上限。",
+   "translation": "Tư duy quyết định giới hạn của sự phán đoán."
+  },
+  {
+   "hanzi": "我们需要理解背后的原因。",
+   "translation": "Chúng ta cần hiểu nguyên nhân đằng sau."
+  },
+  {
+   "hanzi": "经验常常比理论更可靠。",
+   "translation": "Kinh nghiệm thường đáng tin hơn lý thuyết."
+  }
+ ],
+ "hsk5-02": [
+  {
+   "hanzi": "兹通知，请相关人员准时参加。",
+   "translation": "Xin thông báo, những người liên quan vui lòng tham dự đúng giờ."
+  },
+  {
+   "hanzi": "经研究决定，此项政策即日生效。",
+   "translation": "Sau khi nghiên cứu, quyết định chính sách này có hiệu lực từ hôm nay."
+  },
+  {
+   "hanzi": "请贵方于收到本函后予以回复。",
+   "translation": "Xin quý khách phản hồi sau khi nhận được thư này."
+  },
+  {
+   "hanzi": "附件为相关材料，请查阅。",
+   "translation": "Tệp đính kèm là tài liệu liên quan, xin tham khảo."
+  },
+  {
+   "hanzi": "此致敬礼。",
+   "translation": "Trân trọng kính gửi."
+  },
+  {
+   "hanzi": "如有疑问，请与我联系。",
+   "translation": "Nếu có thắc mắc, xin liên lạc với tôi."
+  },
+  {
+   "hanzi": "特此函告，请予支持。",
+   "translation": "Đặc biệt thông báo, mong được sự ủng hộ."
+  },
+  {
+   "hanzi": "我们对此深表遗憾。",
+   "translation": "Chúng tôi rất tiếc về điều này."
+  },
+  {
+   "hanzi": "经双方协商，达成如下共识。",
+   "translation": "Sau khi hai bên thương lượng, đã đạt được đồng thuận sau."
+  },
+  {
+   "hanzi": "请在规定期限内提交材料。",
+   "translation": "Xin nộp tài liệu trong thời hạn quy định."
+  },
+  {
+   "hanzi": "我方保留进一步追究的权利。",
+   "translation": "Bên chúng tôi giữ quyền truy cứu thêm."
+  },
+  {
+   "hanzi": "感谢贵方的长期支持与合作。",
+   "translation": "Cảm ơn sự ủng hộ và hợp tác lâu dài của quý khách."
+  },
+  {
+   "hanzi": "望贵方予以配合为盼。",
+   "translation": "Mong quý khách phối hợp giúp đỡ."
+  },
+  {
+   "hanzi": "谨此声明，请勿对外引用。",
+   "translation": "Xin tuyên bố, đừng trích dẫn ra ngoài."
+  },
+  {
+   "hanzi": "随函附上相关文件，请审阅。",
+   "translation": "Kèm theo thư là các tài liệu liên quan, xin xem xét."
+  },
+  {
+   "hanzi": "顺颂商祺。",
+   "translation": "Kính chúc quý khách kinh doanh thuận lợi."
+  }
+ ],
+ "hsk5-03": [
+  {
+   "hanzi": "因为下雨，我们改期了。",
+   "translation": "Vì trời mưa, chúng ta dời lịch."
+  },
+  {
+   "hanzi": "他生病了，所以没来。",
+   "translation": "Anh ấy bị bệnh nên không đến."
+  },
+  {
+   "hanzi": "这个结果说明我们错了。",
+   "translation": "Kết quả này cho thấy chúng ta đã sai."
+  },
+  {
+   "hanzi": "虽然很难，但我做完了。",
+   "translation": "Tuy khó nhưng tôi đã hoàn thành."
+  },
+  {
+   "hanzi": "只要坚持，就会成功。",
+   "translation": "Chỉ cần kiên trì là sẽ thành công."
+  },
+  {
+   "hanzi": "如果不采取措施，情况会恶化。",
+   "translation": "Nếu không có biện pháp, tình hình sẽ xấu đi."
+  },
+  {
+   "hanzi": "他学习好是因为他很努力。",
+   "translation": "Anh ấy học giỏi vì anh ấy rất cố gắng."
+  },
+  {
+   "hanzi": "这个决定导致了后面的问题。",
+   "translation": "Quyết định này đã dẫn đến các vấn đề sau."
+  },
+  {
+   "hanzi": "尽管如此，结果还是不错的。",
+   "translation": "Mặc dù vậy, kết quả vẫn khá ổn."
+  },
+  {
+   "hanzi": "因此，我们不得不改变计划。",
+   "translation": "Vì vậy, chúng ta buộc phải đổi kế hoạch."
+  },
+  {
+   "hanzi": "原因是多方面的。",
+   "translation": "Nguyên nhân có nhiều khía cạnh."
+  },
+  {
+   "hanzi": "既然如此，我们就别等了。",
+   "translation": "Nếu đã vậy thì chúng ta đừng đợi nữa."
+  },
+  {
+   "hanzi": "越努力，收获越大。",
+   "translation": "Càng cố gắng, thu hoạch càng lớn."
+  },
+  {
+   "hanzi": "正是他的建议改变了局面。",
+   "translation": "Chính lời đề nghị của anh ấy đã thay đổi tình thế."
+  },
+  {
+   "hanzi": "如果当时听劝，就不会出问题。",
+   "translation": "Nếu nghe lời khuyên lúc đó thì đã không xảy ra chuyện."
+  },
+  {
+   "hanzi": "由此可见，条件还不成熟。",
+   "translation": "Từ đó có thể thấy, điều kiện chưa chín muồi."
+  }
+ ],
+ "hsk6-01": [
+  {
+   "hanzi": "我们希望就价格进一步磋商。",
+   "translation": "Chúng tôi hy vọng có thể đàm phán thêm về giá."
+  },
+  {
+   "hanzi": "这是我们能接受的最低价格。",
+   "translation": "Đây là mức giá thấp nhất chúng tôi có thể chấp nhận."
+  },
+  {
+   "hanzi": "合同需要双方签字确认。",
+   "translation": "Hợp đồng cần được hai bên ký xác nhận."
+  },
+  {
+   "hanzi": "我们需要一份正式的报价单。",
+   "translation": "Chúng tôi cần một báo giá chính thức."
+  },
+  {
+   "hanzi": "交货期是合同的必要条款。",
+   "translation": "Thời hạn giao hàng là điều khoản bắt buộc của hợp đồng."
+  },
+  {
+   "hanzi": "如果数量增加，价格可以商量。",
+   "translation": "Nếu số lượng tăng, giá có thể bàn thêm."
+  },
+  {
+   "hanzi": "我们更看重长期合作。",
+   "translation": "Chúng tôi coi trọng hợp tác lâu dài hơn."
+  },
+  {
+   "hanzi": "请在付款前提供发票。",
+   "translation": "Xin cung cấp hóa đơn trước khi thanh toán."
+  },
+  {
+   "hanzi": "这个条款我方无法接受。",
+   "translation": "Điều khoản này bên chúng tôi không thể chấp nhận."
+  },
+  {
+   "hanzi": "我们建议采用分期付款。",
+   "translation": "Chúng tôi đề nghị áp dụng thanh toán trả góp."
+  },
+  {
+   "hanzi": "请在合同中明确违约责任。",
+   "translation": "Xin ghi rõ trách nhiệm vi phạm trong hợp đồng."
+  },
+  {
+   "hanzi": "目前市场情况有较大变化。",
+   "translation": "Hiện tình hình thị trường đã có thay đổi khá lớn."
+  },
+  {
+   "hanzi": "我们希望尽快达成一致。",
+   "translation": "Chúng tôi hy vọng sớm đạt được sự thống nhất."
+  },
+  {
+   "hanzi": "请确认贵方的最终报价。",
+   "translation": "Xin xác nhận báo giá cuối cùng của quý khách."
+  },
+  {
+   "hanzi": "这笔业务的利润率不高。",
+   "translation": "Mảng kinh doanh này biên lợi nhuận không cao."
+  },
+  {
+   "hanzi": "我们需要重新评估合作方案。",
+   "translation": "Chúng tôi cần đánh giá lại phương án hợp tác."
+  }
+ ],
+ "hsk6-02": [
+  {
+   "hanzi": "本文的研究方法存在一定局限。",
+   "translation": "Phương pháp nghiên cứu của bài này có hạn chế nhất định."
+  },
+  {
+   "hanzi": "样本量还需要进一步扩大。",
+   "translation": "Cỡ mẫu cần được mở rộng thêm."
+  },
+  {
+   "hanzi": "我们的结论具有普遍意义。",
+   "translation": "Kết luận của chúng tôi có ý nghĩa phổ quát."
+  },
+  {
+   "hanzi": "该理论在实证研究中得到了验证。",
+   "translation": "Lý thuyết này đã được kiểm chứng trong nghiên cứu thực nghiệm."
+  },
+  {
+   "hanzi": "数据表明两者存在显著差异。",
+   "translation": "Số liệu cho thấy có sự khác biệt rõ rệt."
+  },
+  {
+   "hanzi": "研究方法需要进一步改进。",
+   "translation": "Phương pháp nghiên cứu cần được cải thiện thêm."
+  },
+  {
+   "hanzi": "这个问题值得深入研究。",
+   "translation": "Vấn đề này đáng được nghiên cứu sâu."
+  },
+  {
+   "hanzi": "我们的假设得到了证实。",
+   "translation": "Giả thuyết của chúng tôi đã được chứng minh."
+  },
+  {
+   "hanzi": "文献综述部分还不够全面。",
+   "translation": "Phần tổng quan tài liệu chưa đủ toàn diện."
+  },
+  {
+   "hanzi": "研究结果表明两者高度相关。",
+   "translation": "Kết quả nghiên cứu cho thấy hai yếu tố có tương quan cao."
+  },
+  {
+   "hanzi": "这一发现具有重要的理论价值。",
+   "translation": "Phát hiện này có giá trị lý thuyết quan trọng."
+  },
+  {
+   "hanzi": "我们需要更多实地调查。",
+   "translation": "Chúng tôi cần nhiều khảo sát thực địa hơn."
+  },
+  {
+   "hanzi": "该模型预测的准确性有待检验。",
+   "translation": "Độ chính xác dự đoán của mô hình cần được kiểm chứng."
+  },
+  {
+   "hanzi": "研究设计必须符合伦理要求。",
+   "translation": "Thiết kế nghiên cứu phải tuân thủ yêu cầu đạo đức."
+  },
+  {
+   "hanzi": "我们采用了定性和定量相结合的方法。",
+   "translation": "Chúng tôi áp dụng phương pháp kết hợp định tính và định lượng."
+  },
+  {
+   "hanzi": "这项研究填补了一个空白。",
+   "translation": "Nghiên cứu này lấp đầy một khoảng trống."
+  }
+ ],
+ "hsk6-03": [
+  {
+   "hanzi": "依照法律规定，他应承担责任。",
+   "translation": "Theo quy định pháp luật, anh ấy phải chịu trách nhiệm."
+  },
+  {
+   "hanzi": "双方应签订书面协议。",
+   "translation": "Hai bên nên ký một thỏa thuận bằng văn bản."
+  },
+  {
+   "hanzi": "任何人不得侵犯他人权利。",
+   "translation": "Không ai được xâm phạm quyền của người khác."
+  },
+  {
+   "hanzi": "这个条款在法律上是无效的。",
+   "translation": "Điều khoản này vô hiệu về mặt pháp lý."
+  },
+  {
+   "hanzi": "发生纠纷时应依法处理。",
+   "translation": "Khi có tranh chấp thì phải xử lý theo pháp luật."
+  },
+  {
+   "hanzi": "法院会依法做出判决。",
+   "translation": "Tòa án sẽ đưa ra phán quyết theo pháp luật."
+  },
+  {
+   "hanzi": "我们需要咨询专业律师。",
+   "translation": "Chúng tôi cần tham khảo ý kiến luật sư chuyên nghiệp."
+  },
+  {
+   "hanzi": "这项规定已经正式实施。",
+   "translation": "Quy định này đã được triển khai chính thức."
+  },
+  {
+   "hanzi": "违法者将受到相应处罚。",
+   "translation": "Người vi phạm sẽ bị xử phạt tương ứng."
+  },
+  {
+   "hanzi": "证据必须依法收集。",
+   "translation": "Chứng cứ phải được thu thập theo quy định pháp luật."
+  },
+  {
+   "hanzi": "修改合同需要双方同意。",
+   "translation": "Sửa đổi hợp đồng cần có sự đồng ý của hai bên."
+  },
+  {
+   "hanzi": "他的行为违反了相关规定。",
+   "translation": "Hành vi của anh ấy vi phạm các quy định liên quan."
+  },
+  {
+   "hanzi": "这项法律旨在保护消费者权益。",
+   "translation": "Luật này nhằm bảo vệ quyền lợi người tiêu dùng."
+  },
+  {
+   "hanzi": "任何争议都应通过协商解决。",
+   "translation": "Mọi tranh chấp nên được giải quyết qua thương lượng."
+  },
+  {
+   "hanzi": "知情权是消费者的基本权利。",
+   "translation": "Quyền được biết là quyền cơ bản của người tiêu dùng."
+  },
+  {
+   "hanzi": "处罚力度还需要进一步加大。",
+   "translation": "Mức phạt cần được tăng cường thêm."
+  }
+ ],
+ "hsk6-04": [
+  {
+   "hanzi": "从长远来看，这未必是坏事。",
+   "translation": "Nhìn dài hạn, điều này chưa chắc là xấu."
+  },
+  {
+   "hanzi": "问题的核心在于如何平衡。",
+   "translation": "Cốt lõi của vấn đề là làm sao để cân bằng."
+  },
+  {
+   "hanzi": "我们不能只看眼前利益。",
+   "translation": "Chúng ta không thể chỉ nhìn lợi ích trước mắt."
+  },
+  {
+   "hanzi": "这一政策带来了深远影响。",
+   "translation": "Chính sách này đã mang lại ảnh hưởng sâu xa."
+  },
+  {
+   "hanzi": "与传统观念相比，它更具包容性。",
+   "translation": "So với quan niệm truyền thống, nó cởi mở hơn."
+  },
+  {
+   "hanzi": "我们需要从多个角度审视。",
+   "translation": "Chúng ta cần nhìn nhận từ nhiều góc độ."
+  },
+  {
+   "hanzi": "这种做法在实践中已被证明有效。",
+   "translation": "Cách làm này đã được chứng minh hiệu quả trong thực tế."
+  },
+  {
+   "hanzi": "趋势是不可避免的。",
+   "translation": "Xu hướng này là điều không tránh khỏi."
+  },
+  {
+   "hanzi": "争议的焦点在于实施细则。",
+   "translation": "Tranh luận tập trung vào quy chế thực thi cụ thể."
+  },
+  {
+   "hanzi": "各方都在努力寻求共识。",
+   "translation": "Các bên đều đang cố gắng tìm điểm chung."
+  },
+  {
+   "hanzi": "这一变化深刻影响了社会结构。",
+   "translation": "Thay đổi này ảnh hưởng sâu sắc đến cấu trúc xã hội."
+  },
+  {
+   "hanzi": "与其被动接受，不如主动参与。",
+   "translation": "Thay vì bị động chấp nhận, hãy chủ động tham gia."
+  },
+  {
+   "hanzi": "制度设计要兼顾效率与公平。",
+   "translation": "Thiết kế chế thội phải cân đối giữa hiệu quả và công bằng."
+  },
+  {
+   "hanzi": "公众的意见不可忽视。",
+   "translation": "Ý kiến của công chúng không thể coi thường."
+  },
+  {
+   "hanzi": "这代表了一个新时代的开始。",
+   "translation": "Điều này đại diện cho sự khởi đầu của một thời đại mới."
+  },
+  {
+   "hanzi": "结论有待进一步验证。",
+   "translation": "Kết luận còn cần được kiểm chứng thêm."
+  }
+ ]
+}

@@ -1,0 +1,65 @@
+# ============================================================
+# 缓存策略 —— 解决「更新源码后浏览器仍是旧版」
+# ============================================================
+# 只用最保守的指令：全部包在 <IfModule> 里，模块缺失就自动跳过。
+#
+# ⚠️ 不要再加 `Options -Indexes` / `DirectoryIndex`：
+# 共享主机的 AllowOverride 通常不含 Options，
+# 在 .htaccess 里写 Options 会让 Apache 直接 500，
+# 整站（含静态文件）全部打不开，前面再套一层 openresty 就变成 502。
+# 上一版就是因为这行把站点搞挂的。
+
+<IfModule mod_headers.c>
+    # ---- 代码与数据：每次访问都校验，绝不吃过期副本 ----
+    <FilesMatch "\.(html|js|css|json)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+        Header set Pragma "no-cache"
+    </FilesMatch>
+
+    # ---- index.html 更严格：回源校验 + 禁用协商缓存 ----
+    <Files "index.html">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Expires "0"
+    </Files>
+
+    # ---- 音频：内容稳定、占绝大部分体积，长缓存 ----
+    <FilesMatch "\.(mp3|wav|ogg|m4a)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+
+    # ---- 图片与字体：同样长缓存 ----
+    <FilesMatch "\.(png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
+# ============================================================
+# 保护敏感文件：禁止通过 Web 直接访问 config.php
+# ============================================================
+<Files "config.php">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# config.example.php 只作模板参考，同样禁止访问
+<Files "config.example.php">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# 代理接口不缓存
+<Files "ise.php">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "no-store"
+    </IfModule>
+</Files>

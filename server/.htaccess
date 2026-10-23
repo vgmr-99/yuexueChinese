@@ -1,0 +1,28 @@
+# 保护敏感文件：禁止通过 Web 直接访问 config.php
+<Files "config.php">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# config.example.php 只作模板参考，同样禁止访问
+<Files "config.example.php">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</Files>
+
+# 代理接口不缓存
+<Files "ise.php">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "no-store"
+    </IfModule>
+</Files>

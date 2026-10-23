@@ -1,0 +1,168 @@
+{
+  "_comment": "词级汉越音读音表——解决多音字歧义。越南学员最关键的学习辅助数据。",
+  "_format": "词 -> 汉越音读音（空格分隔）",
+  "_note": "同一词若多义，以最常用义为准；新增前请核实，不要重复 key（JSON 后者会覆盖前者）。",
+
+  "银行": "ngân hàng",
+  "行走": "hành đi",
+  "行动": "hành động",
+  "行业": "ngành nghề",
+  "旅行": "lữ hành",
+  "行李": "hành lý",
+
+  "长大": "trưởng đại",
+  "长度": "trường độ",
+  "长短": "trường đoản",
+  "成长": "trưởng thành",
+  "生长": "sinh trưởng",
+
+  "重量": "trọng lượng",
+  "重要": "trọng yếu",
+  "重复": "trùng lặp",
+  "重新": "chúng tân",
+
+  "还是": "hay là",
+  "还有": "còn có",
+
+  "音乐": "âm nhạc",
+  "乐器": "nhạc cụ",
+  "快乐": "khoái lạc",
+  "乐意": "lạc ý",
+
+  "发现": "phát hiện",
+  "出发": "xuất phát",
+  "发生": "phát sinh",
+  "发明": "phát minh",
+  "头发": "tóc",
+  "发展": "phát triển",
+  "发扬": "phát dương",
+  "发挥": "phát huy",
+
+  "一种": "một loại",
+  "各种": "các loại",
+  "种子": "chủng tử",
+  "种类": "chủng loại",
+  "这种": "loại này",
+
+  "几个": "mấy cái",
+  "茶几": "trà kỉ",
+
+  "为了": "vì",
+  "因为": "vì nhân",
+  "以为": "dĩ la",
+  "所以": "sở dĩ",
+
+  "可以": "có thể",
+  "学会": "học được",
+  "开会": "khai hội",
+  "会计": "khế toán",
+  "会议": "hội nghị",
+
+  "教书": "dạy sách",
+  "教师": "giáo sư",
+  "教室": "giáo thất",
+  "教育": "giáo dục",
+  "教授": "giáo huấn",
+
+  "中国": "Trung Quốc",
+  "中间": "trung gian",
+  "中学": "trung học",
+  "中午": "trung ngọ",
+  "中心": "trung tâm",
+
+  "一个": "một cái",
+  "一样": "nhất dạng",
+  "一直": "nhất trực",
+  "一定": "nhất định",
+
+  "喜欢": "hỷ hoan",
+  "高兴": "cao hứng",
+  "兴趣": "hứng thú",
+
+  "丈夫": "trượng phu",
+  "年轻": "niên trẻ",
+  "年级": "niên cấp",
+
+  "地方": "địa phương",
+  "地球": "địa cầu",
+  "地图": "địa đồ",
+
+  "东西": "đồ vật",
+  "问题": "vấn đề",
+  "时间": "thời gian",
+  "时候": "thời khắc",
+  "应该": "đương nên",
+  "当然": "đương nhiên",
+
+  "漂亮": "phiêu lệch",
+  "明白": "minh bạch",
+  "白天": "bạch thiên",
+  "白色": "bạch sắc",
+
+  "朋友": "bằng hữu",
+  "友好": "hữu hảo",
+
+  "先生": "tiên sinh",
+  "学生": "học sinh",
+  "生命": "sinh mệnh",
+
+  "名字": "danh tự",
+  "眼睛": "nhãn kính",
+  "眼镜": "nhãn kính",
+
+  "知道": "triết đạo",
+  "知识": "trí thức",
+  "通知": "thông tri",
+  "报纸": "báo chí",
+
+  "吃饭": "thực cơm",
+  "喝水": "hứa thủy",
+  "喝茶": "hồng trà",
+
+  "上班": "thượng ban",
+  "工作": "công tác",
+  "工人": "công nhân",
+
+  "医院": "y viện",
+  "医生": "y sinh",
+  "生病": "sinh bệnh",
+
+  "学校": "học giáo",
+  "学习": "học tập",
+  "同学": "đồng học",
+  "中文": "Trung văn",
+
+  "多少": "đa thiểu",
+  "觉得": "giác đắc",
+  "睡觉": "thủy miên",
+
+  "走路": "tẩu lộ",
+  "说话": "thuyết thoại",
+  "笑话": "tiếu lộc",
+
+  "跑步": "tẩu bộ",
+  "看书": "xem thư",
+  "写字": "tự viết",
+
+  "唱歌": "hát ca",
+
+  "衣服": "y phục",
+  "裤子": "khụ quần",
+
+  "汽车": "khí xa",
+  "火车": "hỏa xa",
+  "飞机": "phi cơ",
+  "自行车": "tự hành xa",
+
+  "早上": "triêu sớ",
+  "晚上": "tối vãn",
+  "今天": "kim thiên",
+  "明天": "minh thiên",
+  "昨天": "tạc thiên",
+
+  "星期": "tinh thứ",
+  "周末": "chuyểt mạt",
+
+  "好看": "hảo thị",
+  "听见": "thính kiến"
+}

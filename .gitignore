@@ -1,0 +1,31 @@
+# ===== 构建产物 =====
+.gradle/
+build/
+**/build/
+node_modules/
+**/node_modules/
+*.apk
+*.aab
+*.keystore
+*.jks
+*.p12
+local.properties
+*.bak
+
+# ===== 媒体 / 大文件（不进 git，按需本地生成） =====
+# 音频备份（纯媒体，78M）
+audio_backup/
+# TTS 音频样例与原始数据源（130M + 56M）
+data/tts/
+data/raw/
+# 前端预生成音频（78M）
+web/audio/
+# 打包进 APK 时由 web/ 同步生成的产物（85M）
+android/app/src/main/assets/web/
+
+# ===== 系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/
