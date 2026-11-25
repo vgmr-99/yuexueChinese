@@ -186,9 +186,61 @@ function check(name, ok, detail) {
     check('词卡已渲染', gfx.cards > 0, gfx.cards + ' 张');
 
     console.log('\n[5] 资源加载');
-    // web/audio 不在仓库里（.gitignore），音频 404 属于已知情况
+    // web/audio 不在 git 里（.gitignore 排除，纯媒体 ~70MB）。
+    // 本地若已用 tools/build_all_audio.py 生成，则不应再有 404。
+    const audioFails = failedReqs.filter(u => /\/audio\//.test(u));
+    const hasAudio = fs.existsSync(path.join(ROOT, 'web', 'audio', 'words'));
+    check('发音音频无 404（已生成音频时）',
+      !hasAudio || audioFails.length === 0,
+      hasAudio ? audioFails.slice(0, 3).join(' | ') : '本地未生成音频，跳过');
     const realFails = failedReqs.filter(u => !/\/audio\//.test(u));
     check('无意外的资源 404', realFails.length === 0, realFails.slice(0, 3).join(' | '));
+
+    console.log('\n[5b] 发音链路');
+    // 回归 1：句子整行点读必须指向 sentences 音频。
+    // 曾经写成 speak(整句)，而 speak() 的键规则是 w_<文本>，
+    // 会去找 audio/words/w_<整句>.mp3 —— 永远不存在，
+    // 于是 404 -> TTS 回退 -> WebView 无 TTS 引擎 -> 完全无声。
+    // 句子要先进课程才渲染，所以先点开第一门课。
+    const sentAudio = await page.evaluate(async () => {
+      const card = document.querySelector('.course-card');
+      if (card) card.click();
+      await new Promise(r => setTimeout(r, 300));
+      const rows = document.querySelectorAll('.sentence-row');
+      if (!rows.length) return { n: 0 };
+      const withAudio = Array.from(rows).filter(r => r.dataset.audio).length;
+      const bad = Array.from(rows)
+        .filter(r => r.dataset.audio && !/^audio\/sentences\/s_\d+_\d+\.mp3$/.test(r.dataset.audio))
+        .map(r => r.dataset.audio);
+      return { n: rows.length, withAudio, bad };
+    });
+    check('句子整行指向句子音频',
+      sentAudio.n > 0 && sentAudio.withAudio === sentAudio.n && sentAudio.bad.length === 0,
+      JSON.stringify(sentAudio));
+
+    // 回归 2：关闭笔顺弹窗后切换语言，笔顺弹窗不得复现。
+    // 曾经用 `!m.hidden` 判断弹窗是否打开，而 modal 的显隐由 .open 类驱动、
+    // hidden 属性从未被写过 —— 于是 !m.hidden 恒为 true，
+    // 「关掉笔顺再切语言」会把已关闭的笔顺弹窗重新弹出来。
+    const strokeState = await page.evaluate(async () => {
+      const modal = document.getElementById('stroke-modal');
+      if (!modal) return { skip: true };
+      // 打开 → 关闭 → 切换语言
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      const closeBtn = document.querySelector('[data-close-modal]');
+      if (closeBtn) closeBtn.click();
+      const closedOk = !modal.classList.contains('open');
+      if (window.__onLangChanged) window.__onLangChanged();
+      await new Promise(r => setTimeout(r, 300));
+      return {
+        closedOk: closedOk,
+        reopened: modal.classList.contains('open'),
+      };
+    });
+    check('关闭笔顺后切语言不会复现笔顺弹窗',
+      strokeState.skip || (strokeState.closedOk && !strokeState.reopened),
+      JSON.stringify(strokeState));
 
     console.log('\n[6] 触控热区');
     const small = await page.evaluate(() => {

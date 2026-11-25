@@ -204,8 +204,27 @@
     this.rate = TARGET_RATE;
     this.onLevel = null;
     this.onTick = null;
+    /** 达到 MAX_MS 自动停止时触发。上层据此复位「录音中」的 UI 状态。 */
+    this.onTimeout = null;
+    this.timedOut = false;
     this._timer = null;
   }
+
+  /**
+   * 录音超时（超过 MAX_MS）时统一收尾。
+   *
+   * 之前是各分支自己调 `this.stop()`，但返回值被丢弃：
+   * 音频被取走后，上层并不知道已经超时，界面仍显示「录音中」，
+   * 用户再点一次才拿到一个空结果，被判成「录音太短」。
+   * 现在统一走这里：丢弃音频 + 复位内部状态 + 通知上层。
+   */
+  Recorder.prototype._timeout = function () {
+    this.timedOut = true;
+    try { this.cancel(); } catch (e) { /* 忽略 */ }
+    if (this.onTimeout) {
+      try { this.onTimeout(); } catch (e2) { /* 忽略 */ }
+    }
+  };
 
   /**
    * 是否能录音。
@@ -270,7 +289,7 @@
         // 电平轮询：原生侧不会自动回调，用定时器采样即可（UI 显示够用）
         self._timer = setInterval(function () {
           if (self.onTick) self.onTick();
-          if (self.elapsed() > MAX_MS) self.stop();
+          if (self.elapsed() > MAX_MS) self._timeout();
         }, 100);
       }
 
@@ -377,7 +396,7 @@
       self.proc = proc;
       self._timer = setInterval(function () {
         if (self.onTick) self.onTick();
-        if (self.elapsed() > MAX_MS) self.stop();
+        if (self.elapsed() > MAX_MS) self._timeout();
       }, 100);
       return true;
     });

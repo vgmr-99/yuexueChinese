@@ -223,9 +223,13 @@ class MainActivity : ComponentActivity() {
     /**
      * 只有打包在 assets 里的页面才允许使用麦克风。
      * 防住「万一页面里出现外部内容/跳转后借用麦克风」的情况。
+     *
+     * 注意：file:// 页面的 origin 在 WebView 里是**字符串 "null"**，
+     * 不是 "file://..."（规范规定 opaque origin 的序列化形式）。
+     * 所以这里必须把 "null" 也算作可信，否则本地页面的麦克风请求会被误拒。
      */
     private fun isTrustedOrigin(origin: String): Boolean =
-        origin.isEmpty() || origin.startsWith("file://")
+        origin.isEmpty() || origin == "null" || origin.startsWith("file://")
 
     /**
      * 待回调的权限请求。

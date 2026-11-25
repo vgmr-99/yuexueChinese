@@ -121,9 +121,27 @@
   // ------------------------------------------------------------ 音频
   var audioEl = null;
 
+  /** 音频缺失只提示一次，避免连续点击反复弹 */
+  var audioMissingNotified = false;
+
+  /**
+   * 显式报告「发音音频不可用」。
+   *
+   * 背景：Android WebView 的 speechSynthesis 在没有系统 TTS 引擎的机型上
+   * 是个**不发声的空壳** —— API 存在、play() 不 reject、就是没声音。
+   * 于是「音频文件不存在」这个真实原因被完全吞掉，
+   * 用户只看到「点了没反应」，分不清是 App 坏了还是自己操作错了。
+   * 这里把失败原因说出来。
+   */
+  function notifyAudioMissing() {
+    if (audioMissingNotified) return;
+    audioMissingNotified = true;
+    try { toast(T('audioMissing')); } catch (e) { /* 忽略 */ }
+  }
+
   /**
    * 朗读中文。优先用预生成音频（Edge TTS 合成，音质最好），
-   * 无音频或播放失败时回退系统 TTS。
+   * 无音频或播放失败时回退系统 TTS，并显式提示失败。
    */
   function speak(text, opts) {
     opts = opts || {};
@@ -134,18 +152,26 @@
     // speechSynthesis 基本是个不发声的空壳（API 存在但无输出），
     // 表现为「点了完全没声音且没有任何报错」。
     // 这里改成无条件尝试本地 mp3，文件不存在时再由 onerror 回退。
+    //
+    // opts.src：直接指定音频路径（句子/笔顺等不在词库里的文本用它）。
     var key = opts.audioKey || ('w_' + text);
+    var src = opts.src || ('audio/words/' + key + '.mp3');
     try {
       if (!audioEl) audioEl = new Audio();
-      audioEl.src = 'audio/words/' + key + '.mp3';
+      audioEl.src = src;
       audioEl.onerror = function () {
         audioEl.onerror = null;
+        notifyAudioMissing();
         ttsFallback(text);
       };
       var p = audioEl.play();
-      if (p && p.catch) p.catch(function () { ttsFallback(text); });
+      if (p && p.catch) p.catch(function () {
+        notifyAudioMissing();
+        ttsFallback(text);
+      });
       return;
     } catch (e) {
+      notifyAudioMissing();
       ttsFallback(text);
     }
   }
@@ -333,16 +359,28 @@
     rerenderAll();
     // 弹窗若正处于打开状态，其中的文案也要换 ——
     // 弹窗内容是动态生成的（没有 data-i18n），只能重新打开一次。
+    //
+    // 判据必须是 classList.contains('open')，不能用 !el.hidden：
+    // modal 的显隐由 .open 类驱动（CSS: .modal{display:none} / .modal.open{display:flex}），
+    // 而 hidden 属性从未被写过，!el.hidden 恒为 true —— 于是「关闭笔顺后再切语言」
+    // 会把已经关掉的笔顺弹窗重新弹出来。
     safe(function () {
-      var m = document.getElementById('vocab-modal');
-      if (m && !m.hidden && vocabCardItem) openVocabCard(vocabCardItem);
+      if (isModalOpen('vocab-modal') && vocabCardItem) openVocabCard(vocabCardItem);
     });
     safe(function () {
-      var m = document.getElementById('stroke-modal');
-      if (m && !m.hidden && strokeOpenArgs) openStroke(strokeOpenArgs.ch, strokeOpenArgs.item);
+      if (isModalOpen('stroke-modal') && strokeOpenArgs) openStroke(strokeOpenArgs.ch, strokeOpenArgs.item);
     });
     updateLangToggle();
   };
+
+  /**
+   * 弹窗当前是否处于打开状态。
+   * 唯一权威判据是 .open 类；hidden 属性在 modal 上从未被设置，不可用。
+   */
+  function isModalOpen(id) {
+    var m = document.getElementById(id);
+    return !!(m && m.classList.contains('open'));
+  }
 
   /** 语言切换按钮：显示「切到另一种语言」 */
   function updateLangToggle() {
@@ -490,6 +528,7 @@
 
   // ------------------------------------------------------------ 笔顺
   var strokeCache = null;
+  var strokeToken = 0;          // openStroke 的并发令牌，见 openStroke 注释
   function loadStrokes(cb) {
     if (strokeCache) { cb(strokeCache); return; }
     var xhr = new XMLHttpRequest();
@@ -781,6 +820,17 @@
       meter.style.width = pct + '%';
     };
     rec.onTick = function () { timer.textContent = asFormatSec(rec.elapsed()); };
+    // 超时（15 秒）自动停止：Recorder 内部已经丢弃了音频并复位自己，
+    // 这里必须同步 UI —— 否则按钮一直停在「录音中」，
+    // 用户再点一下只会拿到空结果、被判成「录音太短」。
+    rec.onTimeout = function () {
+      if (assessRec === rec) assessRec = null;
+      mic.classList.remove('recording');
+      meter.style.width = '0%';
+      timer.textContent = '';
+      asStatus('err', asT('asTooLong',
+        'Đã dừng ghi sau 15 giây. Hãy bấm lại để ghi lại từ đầu.'));
+    };
 
     rec.start().then(function () {
       assessRec = rec;
@@ -1022,9 +1072,14 @@
 
   var writer = null;
   function openStroke(ch, item) {
+    // 打开令牌：loadStrokes 首次是异步 XHR，回调到达时用户可能已经
+    // 关闭了弹窗或又打开了别的字。用令牌把过期回调丢弃，
+    // 否则会出现「关掉笔顺后它又自己弹出来」的幽灵弹窗。
+    var token = ++strokeToken;
     strokeOpenArgs = { ch: ch, item: item };   // 供切换语言时重新打开
     var modal = document.getElementById('stroke-modal');
     loadStrokes(function (strokes) {
+      if (token !== strokeToken) return;       // 已过期：弹窗已关或已改开别的字
       var s = strokes[ch];
       if (!s) { speak(ch); return; }
       document.getElementById('stroke-char').textContent = ch;
@@ -1107,10 +1162,14 @@
   function closeStroke() {
     var m = document.getElementById('stroke-modal');
     if (!m) return;
+    strokeToken++;              // 让在途的 openStroke 回调失效
     m.classList.remove('open');
     m.setAttribute('aria-hidden', 'true');
     var box = document.getElementById('stroke-result-box');
     if (box) box.innerHTML = '';
+    // 必须清掉打开参数：否则切换语言时（__onLangChanged 会重新打开
+    // 「正处于打开状态」的弹窗）这个已关闭的笔顺弹窗会被重新弹出来。
+    strokeOpenArgs = null;
     // 关弹窗必须停掉笔顺动画与评分回调。
     // HanziWriter 的 quiz 模式有自己的循环，不 cancel 就会一直跑：
     // 关掉弹窗后仍在写、仍会回调评分，并往**已经隐藏**的弹窗里渲染结果。
@@ -1349,13 +1408,15 @@
       if (!audioEl) audioEl = new Audio();
       audioEl.onerror = function () {
         audioEl.onerror = null;
+        notifyAudioMissing();
         if (sayText) speak(sayText);
       };
       audioEl.src = src;
       var p = audioEl.play();
-      if (p && p.catch) p.catch(function () {});
+      if (p && p.catch) p.catch(function () { notifyAudioMissing(); });
       return true;
     } catch (e) {
+      notifyAudioMissing();
       return false;
     }
   }
@@ -1477,7 +1538,8 @@
       '<div class="sentence-list">' +
       course.sentences.map(function (s, i) {
         var key = 's_' + ci + '_' + i;
-        return '<div class="sentence-row" data-say="' + esc(s.hanzi) + '">' +
+        return '<div class="sentence-row" data-say="' + esc(s.hanzi) + '" ' +
+          'data-audio="audio/sentences/' + key + '.mp3">' +
           '<div class="sent-idx">' + (i + 1) + '</div>' +
           '<div class="sent-body">' +
             '<div class="sent-hanzi">' + esc(s.hanzi) + '</div>' +
@@ -1492,7 +1554,15 @@
       '</div>';
     box.querySelectorAll('.sentence-row').forEach(function (r) {
       r.addEventListener('click', function (e) {
-        if (e.target.dataset.key) return;
+        if (e.target.dataset.key) return;      // 右侧喇叭按钮自己处理
+        // 整行点读要走**句子音频**（data-audio），不能用 speak() ——
+        // speak() 的键规则是 `w_<文本>`，对整句会去找 audio/words/w_<整句>.mp3，
+        // 那文件永远不存在，于是 404 -> TTS 回退 -> WebView 里没有 TTS 引擎 ->
+        // 完全无声。表现为「点句子正文没声音，但点右边喇叭有声音」。
+        if (r.dataset.audio) {
+          playLocal(r.dataset.audio, r.dataset.say);
+          return;
+        }
         speak(r.dataset.say);
       });
     });

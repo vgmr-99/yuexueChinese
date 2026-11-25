@@ -39,7 +39,6 @@
   /** 从词库里挑题：优先 SRS 到期，其次新词 */
   function buildQueue(vocab, limit) {
     if (!vocab || !vocab.length) return [];
-    var learned = global.Settings ? null : null;
     var pool = vocab.slice();
     // 洗牌
     for (var i = pool.length - 1; i > 0; i--) {

@@ -186,6 +186,10 @@ class NativeRecorder(private val activity: MainActivity) {
     /** 放弃本次录音 */
     fun cancel() {
         running = false
+        // 必须清 hasPending：start() 会置位、stop() 清零，
+        // 若 cancel() 不清，下次 poll() 会以为「还有一段没取走的录音」，
+        // 于是 stop() 被调用、返回一段空音频（表现为评测提交了 0 字节）。
+        hasPending = false
         try { thread?.join(200) } catch (e: InterruptedException) { }
         thread = null
         try { record?.stop() } catch (e: IllegalStateException) { }
