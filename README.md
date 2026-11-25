@@ -150,6 +150,40 @@ $PY tools/build_appdata.py \
   --out web/data/app-data.js
 ```
 
+### 发音音频（必读）
+
+**`web/audio/` 不在 git 里**（`.gitignore` 排除，纯媒体约 78 MB），
+但它是应用能出声的**前提**。仓库 clone 下来后如果没生成音频：
+
+- APK 里 0 个 mp3 → 所有发音请求 404 → 回退 `speechSynthesis`
+- 而 Android WebView 的 `speechSynthesis` 在没有系统 TTS 引擎的机型上是
+  **不发声的空壳**（API 存在、`play()` 不 reject、就是没声音）
+- 两层静默失败叠加，界面上**没有任何报错**——用户只看到「点了没反应」
+
+所以打 APK 前必须先跑一次：
+
+```bash
+$PY -m pip install edge-tts
+$PY tools/build_all_audio.py          # 一次性生成 4 类共 7026 个 mp3 / 78.6 MB
+```
+
+| 类别 | 数量 | 文件名规则 | 谁在用 |
+|---|---|---|---|
+| 词条 | 5,342 | `words/w_<汉字>.mp3` | `speak()` 的 `w_<文本>` 键规则 |
+| 笔顺单字 | 843 | `words/w_<汉字>.mp3` | 笔顺弹窗朗读单字 |
+| 课程句子 | 784 | `sentences/s_<课>_<句>.mp3` | 句子整行与喇叭按钮 |
+| 声母/韵母/声调 | 57 | `pinyin/<名称>.mp3` | 拼音卡片 |
+
+脚本支持 `--only {words,sentences,pinyin,strokes}`、`--levels`、`--limit`，
+且**断点续传**（已存在且 ≥1KB 的文件会跳过，中断后重跑即可）。
+
+> 笔顺单字与词条音频同目录同命名，因为 `speak()` 的键规则就是 `w_<文本>`——
+> 这样笔顺弹窗不必改代码就自动生效。
+>
+> **体积换体验**：全量音频让 APK 从 8.6 MB 涨到 92 MB。
+> 若要小包体，只生成 level 1（500 词）+ 句子 + 拼音，约 8 MB。
+
+
 ### 维护词级汉越音
 
 多音字消歧表在 `data/wordlist_hanviet.json`，改完重跑第 1、2、5 步：
@@ -186,12 +220,16 @@ npm run shots        # 视觉验收截图，输出到 deliverables/shots/
 
 | 命令 | 检查什么 |
 | --- | --- |
-| `npm run smoke` | 页面无 JS 报错、7 个分区都能渲染、存储层读写、**正文零 emoji**、可点元素 ≥44px |
+| `npm run smoke` | 页面无 JS 报错、7 个分区都能渲染、存储层读写、**正文零 emoji**、可点元素 ≥44px、**发音链路正确**（音频无 404、句子整行指向句子音频、关闭笔顺后切语言不复现弹窗） |
 | `npm run i18n` | 越/中两套文案键集合必须一致，代码里引用的键必须已定义（少一个界面就直接显示 key 本身） |
 | `npm run shots` | 首页 / 词卡 / 测验结果 / 听写结果 / 设置页在浅色深色与手机宽屏下的截图 |
 | `php server/selftest.php` | 讯飞鉴权签名固定向量 + 两种响应结构归一化 + 畸形响应不崩，28 条断言 |
 
 GitHub Actions（`.github/workflows/ci.yml`）在每次 push 自动跑上面四项。
+
+> 冒烟测试里的「发音音频无 404」一项在**本地已生成音频时**才生效
+> （CI 里没有音频，该项自动跳过）。
+
 
 ## 打 APK
 
