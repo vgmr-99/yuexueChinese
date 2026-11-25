@@ -79,14 +79,30 @@ val stampVersion by tasks.registering {
         if (html.exists()) {
             val ver = System.currentTimeMillis().toString().takeLast(8)
             var text = html.readText()
-            // 先清掉旧版本号
-            text = Regex("\\?v=\\d+\"").replace(text, "\"")
-            // 再打新的
-            text = Regex("(<script src=\"[^\"]+)(\\?v=\\d+)?\"").replace(text) { m ->
-                m.groupValues[1] + "?v=" + ver + "\""
-            }
-            text = Regex("(<link rel=\"stylesheet\" href=\"[^\"]+)(\\?v=\\d+)?\"").replace(text) { m ->
-                m.groupValues[1] + "?v=" + ver + "\""
+            // 先清掉旧版本号。
+            //
+            // 注意：这里必须匹配十六进制，不能只写 \d+。
+            // tools/stamp_version.py 打的是 sha1 前 8 位（十六进制，如 6c36474f），
+            // 只匹配数字的话清不掉旧值，结果就是
+            //   js/app.js?v=f74eb668?v=96510695   ← 双查询串
+            // 虽然 WebView 取的是第一个 ? 之前的路径、照样能跑，
+            // 但内容哈希就完全失去意义了（每次构建全量重下）。
+            text = Regex("\\?v=[0-9a-zA-Z_-]+").replace(text, "")
+
+            // 再给所有**本地静态资源**统一打上新戳。
+            // 不能只处理 <script> / <link>：<img src="images/logo-panda.png"> 也要打，
+            // 否则清完旧戳就再也加不回来了（logo 会退回浏览器缓存的旧图）。
+            // 同时必须排除：
+            //   - 外部地址（http/https///）
+            //   - 页内锚点（href="#i-xxx"，SVG symbol 引用）
+            val staticExt = Regex("\\.(css|js|mjs|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|otf|json)$")
+            text = Regex("((?:src|href)=\"(?!https?:|data:|//|#)([^\"]+)\")").replace(text) { m ->
+                val path = m.groupValues[2]
+                if (staticExt.containsMatchIn(path)) {
+                    m.groupValues[1].dropLast(1) + "?v=" + ver + "\""
+                } else {
+                    m.value
+                }
             }
             html.writeText(text)
             logger.lifecycle("已为本地资源打版本号 ?v=" + ver + "（绕过 WebView 缓存）")

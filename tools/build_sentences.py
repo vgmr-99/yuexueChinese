@@ -202,7 +202,7 @@ def main() -> int:
     for cid, items in expansion.items():
         c = by_id.get(cid)
         if not c:
-            print(f"⚠️ 课程 id 不存在：{cid}")
+            print(f"[!] 课程 id 不存在：{cid}")
             continue
         exist = {s["hanzi"] for s in c["sentences"]}
         before = len(c["sentences"])

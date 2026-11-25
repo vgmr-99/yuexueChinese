@@ -21,8 +21,9 @@
 (function (global) {
   'use strict';
 
-  var DAY_KEY = 'vietchinese.daily.';      // + YYYY-MM-DD
-  var META_KEY = 'vietchinese.goal';
+  // 键名由 store.js 统一登记
+  var DAY_KEY = window.Store ? window.Store.DAILY_PREFIX : 'vietchinese.daily.';
+  var META_KEY = window.Store ? window.Store.KEYS.goal : 'vietchinese.goal';
 
   var DEFAULT_GOAL = {
     newWords: 10,
@@ -32,6 +33,7 @@
   };
 
   function todayStr(d) {
+    if (window.Store) return window.Store.dayKey(d);
     d = d || new Date();
     var m = d.getMonth() + 1;
     var day = d.getDate();
@@ -41,6 +43,7 @@
   }
 
   function readDay(key) {
+    if (window.Store) return window.Store.getJSON(DAY_KEY + key, {});
     try {
       return JSON.parse(localStorage.getItem(DAY_KEY + key)) || {};
     } catch (e) {
@@ -49,6 +52,7 @@
   }
 
   function writeDay(key, data) {
+    if (window.Store) return window.Store.setJSON(DAY_KEY + key, data);
     try {
       localStorage.setItem(DAY_KEY + key, JSON.stringify(data));
     } catch (e) { /* 忽略 */ }
@@ -57,9 +61,13 @@
   /** 读/初始化目标配置 */
   function getGoal() {
     var g;
-    try {
-      g = JSON.parse(localStorage.getItem(META_KEY));
-    } catch (e) { g = null; }
+    if (window.Store) {
+      g = window.Store.getJSON(META_KEY, null);
+    } else {
+      try {
+        g = JSON.parse(localStorage.getItem(META_KEY));
+      } catch (e) { g = null; }
+    }
     if (!g || !g.newWords) {
       g = { target: { ...DEFAULT_GOAL }, streak: 0, best: 0, lastDone: '' };
       saveGoal(g);
@@ -69,6 +77,7 @@
   }
 
   function saveGoal(g) {
+    if (window.Store) return window.Store.setJSON(META_KEY, g);
     try {
       localStorage.setItem(META_KEY, JSON.stringify(g));
     } catch (e) { /* 忽略 */ }

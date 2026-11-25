@@ -32,24 +32,24 @@ for k, v in pairs:
 
 print(f'条目数: {len(seen)}')
 if dups:
-    print(f'\n❌ 重复 key {len(dups)} 个:')
+    print(f'\n[X] 重复 key {len(dups)} 个:')
     for k, a, b in dups:
         print(f'   {k}: "{a}" 被 "{b}" 覆盖')
 else:
-    print('✅ 无重复 key')
+    print('[OK] 无重复 key')
 
 if bad_key:
-    print(f'\n❌ 非单字 key {len(bad_key)} 个（应放词级表）:')
+    print(f'\n[X] 非单字 key {len(bad_key)} 个（应放词级表）:')
     for k in bad_key:
         print(f'   {k}')
 else:
-    print('✅ key 均为单字')
+    print('[OK] key 均为单字')
 
 if bad_val:
-    print(f'\n❌ value 含非法字符 {len(bad_val)} 个:')
+    print(f'\n[X] value 含非法字符 {len(bad_val)} 个:')
     for k, v in bad_val:
         print(f'   {k}: {v!r}')
 else:
-    print('✅ value 均为合法越语')
+    print('[OK] value 均为合法越语')
 
 sys.exit(1 if (dups or bad_key or bad_val) else 0)

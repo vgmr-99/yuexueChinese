@@ -1,7 +1,7 @@
 // verify_v2.js — 端到端校验 v2（数据 + 三语 + SRS 逻辑）
 const fs = require('fs');
 const vm = require('vm');
-const base = 'C:/Users/PC/WorkBuddy/2026-10-16-13-34-21/viet-chinese-app/web/';
+const base = require('path').resolve(__dirname, '..', 'web') + '/';
 
 const store = {};
 const sandbox = {
@@ -32,8 +32,8 @@ const ctx = vm.createContext(sandbox);
 const files = ['data/app-data.js', 'js/pinyin.js', 'js/i18n.js', 'js/srs.js', 'js/app.js'];
 console.log('=== 语法校验 ===');
 for (const f of files) {
-  try { new vm.Script(fs.readFileSync(base + f, 'utf8')); console.log('  ✅ ' + f); }
-  catch (e) { console.log('  ❌ ' + f + ': ' + e.message); }
+  try { new vm.Script(fs.readFileSync(base + f, 'utf8')); console.log('  [OK] ' + f); }
+  catch (e) { console.log('  [X] ' + f + ': ' + e.message); }
 }
 
 // 载入数据
@@ -92,7 +92,7 @@ console.log(`  缺越南语: ${noVi} |缺汉越音: ${noHv}`);
 // 音频文件抽查
 console.log('\n=== 音频文件抽查 ===');
 ['你好', '银行', '学习'].forEach(w => {
-  const p = `C:/Users/PC/WorkBuddy/2026-10-16-13-34-21/viet-chinese-app/web/audio/words/w_${w}.mp3`;
+  const p = `${base}audio/words/w_${w}.mp3`;
   const ok = fs.existsSync(p);
-  console.log(`  w_${w}.mp3: ${ok ? '✅ ' + fs.statSync(p).size + ' bytes' : '❌ 缺失'}`);
+  console.log(`  w_${w}.mp3: ${ok ? '[OK] ' + fs.statSync(p).size + ' bytes' : '[X] 缺失'}`);
 });

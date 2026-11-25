@@ -7,14 +7,28 @@
  * 2. API 密钥永不进客户端：只与自家 PHP 代理通信，代理再转发讯飞。
  * 3. 未配置后端时优雅降级：明确提示如何开启，不静默失败。
  * 4. 采样率强制 16k（讯飞硬要求），不一致时线性重采样。
+ * 5. **联网评测默认关闭**：不配地址就完全离线，与 README 的「完全离线」承诺一致。
+ * 6. APK 内发请求走原生桥（AthaoHttp），绕开 file:// 跨域限制。
  */
 (function (global) {
   'use strict';
 
-  var CFG_KEY = 'vietchinese.iseEndpoint';
+  // 键名由 store.js 统一登记
+  var CFG_KEY = window.Store ? window.Store.KEYS.iseEndpoint : 'vietchinese.iseEndpoint';
+  var PROXY_KEY_STORE = window.Store ? window.Store.KEYS.iseProxyKey : 'vietchinese.iseProxyKey';
   var DISABLED = '__off__';
-  /** 内置默认评测服务地址（自建 PHP 中转，密钥在服务端，客户端不含凭证） */
-  var DEFAULT_ENDPOINT = 'https://kimthao.22web.org/api/ise.php';
+  /**
+   * 内置默认评测服务地址。
+   *
+   * 留空 = **默认关闭联网评测**。
+   *
+   * 之前这里硬编码了一个个人域名，带来的问题：
+   *   - 与 README「完全离线」的承诺直接冲突；
+   *   - 用户没主动选择就把录音上传给了第三方；
+   *   - 该地址失效时用户只会看到一句含糊的「网络错误」。
+   * 现在必须在「设置 → 发音评测服务」里显式填入自己的代理地址才会启用。
+   */
+  var DEFAULT_ENDPOINT = '';
   var TARGET_RATE = 16000;
   var MAX_MS = 15000;      // 单次最长录音
   var MIN_MS = 700;        // 太短讯飞会报 10110
@@ -23,35 +37,48 @@
 
   /**
    * 读取评测服务地址。
-   * - 从未设置过 → 返回内置默认地址（开箱即用）
+   * - 从未设置过 → 返回内置默认地址（当前为空，即功能关闭）
    * - 显式设为空  → 返回 ''，功能关闭
    * - 自定义地址   → 返回自定义值
    */
   function endpoint() {
-    try {
-      var v = localStorage.getItem(CFG_KEY);
-      if (v === null) return DEFAULT_ENDPOINT;
-      if (v === DISABLED) return '';
-      return v.trim();
-    } catch (e) {
-      return DEFAULT_ENDPOINT;
-    }
+    var v = window.Store ? window.Store.get(CFG_KEY, null) : localStorage.getItem(CFG_KEY);
+    if (v === null || v === undefined) return DEFAULT_ENDPOINT;
+    if (v === DISABLED) return '';
+    return String(v).trim();
   }
 
   function setEndpoint(url) {
-    try {
-      if (url === null || url === undefined) {
-        localStorage.removeItem(CFG_KEY);
-      } else {
-        var t = String(url).trim();
-        localStorage.setItem(CFG_KEY, t || DISABLED);
-      }
-    } catch (e) { /* ignore */ }
+    if (url === null || url === undefined) {
+      if (window.Store) window.Store.remove(CFG_KEY);
+      else { try { localStorage.removeItem(CFG_KEY); } catch (e) { /* ignore */ } }
+      return;
+    }
+    var t = String(url).trim();
+    if (window.Store) window.Store.set(CFG_KEY, t || DISABLED);
+    else { try { localStorage.setItem(CFG_KEY, t || DISABLED); } catch (e) { /* ignore */ } }
   }
 
-  /** 恢复为内置默认地址 */
+  /** 恢复为内置默认地址（当前为空 = 关闭） */
   function resetEndpoint() { setEndpoint(null); }
   function configured() { return endpoint().length > 0; }
+
+  /**
+   * 代理访问密钥（可选）。
+   *
+   * 代理端可以要求请求带 `X-Proxy-Key`，用来挡住「任何人都能白嫖你的讯飞额度」。
+   * 客户端存的是**代理侧约定的口令**，不是讯飞密钥 —— 讯飞密钥永远只在服务端。
+   */
+  function proxyKey() {
+    var v = window.Store ? window.Store.get(PROXY_KEY_STORE, '') : localStorage.getItem(PROXY_KEY_STORE);
+    return String(v || '').trim();
+  }
+
+  function setProxyKey(k) {
+    var t = String(k || '').trim();
+    if (window.Store) window.Store.set(PROXY_KEY_STORE, t);
+    else { try { localStorage.setItem(PROXY_KEY_STORE, t); } catch (e) { /* ignore */ } }
+  }
 
   // ------------------------------------------------------------ 音频工具
 
@@ -141,6 +168,27 @@
     return global.btoa(parts.join(''));
   }
 
+  /**
+   * base64 → UTF-8 文本。
+   *
+   * 原生桥把响应体以 base64 回传（避免任意文本被拼进 JS 字面量），
+   * 这里解回字符串。优先用 TextDecoder（现代 WebView 都有），
+   * 老版本退回经典的 escape/unescape 方案。
+   */
+  function base64ToUtf8(b64) {
+    try {
+      var bin = global.atob(b64);
+      if (global.TextDecoder) {
+        var bytes = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return new global.TextDecoder('utf-8').decode(bytes);
+      }
+      return decodeURIComponent(escape(bin));
+    } catch (e) {
+      return '';
+    }
+  }
+
   /** 录音时长(ms)：字节数 / 采样率 / 2 * 1000 */
   function wavDurationMs(byteLen, rate) {
     return Math.round((byteLen - 44) / 2 / rate * 1000);
@@ -185,6 +233,85 @@
               global.AthaoNativeRecorder.available());
   };
 
+  /**
+   * 原生录音分支（仅 APK 内可用）。
+   *
+   * ## 权限链（这里曾经是个死结）
+   *
+   * 原生 `AudioRecord` 录音**不经过** WebView 的 `getUserMedia`，
+   * 所以 WebView 的 `onPermissionRequest` 根本不会触发，
+   * Android 的 `RECORD_AUDIO` 也就从未被申请过：
+   * 首次安装 App 后点「发音评测」→ `start()` 直接返回 `permission` →
+   * 页面只能提示「去浏览器设置里允许麦克风」——而 APK 里根本没有地址栏。
+   *
+   * 现在改成：**网页显式发起授权**
+   *   1. `start()` 返回 `permission`
+   *   2. 网页调 `requestPermission()` → 原生弹系统授权框
+   *   3. 网页轮询 `hasPermission()` 等待结果（系统框是异步的，桥接拿不到回调）
+   *   4. 授权成功后重试 `start()`
+   */
+  Recorder.prototype._startNative = function () {
+    var self = this;
+    var bridge = global.AthaoNativeRecorder;
+
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      function ok() { if (!settled) { settled = true; resolve(true); } }
+      function fail(code) {
+        if (!settled) { settled = true; reject({ code: code, name: 'NativeError' }); }
+      }
+
+      function arm() {
+        self._native = true;
+        self._nativeStart = Date.now();
+        self.chunks = [];
+        self.rate = TARGET_RATE;
+        if (self._timer) { clearInterval(self._timer); self._timer = null; }
+        // 电平轮询：原生侧不会自动回调，用定时器采样即可（UI 显示够用）
+        self._timer = setInterval(function () {
+          if (self.onTick) self.onTick();
+          if (self.elapsed() > MAX_MS) self.stop();
+        }, 100);
+      }
+
+      function attempt() {
+        var err = '';
+        try {
+          err = bridge.start();
+        } catch (e) {
+          fail('not_readable');
+          return;
+        }
+        if (!err) { arm(); ok(); return; }
+        if (err !== 'permission') { fail(err); return; }
+
+        // 没有系统权限 → 主动发起授权
+        var st = 'denied';
+        try {
+          st = bridge.requestPermission ? bridge.requestPermission() : 'denied';
+        } catch (e2) { /* 落到下面的 denied */ }
+
+        if (st === 'granted') { attempt(); return; }
+        if (st !== 'pending') { fail('permission_denied'); return; }
+
+        // 系统授权框是异步的，桥接拿不到回调，只能轮询
+        var tries = 0;
+        var iv = setInterval(function () {
+          tries++;
+          var has = false;
+          try { has = bridge.hasPermission(); } catch (e3) { has = false; }
+          if (has) { clearInterval(iv); attempt(); return; }
+          if (tries >= 100) {   // 30 秒还没结果，视为用户拒绝
+            clearInterval(iv);
+            fail('permission_denied');
+          }
+        }, 300);
+      }
+
+      attempt();
+    });
+  };
+
   Recorder.prototype.start = function () {
     var self = this;
     if (!this.supported()) {
@@ -193,20 +320,7 @@
 
     // ---- 原生录音分支（仅 APK 内可用）----
     if (this.useNative()) {
-      return new Promise(function (resolve, reject) {
-        var err = global.AthaoNativeRecorder.start();
-        if (err) { reject({ code: err, name: 'NativeError' }); return; }
-        self._native = true;
-        self._nativeStart = Date.now();
-        self.chunks = [];
-        self.rate = TARGET_RATE;
-        // 电平轮询：原生侧不会自动回调，用定时器采样即可（UI 显示够用）
-        self._timer = setInterval(function () {
-          if (self.onTick) self.onTick();
-          if (self.elapsed() > MAX_MS) self.stop();
-        }, 100);
-        resolve(true);
-      });
+      return this._startNative();
     }
 
     // ---- 网页录音分支（网页版走这里）----
@@ -339,6 +453,56 @@
     this.chunks = [];
   };
 
+  // ------------------------------------------------------------ 原生 HTTP 桥
+
+  /**
+   * 通过原生桥发 POST（**仅 APK 内可用**）。
+   *
+   * APK 页面来源是 `file:///android_asset/web/index.html`，对 `https://` 的 fetch
+   * 属于跨域：Origin 头为 null（服务端白名单失效）、响应被同源策略拦掉，
+   * 真机表现就是一句 `Failed to fetch`。必须绕开浏览器网络栈。
+   *
+   * 桥接是**异步**的：原生侧请求完成后回调 `window.__athaoHttpDone(reqId, ok, b64)`。
+   * 响应体用 base64 回传，避免任意文本被拼进 JS 字面量造成转义/注入问题。
+   */
+  var bridgeSeq = 0;
+  var bridgePending = {};
+
+  function installBridgeListener() {
+    if (global.__athaoHttpDone) return;
+    global.__athaoHttpDone = function (reqId, ok, b64) {
+      var p = bridgePending[reqId];
+      if (!p) return;
+      delete bridgePending[reqId];
+      var text = base64ToUtf8(b64 || '');
+      if (ok) {
+        p.resolve(text);
+      } else {
+        p.reject({
+          code: 'network',
+          message: text || 'Không kết nối được máy chủ chấm điểm.',
+        });
+      }
+    };
+  }
+
+  function bridgePost(url, body, headers) {
+    installBridgeListener();
+    return new Promise(function (resolve, reject) {
+      var reqId = 'r' + (++bridgeSeq);
+      bridgePending[reqId] = { resolve: resolve, reject: reject };
+      try {
+        global.AthaoHttp.post(url, body, JSON.stringify(headers || {}), reqId);
+      } catch (e) {
+        delete bridgePending[reqId];
+        reject({
+          code: 'network',
+          message: 'Không kết nối được máy chủ chấm điểm.',
+        });
+      }
+    });
+  }
+
   // ------------------------------------------------------------ 请求
 
   /**
@@ -365,13 +529,18 @@
       sample_rate: TARGET_RATE
     });
 
+    // 请求头：JSON + 可选的代理访问口令
+    var headers = { 'Content-Type': 'application/json' };
+    var pk = proxyKey();
+    if (pk) headers['X-Proxy-Key'] = pk;
+
     var ctl = null;
     if (global.AbortController) ctl = new global.AbortController();
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 25000);
 
     var opt = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: headers,
       body: body
     };
     if (ctl) opt.signal = ctl.signal;
@@ -382,7 +551,7 @@
     // 这里改由 Kotlin 用 HttpURLConnection 直发，**完全不过浏览器网络栈**，
     // 不存在 CORS。网页版没有这个接口，继续走下面的 fetch。
     if (global.AthaoHttp && global.AthaoHttp.post) {
-      return global.AthaoHttp.post(url, body).then(function (t) {
+      return bridgePost(url, body, headers).then(function (t) {
         clearTimeout(timer);
         var j;
         try { j = JSON.parse(t); }
@@ -428,11 +597,15 @@
     setEndpoint: setEndpoint,
     resetEndpoint: resetEndpoint,
     configured: configured,
+    proxyKey: proxyKey,
+    setProxyKey: setProxyKey,
     assess: assess,
     wavDurationMs: wavDurationMs,
     // 内部函数，暴露供回归测试校验（勿在业务代码中直接使用）
     _toWav16: toWav16,
     _resample: resample,
-    _toBase64: toBase64
+    _toBase64: toBase64,
+    _base64ToUtf8: base64ToUtf8,
+    _bridgePost: bridgePost
   };
 })(window);

@@ -317,15 +317,15 @@ def main() -> int:
 
     print("=" * 72)
     print(f"拼音注音审计：{total} 词条 / {n_chars} 字")
-    print(f"  ✅ 逐字完全正确     {same:6d} 字 ({same/n_chars*100:.2f}%)")
-    print(f"  ⚠️ 仅声调不同       {len(diff_tone):6d} 字")
-    print(f"  ❌ 音节骨架错误     {len(syl_bad):6d} 词")
-    print(f"  ⚠️ 音节数不符(脏数据){len(fmt_issues):6d} 词")
+    print(f"  [OK] 逐字完全正确     {same:6d} 字 ({same/n_chars*100:.2f}%)")
+    print(f"  [!] 仅声调不同       {len(diff_tone):6d} 字")
+    print(f"  [X] 音节骨架错误     {len(syl_bad):6d} 词")
+    print(f"  [!] 音节数不符(脏数据){len(fmt_issues):6d} 词")
     print(f"  多音字词条          {sum(poly_counter.values()):6d}（{len(poly_counter)} 汉字）")
     print("=" * 72)
 
     if syl_bad:
-        print(f"\n【❌ 音节骨架错误】（{len(syl_bad)} 词 —— 多音字读音选错或数据残缺）")
+        print(f"\n【[X] 音节骨架错误】（{len(syl_bad)} 词 —— 多音字读音选错或数据残缺）")
         for d in syl_bad[:60]:
             print(f"  {d['hanzi']:<10} L{d['level']} 我们={d['stored']!r:<22} "
                   f"骨架={d['our_skeleton']:<16} 基准={d['ref']:<16} "
@@ -334,7 +334,7 @@ def main() -> int:
             print(f"  ... 另有 {len(syl_bad)-60} 词")
 
     if diff_tone:
-        print(f"\n【⚠️ 声调错误】（{len(diff_tone)} 字）")
+        print(f"\n【[!] 声调错误】（{len(diff_tone)} 字）")
         seen, shown = set(), 0
         for d in diff_tone:
             k = (d["hanzi"], d["idx"])
@@ -350,7 +350,7 @@ def main() -> int:
             print(f"  ... 另有 {len(seen)-shown} 字条见 JSON")
 
     if fmt_issues:
-        print(f"\n【⚠️ 音节数与字数不符】（{len(fmt_issues)} 词，需清洗）")
+        print(f"\n【[!] 音节数与字数不符】（{len(fmt_issues)} 词，需清洗）")
         for d in fmt_issues[:25]:
             print(f"  {d['hanzi']:<12} L{d['level']} 我们={d['stored']!r:<26} "
                   f"基准={d['ref']}")

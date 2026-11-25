@@ -1,7 +1,7 @@
 // verify_v6.js — v6 校验：听写判分 / 错词本 / 跨级搜索 / 句子音频
 const fs = require('fs');
 const vm = require('vm');
-const base = 'C:/Users/PC/WorkBuddy/2026-10-16-13-34-21/viet-chinese-app/web/';
+const base = require('path').resolve(__dirname, '..', 'web') + '/';
 
 const store = {};
 const sandbox = {
@@ -31,8 +31,8 @@ const load = f => vm.runInContext(fs.readFileSync(base + f, 'utf8'), ctx);
 console.log('=== 语法校验 ===');
 ['data/app-data.js', 'js/pinyin.js', 'js/i18n.js', 'js/srs.js',
  'js/settings.js', 'js/dictation.js', 'js/app.js'].forEach(f => {
-  try { new vm.Script(fs.readFileSync(base + f, 'utf8')); console.log('  ✅ ' + f); }
-  catch (e) { console.log('  ❌ ' + f + ': ' + e.message); }
+  try { new vm.Script(fs.readFileSync(base + f, 'utf8')); console.log('  [OK] ' + f); }
+  catch (e) { console.log('  [X] ' + f + ': ' + e.message); }
 });
 
 load('data/app-data.js'); load('js/pinyin.js');
@@ -57,15 +57,15 @@ const cases = [
 cases.forEach(([inp, ans, exp]) => {
   const r = Dict.grade(inp, ans);
   const ok = r.level === exp;
-  console.log(`  ${ok ? '✅' : '❌'} "${inp}" vs "${ans}" -> ${r.level}(${r.score})`);
+  console.log(`  ${ok ? '[OK]' : '[X]'} "${inp}" vs "${ans}" -> ${r.level}(${r.score})`);
 });
 
 // ---- 候选字 ----
 console.log('\n=== 候选字 ===');
 const all = Object.values(D.levels).flat();
 const cands = Dict.charCandidates('银', D.levels['2'], 4);
-console.log('  银 的候选:', cands.join(' '), cands.length === 4 ? '✅' : '❌');
-console.log('  含正确项:', cands.includes('银') ? '✅' : '❌');
+console.log('  银 的候选:', cands.join(' '), cands.length === 4 ? '[OK]' : '[X]');
+console.log('  含正确项:', cands.includes('银') ? '[OK]' : '[X]');
 
 // ---- 错词本 ----
 console.log('\n=== 错词本 ===');
@@ -90,7 +90,7 @@ sandbox.localStorage.clear();
 const r = Set.importData(dump);
 console.log('  导入结果:', JSON.stringify(r));
 const back = Set.getWrongList().map(x => x.word);
-console.log('  错词本恢复:', JSON.stringify(back), back.includes('吃饭') ? '✅' : '❌');
+console.log('  错词本恢复:', JSON.stringify(back), back.includes('吃饭') ? '[OK]' : '[X]');
 const st = Set.collectStats();
 console.log('  统计: 已学', st.learnedTotal, '| 错词', st.wrongTotal);
 
@@ -103,18 +103,26 @@ console.log('  重置后已学:', after.learnedTotal);
 
 // ---- 句子音频 ----
 console.log('\n=== 句子音频 ===');
-const manifest = JSON.parse(fs.readFileSync(base + 'audio/sentences/manifest.json', 'utf8'));
-console.log('  清单条数:', manifest.length);
-let ci = 0, si = 0, miss = [];
-D.courses.forEach((c, i) => {
-  c.sentences.forEach((s, j) => {
-    const k = `s_${i}_${j}`;
-    if (!manifest.includes(k)) miss.push(k);
+// web/audio/ 不在 git 里（README「仓库不含音频与原始数据」已说明）。
+// 新克隆的仓库跑这一段会直接读文件崩掉，所以先判断再决定要不要跑。
+const manifestPath = base + 'audio/sentences/manifest.json';
+if (!fs.existsSync(manifestPath)) {
+  console.log('  [跳过] 未找到', manifestPath.replace(base, 'web/'),
+    '——音频需先跑 tools/build_audio.py 生成（仓库不含音频）');
+} else {
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  console.log('  清单条数:', manifest.length);
+  let ci = 0, si = 0, miss = [];
+  D.courses.forEach((c, i) => {
+    c.sentences.forEach((s, j) => {
+      const k = `s_${i}_${j}`;
+      if (!manifest.includes(k)) miss.push(k);
+    });
   });
-});
-console.log('  缺失音频:', miss.length, miss.length ? miss.slice(0,5) : '✅ 无');
-// 文件是否真实存在
-let noFile = manifest.filter(k => !fs.existsSync(base + 'audio/sentences/' + k + '.mp3'));
-console.log('  清单有但磁盘无:', noFile.length, noFile.length ? noFile.slice(0,3) : '✅ 无');
+  console.log('  缺失音频:', miss.length, miss.length ? miss.slice(0,5) : '[OK] 无');
+  // 文件是否真实存在
+  let noFile = manifest.filter(k => !fs.existsSync(base + 'audio/sentences/' + k + '.mp3'));
+  console.log('  清单有但磁盘无:', noFile.length, noFile.length ? noFile.slice(0,3) : '[OK] 无');
+}
 
-console.log('\n✅ v6 校验完成');
+console.log('\n[OK] v6 校验完成');

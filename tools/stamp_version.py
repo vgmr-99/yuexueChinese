@@ -81,13 +81,13 @@ def main() -> int:
 
     print(f"扫描 index.html，共处理 {len(REF.findall(text))} 个资源引用")
     if missing:
-        print(f"⚠️ 有 {len(missing)} 个引用指向不存在的文件：")
+        print(f"[!] 有 {len(missing)} 个引用指向不存在的文件：")
         for p in missing[:8]:
             print(f"   {p}")
         return 2
 
     if not changed:
-        print("✅ 所有资源的哈希都是最新的，无需改动")
+        print("[OK] 所有资源的哈希都是最新的，无需改动")
     else:
         print(f"需要更新 {len(changed)} 个引用：")
         for p, o, n in changed:

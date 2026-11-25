@@ -128,6 +128,36 @@ gradle assembleDebug
 
 所以改了网页内容后，**直接重新 build 即可**，不需要手工复制。
 
+### 坑 5：APK 里出现双 `?v=` 查询串
+
+曾经生成的 APK 里，资源引用长这样：
+
+```html
+<script src="js/app.js?v=f74eb668?v=96510695"></script>
+```
+
+**原因**：`stampVersion` 任务清理旧版本号的正则写的是 `\\?v=\\d+"`，
+只能匹配纯数字；而 `tools/stamp_version.py` 打的是 **sha1 前 8 位十六进制**
+（`f74eb668` 里带字母），清理不掉 → 旧的 `?v=` 留着，新的又加了一个。
+
+**为什么没暴露**：WebView 取的是第一个 `?` 之前的路径，双查询串照样能加载，
+真机表现一切正常。但内容哈希等于白打了 —— 每次构建全量重下所有 JS。
+
+**解决**：清理正则改成 `\\?v=[0-9a-zA-Z_-]+`，
+并且重新打戳时**遍历所有本地静态资源**（`src` / `href` + 静态扩展名），
+不能只处理 `<script>` / `<link>` —— 否则 `<img src="images/logo-panda.png">`
+的版本号被清掉后就加不回来了。
+
+验证方法：
+
+```bash
+unzip -p app/build/outputs/apk/debug/app-debug.apk assets/web/index.html \
+  | grep -oE '(src|href)="[^"]*\?v=[^"]*"' | grep -c '\?v=.*\?v='   # 期望 0
+```
+
+> 另外注意：Gradle 的 up-to-date 判定会让 `stampVersion` 在「源码没变」时跳过，
+> 想重新验证打戳结果用 `gradle assembleDebug --rerun-tasks`。
+
 ## 离线保证
 
 - 所有资源（词库、笔顺、拼音 MP3、hanzi-writer）都在 `assets/web/` 内

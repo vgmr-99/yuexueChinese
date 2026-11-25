@@ -15,9 +15,11 @@
 (function (global) {
   'use strict';
 
-  var KEY = 'vietchinese.strokerecord';
+  // 键名由 store.js 统一登记
+  var KEY = window.Store ? window.Store.KEYS.strokeRecord : 'vietchinese.strokerecord';
 
   function loadAll() {
+    if (window.Store) return window.Store.getJSON(KEY, {});
     try {
       return JSON.parse(localStorage.getItem(KEY)) || {};
     } catch (e) {
@@ -26,6 +28,7 @@
   }
 
   function saveAll(d) {
+    if (window.Store) return window.Store.setJSON(KEY, d);
     try {
       localStorage.setItem(KEY, JSON.stringify(d));
     } catch (e) { /* 忽略 */ }
@@ -142,6 +145,7 @@
   }
 
   function clear() {
+    if (window.Store) { window.Store.remove(KEY); return; }
     try { localStorage.removeItem(KEY); } catch (e) { /* 忽略 */ }
   }
 

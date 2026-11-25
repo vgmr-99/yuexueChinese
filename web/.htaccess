@@ -3,7 +3,7 @@
 # ============================================================
 # 只用最保守的指令：全部包在 <IfModule> 里，模块缺失就自动跳过。
 #
-# ⚠️ 不要再加 `Options -Indexes` / `DirectoryIndex`：
+# [重要] 不要再加 `Options -Indexes` / `DirectoryIndex`：
 # 共享主机的 AllowOverride 通常不含 Options，
 # 在 .htaccess 里写 Options 会让 Apache 直接 500，
 # 整站（含静态文件）全部打不开，前面再套一层 openresty 就变成 502。

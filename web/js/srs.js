@@ -17,13 +17,15 @@
 (function (global) {
   'use strict';
 
-  var KEY = 'srs';
+  // 键名由 store.js 统一登记
+  var KEY = window.Store ? window.Store.KEYS.srs : 'srs';
 
   // 复习间隔上限（天）。即便全对，也不该间隔半年才复习——语言学习需高频巩固。
   var MAX_INTERVAL = 180;
 
   /** 读取全部 SRS 卡片数据 */
   function loadAll() {
+    if (window.Store) return window.Store.getJSON(KEY, {});
     try {
       return JSON.parse(localStorage.getItem(KEY)) || {};
     } catch (e) {
@@ -32,6 +34,7 @@
   }
 
   function saveAll(data) {
+    if (window.Store) return window.Store.setJSON(KEY, data);
     try {
       localStorage.setItem(KEY, JSON.stringify(data));
     } catch (e) { /* 忽略 */ }
@@ -153,6 +156,7 @@
 
   /** 清空全部 SRS 进度（调试用） */
   function reset() {
+    if (window.Store) { window.Store.remove(KEY); return; }
     try { localStorage.removeItem(KEY); } catch (e) { /* 忽略 */ }
   }
 

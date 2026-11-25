@@ -23,6 +23,9 @@ web/audio/
 # 打包进 APK 时由 web/ 同步生成的产物（85M）
 android/app/src/main/assets/web/
 
+# 本地工作产物（截图 / 报告），不入库
+deliverables/
+
 # ===== 系统 / 编辑器 =====
 .DS_Store
 Thumbs.db

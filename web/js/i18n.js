@@ -15,7 +15,8 @@
 
   var LANGS = ['vi', 'zh'];
   var DEFAULT_LANG = 'vi';
-  var KEY = 'vietchinese.lang';
+  // 键名由 store.js 统一登记
+  var KEY = window.Store ? window.Store.KEYS.lang : 'vietchinese.lang';
 
   // UI 文案表
   var STR = {
@@ -26,6 +27,12 @@
       pinyinTabSyllable: 'Ghép âm',
       appTitle: 'Athao Học Tiếng Trung',
       appSub: 'Hán-Việt · HSK 1-6',
+      homeEyebrow: 'BẮT ĐẦU HỌC',
+      featHanVietDesc: 'Cách đọc Hán-Việt',
+      featTtsDesc: 'Giọng đọc tự nhiên',
+      featStrokeDesc: 'Thứ tự nét HSK1',
+      featVocabDesc: '5456 từ',
+      featPinyinDesc: '中 / VI',
       home: 'Trang chủ',
       learn: 'Học từ',
       hanzi: 'Nét viết',
@@ -85,6 +92,7 @@
       confirmResetAll: 'Xóa TOÀN BỘ tiến độ? Không thể hoàn tác!',
       confirmResetLevel: 'Xóa tiến độ HSK %s?',
       resetDone: 'Đã xóa toàn bộ dữ liệu',
+      storageFull: 'Không lưu được dữ liệu — bộ nhớ trình duyệt có thể đã đầy. Hãy xóa bớt dữ liệu trình duyệt hoặc tắt chế độ riêng tư.',
       resetLevelDone: 'Đã xóa HSK %s',
       noDataYet: 'Chưa có dữ liệu học tập',
       dictation: 'Nghe chép',
@@ -127,6 +135,13 @@
       asAgain: 'Đọc lại',
       asNeedSetup: 'Chưa cấu hình dịch vụ chấm điểm. Vào Cài đặt → Dịch vụ chấm điểm phát âm để nhập địa chỉ máy chủ.',
       asDenied: 'Bị từ chối quyền thu âm. Hãy cấp quyền Micrô cho ứng dụng trong cài đặt hệ thống.',
+      asNoSupport: 'Trình duyệt này không hỗ trợ ghi âm. Hãy mở bằng Chrome, Safari hoặc trình duyệt hệ thống.',
+      asMicBusy: 'Không mở được micrô (có thể đang được ứng dụng khác chiếm). Hãy đóng các ứng dụng gọi thoại/ghi âm rồi thử lại, hoặc vào Cài đặt → Ứng dụng → 越学中文 → Quyền → Micrô → Luôn cho phép.',
+      asRecFail2: 'Không ghi được âm thanh. Nếu trình duyệt chưa hỏi xin quyền, hãy bấm biểu tượng ổ khóa cạnh thanh địa chỉ → cho phép Micrô → tải lại trang. Nếu vẫn lỗi, hãy thử trình duyệt khác.',
+      asPermDeniedApk: 'Chưa được cấp quyền micrô. Vui lòng vào Cài đặt hệ thống → Ứng dụng → 越学中文 → Quyền → Micrô → Luôn cho phép, rồi mở lại ứng dụng.',
+      asRecFailApk: 'Không ghi được âm thanh. Hãy thử lại; nếu vẫn lỗi, mở lại ứng dụng và kiểm tra quyền Micrô trong Cài đặt hệ thống.',
+      asKeySaved: 'Đã lưu mật khẩu truy cập proxy.',
+      asKeyCleared: 'Đã xóa mật khẩu truy cập proxy.',
       asNoMic: 'Không tìm thấy micrô.',
       asRecFail: 'Không thể thu âm.',
       asTooShort: 'Thu âm quá ngắn, hãy đọc to và rõ ràng.',
@@ -151,15 +166,11 @@
       learnedTotal: 'Đã học',
       totalWords: 'Tổng từ',
       dailyGoal: 'Mục tiêu hôm nay',
-      newWords: 'Từ mới',
-      review: 'Ôn tập',
       listen: 'Nghe',
-      dictation: 'Nghe chép',
       streak: 'Chuỗi',
       best: 'Tốt nhất',
       goalSettings: 'Đặt mục tiêu hàng ngày',
       goalSaved: 'Đã lưu mục tiêu',
-      save: 'Lưu',
       speed: 'Tốc độ',
       orderPct: 'Đúng thứ tự',
       mistakes: 'Sai',
@@ -174,7 +185,6 @@
       quizIntro: 'Chọn nghĩa đúng cho chữ Hán bên dưới.',
       quizHint: 'Chọn đáp án đúng',
       loadMore: 'Xem thêm',
-      loadMore: 'Xem thêm'
     },
     zh: {
       pinyinTabInitial: '声母',
@@ -183,6 +193,12 @@
       pinyinTabSyllable: '拼读',
       appTitle: 'Athao 学汉语',
       appSub: '越学中文 · HSK 1-6',
+      homeEyebrow: '开始学习',
+      featHanVietDesc: '汉字汉越音读法',
+      featTtsDesc: '自然语音朗读',
+      featStrokeDesc: 'HSK1 笔顺',
+      featVocabDesc: '5456 词',
+      featPinyinDesc: '中 / 越',
       home: '首页',
       learn: '学词',
       hanzi: '笔顺',
@@ -242,6 +258,7 @@
       confirmResetAll: '确定删除全部进度？不可恢复！',
       confirmResetLevel: '删除 HSK %s 的进度？',
       resetDone: '已清空全部数据',
+      storageFull: '无法保存数据 — 浏览器存储空间可能已满。请清理浏览器数据或关闭无痕模式。',
       resetLevelDone: '已重置 HSK %s',
       noDataYet: '暂无学习数据',
       dictation: '听写',
@@ -284,6 +301,13 @@
       asAgain: '再读一次',
       asNeedSetup: '尚未配置评测服务。请到「设置 → 发音评测服务」填写服务器地址。',
       asDenied: '麦克风权限被拒绝。请在系统设置中为本应用授予麦克风权限。',
+      asNoSupport: '当前浏览器不支持录音。请改用 Chrome、Safari 或系统浏览器打开。',
+      asMicBusy: '无法打开麦克风（可能被其他应用占用）。请关闭通话/录音类应用后重试，或到「系统设置 → 应用 → 越学中文 → 权限 → 麦克风 → 始终允许」。',
+      asRecFail2: '无法录音。若浏览器尚未询问权限，请点击地址栏旁的锁形图标 → 允许麦克风 → 重新加载页面；仍然失败请换一个浏览器。',
+      asPermDeniedApk: '未获得麦克风权限。请到「系统设置 → 应用 → 越学中文 → 权限 → 麦克风 → 始终允许」，然后重新打开应用。',
+      asRecFailApk: '录音失败。请重试；若仍失败，请重新打开应用并检查系统设置里的麦克风权限。',
+      asKeySaved: '已保存代理访问口令。',
+      asKeyCleared: '已清除代理访问口令。',
       asNoMic: '未找到麦克风。',
       asRecFail: '无法录音。',
       asTooShort: '录音太短，请大声、清楚地朗读。',
@@ -308,15 +332,11 @@
       learnedTotal: '已学',
       totalWords: '总词数',
       dailyGoal: '今日目标',
-      newWords: '新词',
-      review: '复习',
       listen: '听力',
-      dictation: '听写',
       streak: '连续',
       best: '最佳',
       goalSettings: '每日目标设置',
       goalSaved: '目标已保存',
-      save: '保存',
       speed: '速度',
       orderPct: '笔顺正确',
       mistakes: '失误',
@@ -331,7 +351,6 @@
       quizIntro: '选出下面汉字的正确含义。',
       quizHint: '请选择正确答案',
       loadMore: '加载更多',
-      loadMore: '加载更多'
     },
   };
 
@@ -339,7 +358,11 @@
 
   function detect() {
     var saved = null;
-    try { saved = localStorage.getItem(KEY); } catch (e) { /* 忽略 */ }
+    if (window.Store) {
+      saved = window.Store.get(KEY, null);
+    } else {
+      try { saved = localStorage.getItem(KEY); } catch (e) { /* 忽略 */ }
+    }
     if (saved && LANGS.indexOf(saved) !== -1) return saved;
     var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
     return nav.indexOf('zh') === 0 ? 'zh' : DEFAULT_LANG;
@@ -353,7 +376,11 @@
   function setLang(lang) {
     if (LANGS.indexOf(lang) === -1) return;
     current = lang;
-    try { localStorage.setItem(KEY, lang); } catch (e) { /* 忽略 */ }
+    if (window.Store) {
+      window.Store.set(KEY, lang);
+    } else {
+      try { localStorage.setItem(KEY, lang); } catch (e) { /* 忽略 */ }
+    }
     document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : lang);
     apply();
     if (typeof global.__onLangChanged === 'function') global.__onLangChanged(lang);

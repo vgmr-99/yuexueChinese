@@ -206,11 +206,41 @@ class NativeRecorder(private val activity: MainActivity) {
         /**
          * 开始录音。网页随后轮询 [poll] 取结果 —— 这样跨语言只传字符串/数字，
          * 不会碰到「原生抛异常、网页收不到」的老问题。
+         *
+         * 返回空串表示已开始；返回 `"permission"` 表示**系统层麦克风权限未授予**，
+         * 网页应转而调用 [requestPermission] 走系统授权流程。
          */
         @JavascriptInterface
         fun start(): String {
             val err = rec.start()
             return if (err == null) "" else err
+        }
+
+        /**
+         * 主动申请系统麦克风权限。
+         *
+         * ## 为什么必须由网页显式触发
+         *
+         * 原生 [AudioRecord] 录音**不经过 WebView 的 getUserMedia**，
+         * 所以 `onPermissionRequest` 里那套 `ensureMicPermission` 根本不会被触发，
+         * 系统 `RECORD_AUDIO` 从未被申请过 —— 结果就是：
+         * 首次安装 App 后点「发音评测」，永远返回 permission 错误，
+         * 而用户在 APK 里又找不到浏览器地址栏可以授权。
+         *
+         * 现在网页在 `start()` 拿到 permission 错误码时，会显式调用本方法，
+         * 由原生弹出系统授权对话框。
+         *
+         * @return `"granted"` 已授权 / `"pending"` 已弹窗，等待用户选择
+         */
+        @JavascriptInterface
+        fun requestPermission(): String {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                return "granted"
+            }
+            activity.requestMicPermission()
+            return "pending"
         }
 
         /** 取结果：没录完返回 null，录完返回 {ok,ms,rate,bytes} */

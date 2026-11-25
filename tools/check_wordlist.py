@@ -32,11 +32,11 @@ for k, v in pairs:
 print(f'词级条目: {len(seen)}')
 
 if dups:
-    print(f'\n❌ 重复 key {len(dups)} 个（后者覆盖前者）：')
+    print(f'\n[X] 重复 key {len(dups)} 个（后者覆盖前者）：')
     for k, a, b in dups:
         print(f'   {k}: "{a}"  被  "{b}" 覆盖')
 else:
-    print('✅ 无重复 key')
+    print('[OK] 无重复 key')
 
 bad_key = [k for k in seen if not HAN.match(k)]
 bad_val = [(k, v) for k, v in seen.items() if not OK_CHARS.match(v)]
@@ -46,7 +46,7 @@ print(f'value 非法字符: {len(bad_val)} {bad_val}')
 # 音节数与字数一致性（粗检：汉越音通常每字一个音节，用空格分）
 odd = [(k, v) for k, v in seen.items() if len(v.split()) != len(k)]
 if odd:
-    print(f'\n⚠️音节数≠字数（可能正常，如词组固定读法），共 {len(odd)}:')
+    print(f'\n[!]音节数≠字数（可能正常，如词组固定读法），共 {len(odd)}:')
     for k, v in odd[:12]:
         print(f'   {k} ({len(k)}字) -> "{v}" ({len(v.split())}音节)')
 

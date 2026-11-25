@@ -42,6 +42,12 @@ class MainActivity : ComponentActivity() {
     private lateinit var root: FrameLayout
     private lateinit var nativeRecorder: NativeRecorder
 
+    /**
+     * 供 NativeHttp 回传请求结果时调用。
+     * 不暴露整个 WebView，只给这一个用途，避免外部随意操作页面。
+     */
+    internal val web: WebView get() = webView
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,9 +96,11 @@ class MainActivity : ComponentActivity() {
             // 允许 <audio> 自动播放（听写/发音不能等用户手势）
             settings.mediaPlaybackRequiresUserGesture = false
 
-            // 调试期：把网页 console / 资源加载错误打到 logcat，
-            // tag = WebViewJS / WebViewErr，用于根因定位（发布版可移除）
-            WebView.setWebContentsDebuggingEnabled(true)
+            // 只在 debug 包开放 WebView 远程调试。
+            // 生产包无条件开启等于把整个 WebView 暴露给本机任意调试器 —— 移除。
+            WebView.setWebContentsDebuggingEnabled(
+                applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE != 0
+            )
 
             // 全部走本地资源，禁止跳出到外部网页
             webViewClient = object : WebViewClient() {
@@ -178,6 +186,13 @@ class MainActivity : ComponentActivity() {
             "AthaoNativeRecorder"
         )
 
+        // 发音评测的 HTTP 通道：file:// 页面无法跨域 fetch，
+        // 必须由原生发请求再把结果回传（详见 NativeHttp 的说明）
+        webView.addJavascriptInterface(
+            NativeHttp.Bridge(NativeHttp(this)),
+            "AthaoHttp"
+        )
+
         root.addView(webView)
         setContentView(root)
 
@@ -188,7 +203,13 @@ class MainActivity : ComponentActivity() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 webView.evaluateJavascript("window.__onAndroidBack && window.__onAndroidBack()") { result ->
-                    if (result == "true") {
+                    // evaluateJavascript 把 JS 字符串返回值做 JSON 引号编码：
+                    // JS 返回 'true' 时这里拿到的是 "\"true\""，直接比较
+                    // result == "true" 永远为 false —— 弹窗打开时按返回会
+                    // 直接退出 App（真机必现）。先剥掉可能的 JSON 引号。
+                    val handled = result != null &&
+                        result.trim().trim('"').equals("true", ignoreCase = true)
+                    if (handled) {
                         // 网页已处理，本次不退出
                     } else {
                         isEnabled = false
@@ -206,29 +227,59 @@ class MainActivity : ComponentActivity() {
     private fun isTrustedOrigin(origin: String): Boolean =
         origin.isEmpty() || origin.startsWith("file://")
 
-    private var pendingMicCallback: ((Boolean) -> Unit)? = null
+    /**
+     * 待回调的权限请求。
+     *
+     * 用**列表**而不是单个回调：WebView 的 `onPermissionRequest` 与原生录音桥
+     * 可能在同一瞬间都发起授权请求，单个变量会被后来的覆盖，
+     * 前一个调用方永远收不到结果（真机表现：录音按钮一直转圈）。
+     */
+    private val pendingMicCallbacks = ArrayList<(Boolean) -> Unit>()
 
     private val micPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             Log.i("WebViewJS", "RECORD_AUDIO granted=" + granted)
-            pendingMicCallback?.invoke(granted)
-            pendingMicCallback = null
+            val cbs = ArrayList(pendingMicCallbacks)
+            pendingMicCallbacks.clear()
+            cbs.forEach { it(granted) }
         }
 
     /**
      * 确保系统层麦克风权限已授予。
+     *
      * WebView 授权与系统授权是两层，必须都过；已授予时直接回调，
      * 避免每次录音都弹系统对话框。
      */
-    private fun ensureMicPermission(callback: (Boolean) -> Unit) {
+    internal fun ensureMicPermission(callback: (Boolean) -> Unit) {
         val granted = ContextCompat.checkSelfPermission(
             this, Manifest.permission.RECORD_AUDIO
         ) == PackageManager.PERMISSION_GRANTED
         if (granted) {
             callback(true)
-        } else {
-            pendingMicCallback = callback
+            return
+        }
+        // 已有系统弹窗在排队时把回调挂到同一批即可，不重复发起
+        // （Android 对同一权限重复 launch 只会弹一次，回调却会丢）
+        val alreadyPending = pendingMicCallbacks.isNotEmpty()
+        pendingMicCallbacks.add(callback)
+        if (!alreadyPending) {
             micPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        }
+    }
+
+    /**
+     * 供 [NativeRecorder.Bridge.requestPermission] 调用：主动弹系统麦克风授权。
+     *
+     * 必须切回 UI 线程 —— ActivityResultLauncher 只能在主线程 launch，
+     * 而 JS 桥的方法跑在 WebView 的 JavaBridge 线程上。
+     */
+    internal fun requestMicPermission() {
+        runOnUiThread {
+            // 结果不回传给 JS：JS 侧用 hasPermission() 轮询即可，
+            // 避免桥接回调时序与 WebView 生命周期打架。
+            ensureMicPermission { granted ->
+                Log.i("WebViewJS", "mic permission result = " + granted)
+            }
         }
     }
 

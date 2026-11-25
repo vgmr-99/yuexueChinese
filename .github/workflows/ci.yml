@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 缓存资源哈希
+        id: cache-stamp
+        uses: actions/cache@v4
+        with:
+          path: .stamp-cache
+          key: stamp-${{ hashFiles('web/**') }}
+
+      - name: 校验资源哈希是否最新
+        # index.html 里的 ?v= 必须与文件内容对应，
+        # 否则 WebView / 浏览器会一直用旧 JS（真机表现为「装了新包还是旧界面」）
+        run: |
+          python tools/stamp_version.py --check
+
+      - name: PHP 服务端自检
+        # 鉴权算法 + 结果归一化的固定向量校验
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq php-cli
+          php -l server/ise.php
+          php -l server/selftest.php
+          php server/selftest.php
+
+      - name: 安装 Playwright
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: 前端冒烟测试
+        # 页面加载 / 分区渲染 / 零 emoji / 存储层 / 触控热区
+        run: node tools/smoke_test.js
+
+      - name: 校验图标与本地化键一致
+        # i18n 缺键会让界面直接显示 key 本身
+        run: node tools/check_i18n.js

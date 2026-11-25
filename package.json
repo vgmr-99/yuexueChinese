@@ -1,0 +1,15 @@
+{
+  "name": "yuexuechinese-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "「越学中文」前端校验工具链：冒烟测试 / i18n 键一致性 / 视觉验收截图",
+  "scripts": {
+    "test": "node tools/smoke_test.js && node tools/check_i18n.js",
+    "smoke": "node tools/smoke_test.js",
+    "i18n": "node tools/check_i18n.js",
+    "shots": "node tools/shots.js"
+  },
+  "devDependencies": {
+    "playwright": "1.49.0"
+  }
+}

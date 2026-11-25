@@ -20,7 +20,7 @@ const path = require('path');
   page.on('requestfailed', (req) =>
     errors.push('[requestfailed] ' + req.url() + ' :: ' + (req.failure() && req.failure().errorText)));
 
-  const url = 'file:///' + path.resolve('C:/Users/PC/WorkBuddy/2026-10-16-13-34-21/viet-chinese-app/web/index.html').replace(/\\/g, '/');
+  const url = 'file:///' + path.resolve(__dirname, '..', 'web', 'index.html').replace(/\\/g, '/');
   // 模拟学员环境：预设越南语（本机 Chrome 默认 zh-CN 会走中文分支）
   await page.evaluateOnNewDocument(() => {
     try { localStorage.setItem('vietchinese.lang', 'vi'); } catch (e) {}
@@ -224,20 +224,25 @@ const path = require('path');
     sa.module && sa.hasModal && sa.hasMic && sa.hasEndpointInput && sa.hasVocabBtn,
     JSON.stringify(sa));
 
-  // 内置默认评测服务地址：装完即用，不要求用户先填
+  // 评测服务地址：默认必须是「空 + 未启用」，
+  // 否则就等于「装完即用 → 录音默默上传到某个人服务器」，
+  // 和 README 承诺的「完全离线」直接冲突。
+  // 期望行为：出厂态未配置；显式填地址才启用；清空即关闭；重置回出厂态。
   const dflt = await page.evaluate(() => {
     const S = window.SpeechAssess;
     S.resetEndpoint();                       // 清掉任何历史设置，回到出厂态
     const on = S.configured();
     const url = S.endpoint();
+    S.setEndpoint('https://example.invalid/ise.php'); // 显式配置
+    const on2 = S.configured();
     S.setEndpoint('');                       // 显式关闭
     const off = S.configured();
     S.resetEndpoint();                       // 恢复默认
-    return { on, url, off, restored: S.configured() };
+    return { on, url, on2, off, restored: S.configured() };
   });
-  check('default endpoint built in + can be disabled',
-    dflt.on === true && dflt.url === 'https://kimthao.22web.org/api/ise.php'
-    && dflt.off === false && dflt.restored === true,
+  check('default endpoint empty + opt-in only',
+    dflt.on === false && dflt.url === '' && dflt.on2 === true
+    && dflt.off === false && dflt.restored === false,
     JSON.stringify(dflt));
 
   // 词条音频标志：必须为 true，否则 App 会退化成 speechSynthesis（WebView 不发声）
@@ -531,7 +536,7 @@ const path = require('path');
   check('cross-level search card opens', cross.opened === true && cross.hanzi === cross.word, JSON.stringify(cross));
 
   console.log('==== RESULTS ====');
-  Object.keys(results).forEach((k) => console.log((results[k] === 'PASS' ? '✅ ' : '❌ ') + k + ' :: ' + results[k]));
+  Object.keys(results).forEach((k) => console.log((results[k] === 'PASS' ? '[OK] ' : '[X] ') + k + ' :: ' + results[k]));
   const fails = Object.keys(results).filter((k) => results[k] !== 'PASS').length;
   console.log(fails === 0 ? 'ALL PASS' : fails + ' FAILURES');
   console.log('PAGE ERRORS (' + errors.length + '):');

@@ -22,6 +22,51 @@
   }
   function T(k) { return window.I18N.t(k); }
 
+  /**
+   * 单色 SVG 图标（对应 index.html 里的 <symbol> 精灵）。
+   * 替代散落在模板字符串里的 emoji：跨设备字形一致、跟随 currentColor、
+   * 深色模式无需额外处理。ico('volume', 'icon-class') -> <svg ...>
+   */
+  function ico(name, cls, title) {
+    return '<svg class="' + (cls || 'ico') + '" aria-hidden="true"' +
+      (title ? ' role="img" aria-label="' + esc(title) + '"' : '') +
+      '><use href="#i-' + name + '"/></svg>';
+  }
+
+  /**
+   * 结果页的轻量进度环。
+   *
+   * 之前结果页只有「奖杯图标 + 纯数字」，数字再大也看不出完成度。
+   * 这里换成一道 SVG 环：环的弧长就是百分比，中间放数字。
+   * 刻意保持克制 —— 单色描边、无阴影、无弹跳动画，
+   * 只在出现时走一圈 0.6s 的描边动画（且尊重 prefers-reduced-motion）。
+   */
+  function resultRing(pct) {
+    var p = Math.max(0, Math.min(100, Math.round(pct || 0)));
+    var r = 42;
+    var c = 2 * Math.PI * r;
+    var off = c * (1 - p / 100);
+    var tier = p >= 80 ? 'high' : p >= 50 ? 'mid' : 'low';
+    return '<div class="result-ring-wrap ' + tier + '">' +
+      '<svg class="result-ring" viewBox="0 0 100 100" aria-hidden="true">' +
+        '<circle class="ring-track" cx="50" cy="50" r="' + r + '"></circle>' +
+        '<circle class="ring-fill" cx="50" cy="50" r="' + r + '" ' +
+          'stroke-dasharray="' + c.toFixed(2) + '" ' +
+          'stroke-dashoffset="' + off.toFixed(2) + '"></circle>' +
+      '</svg>' +
+      '<div class="result-ring-num">' + p + '<span>%</span></div>' +
+    '</div>';
+  }
+
+  /** 三星评价：用 SVG 星形，无表情、跨端一致 */
+  function starRow(n) {
+    var out = '';
+    for (var i = 1; i <= 3; i++) {
+      out += ico('star', 'star' + (i <= n ? ' on' : ''));
+    }
+    return out;
+  }
+
   var currentLevel = '1';
   var VOCAB = [];
 
@@ -57,13 +102,19 @@
     return out;
   }
 
-  var STORE_KEY = 'vietchinese.progress.v1';
+  // 键名由 store.js 统一登记
+  var STORE_KEY = window.Store ? window.Store.KEYS.progress : 'vietchinese.progress.v1';
   var progress = load();
   function load() {
+    if (window.Store) {
+      var p = window.Store.getJSON(STORE_KEY, null);
+      return (p && typeof p === 'object' && p.learned) ? p : { learned: {} };
+    }
     try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { learned: {} }; }
     catch (e) { return { learned: {} }; }
   }
   function save() {
+    if (window.Store) { window.Store.setJSON(STORE_KEY, progress); return; }
     try { localStorage.setItem(STORE_KEY, JSON.stringify(progress)); } catch (e) {}
   }
 
@@ -123,6 +174,26 @@
 
   // ------------------------------------------------------------ 导航
   var gotoMeasureTimer = 0;
+  /**
+   * 定时器句柄集中登记。
+   *
+   * 之前这些延时回调都是匿名 setTimeout，没人能取消：
+   *   - 答完题 1.1 秒后自动推进到下一题
+   *   - 进入听写题 260ms 后自动播一次发音
+   * 学员在等待期间切走分区，回调照样执行，
+   * 往**已经隐藏**的分区里渲染内容 —— 既浪费，又会跟新分区抢状态
+   * （表现：切到别的页面后，测验题自己跳了）。
+   * 现在统一登记句柄，切分区时统一取消。
+   */
+  var quizAdvanceTimer = 0;
+  var dictPlayTimer = 0;
+
+  function clearPendingTimers() {
+    if (quizAdvanceTimer) { clearTimeout(quizAdvanceTimer); quizAdvanceTimer = 0; }
+    if (dictPlayTimer) { clearTimeout(dictPlayTimer); dictPlayTimer = 0; }
+    if (dictNextTimer) { clearTimeout(dictNextTimer); dictNextTimer = 0; }
+  }
+
 
   /**
    * 标记「运行在 APK 内」。
@@ -143,10 +214,18 @@
     closeMorePanel();
     // 离开测验分区时取消「自动进入下一题」的定时器，
     // 否则切走后它仍会把听写推进到下一题
-    if (dictNextTimer) { clearTimeout(dictNextTimer); dictNextTimer = 0; }
+    clearPendingTimers();
     document.querySelectorAll('.nav-btn').forEach(function (b) {
       b.classList.toggle('active', b.dataset.section === name);
     });
+    // 目标分区在「更多」抽屉里时（复习/笔顺/拼音/听写/设置），
+    // 底栏没有对应按钮，此时应高亮「更多」，
+    // 否则用户点了首页入口卡跳过去，底栏却没有任何高亮，不知道自己在哪一层。
+    var MAIN_SECTIONS = ['home', 'learn', 'sentence', 'quiz'];
+    var moreBtn = document.getElementById('nav-more-btn');
+    if (moreBtn) {
+      moreBtn.classList.toggle('active', MAIN_SECTIONS.indexOf(name) === -1);
+    }
     document.querySelectorAll('.section').forEach(function (s) {
       s.classList.toggle('active', s.id === name);
     });
@@ -340,15 +419,15 @@
         '<div class="vocab-card' + (learned ? ' learned' : '') + '" data-word="' + esc(v.hanzi) + '">' +
           '<div class="vocab-hanzi">' + esc(v.hanzi) + '</div>' +
           '<div class="vocab-pinyin">' + esc(v.pinyin) + '</div>' +
-          (v.han_viet ? '<div class="vocab-hanviet" title="Hán-Việt">🀄 ' + esc(v.han_viet) + '</div>' : '') +
+          (v.han_viet ? '<div class="vocab-hanviet" title="Hán-Việt">' + ico('globe','vmeta-ico') + esc(v.han_viet) + '</div>' : '') +
           (mean ? '<div class="vocab-mean">' + esc(mean) + '</div>' : '') +
           '<div class="vocab-foot">' +
-            (v.stroke_count ? '<span class="vmeta">✍️ ' + v.stroke_count + '</span>' : '') +
-            (v.has_audio ? '<span class="vmeta">🔊</span>' : '') +
-            (card ? '<span class="vmeta srs" title="SRS">📊' + card.interval + 'd</span>' : '') +
+            (v.stroke_count ? '<span class="vmeta">' + ico('pen','vmeta-ico') + v.stroke_count + '</span>' : '') +
+            (v.has_audio ? '<span class="vmeta">' + ico('volume','vmeta-ico') + '</span>' : '') +
+            (card ? '<span class="vmeta srs" title="SRS">' + ico('chart','vmeta-ico') + card.interval + 'd</span>' : '') +
           '</div>' +
           '<button class="mark-btn" data-mark="' + esc(v.hanzi) + '">' +
-            (learned ? '✓' + T('learned') : T('mark')) + '</button>' +
+            (learned ? ico('check','inline-ico') + T('learned') : T('mark')) + '</button>' +
         '</div>';
     }).join('');
 
@@ -463,7 +542,7 @@
     var modal = document.getElementById('stroke-modal');
     document.getElementById('stroke-char').textContent = word;
     document.getElementById('stroke-hanviet').textContent =
-      (item && item.han_viet) ? '🀄 ' + item.han_viet : '';
+      (item && item.han_viet) ? item.han_viet : '';
     document.getElementById('stroke-meta').textContent = T('chooseChar');
     var target = document.getElementById('stroke-target');
     target.innerHTML = '<div class="char-picker">' + chars.map(function (c) {
@@ -497,7 +576,7 @@
     document.getElementById('vm-hanzi').textContent = w;
     document.getElementById('vm-pinyin').textContent = item.pinyin || '';
     document.getElementById('vm-hanviet').textContent =
-      item.han_viet ? '🀄 ' + item.han_viet : '';
+      item.han_viet ? item.han_viet : '';
 
     var mean = meaningOf(item) || '';
     document.getElementById('vm-meaning').innerHTML =
@@ -506,9 +585,9 @@
 
     var drawable = drawableChars(item);
     var metas = ['HSK ' + (item.level != null ? item.level : '?')];
-    if (drawable.length) metas.push('✍️ ' + drawable.length + ' ' + T('strokes'));
+    if (drawable.length) metas.push(ico('pen','meta-ico') + drawable.length + ' ' + T('strokes'));
     var card = window.SRS.getCard(w);
-    if (card) metas.push('📊 ' + card.interval + 'd');
+    if (card) metas.push(ico('chart','meta-ico') + card.interval + 'd');
     document.getElementById('vm-meta').innerHTML =
       metas.map(function (m) { return '<span>' + m + '</span>'; }).join('');
 
@@ -536,7 +615,7 @@
     if (!btn) return;
     var learned = !!progress.learned[w];
     btn.classList.toggle('active-mark', learned);
-    btn.innerHTML = (learned ? '✓ ' : '+ ') + T(learned ? 'learned' : 'mark');
+    btn.innerHTML = (learned ? ico('check','inline-ico') : ico('plus','inline-ico')) + T(learned ? 'learned' : 'mark');
   }
 
   function initVocabModal() {
@@ -682,7 +761,10 @@
         + 'Hãy mở bằng Chrome, Safari hoặc trình duyệt hệ thống.'));
       return;
     }
-    if (navigator.permissions && navigator.permissions.query) {
+    // 注意：APK 内走的是原生 AudioRecord，浏览器的 permissions API
+    // 与系统权限不是一回事，在那里查会得到误导性的结果 —— 跳过。
+    var inApp = document.documentElement.classList.contains('in-app');
+    if (!inApp && navigator.permissions && navigator.permissions.query) {
       try {
         navigator.permissions.query({ name: 'microphone' }).then(function (st) {
           if (st.state === 'denied') {
@@ -705,12 +787,26 @@
       mic.classList.add('recording');
     }).catch(function (e) {
       var code = e && e.name;
-      if (code === 'NotAllowedError') {
+      var ecode = e && e.code;
+      if (ecode === 'permission_denied') {
+        // APK 内：系统「麦克风」权限没拿到（用户在系统弹窗里选了拒绝，
+        // 或勾了「不再询问」）。
+        // 这里**必须**给出系统设置路径 —— APK 里没有浏览器地址栏可以点，
+        // 之前那句「去浏览器设置里允许麦克风」在这里是彻底的错误指引。
+        asStatus('err', asT('asPermDeniedApk',
+          'Chưa được cấp quyền micrô. Vui lòng vào '
+          + 'Cài đặt hệ thống → Ứng dụng → 越学中文 → Quyền → Micrô '
+          + '→ Luôn cho phép, rồi mở lại ứng dụng.'));
+      } else if (ecode === 'not_readable') {
+        asStatus('err', asT('asMicBusy',
+          'Không mở được micrô (có thể đang được ứng dụng khác chiếm). '
+          + 'Hãy đóng các ứng dụng gọi thoại/ghi âm rồi thử lại.'));
+      } else if (code === 'NotAllowedError') {
         asStatus('err', asT('asDenied',
           'Bị từ chối quyền thu âm. Hãy cấp quyền Micrô cho ứng dụng trong cài đặt hệ thống.'));
       } else if (code === 'NotFoundError') {
         asStatus('err', asT('asNoMic', 'Không tìm thấy micrô.'));
-      } else if (code === 'NotReadableError' || (e && e.code) === 'audio_context') {
+      } else if (code === 'NotReadableError' || ecode === 'audio_context') {
         // 麦克风被系统独占或音频服务起不来。实测 vivo/Android16 上原生录音
         // 正常、但 WebView 的 getUserMedia 会抛 NotReadableError，
         // 这里给出可操作的指引，而不是把 Chromium 的英文原文抛给用户。
@@ -725,6 +821,12 @@
         asStatus('err', asT('asNoSupport',
           'Trình duyệt này không hỗ trợ ghi âm. '
           + 'Hãy mở bằng Chrome, Safari hoặc trình duyệt hệ thống.'));
+      } else if (inApp) {
+        // 其余错误在 APK 里都是原生侧的问题，浏览器那套指引在这里没意义。
+        console.warn('[assess] 录音失败（APK）', code, ecode, e && e.message, e);
+        asStatus('err', asT('asRecFailApk',
+          'Không ghi được âm thanh. Hãy thử lại; nếu vẫn lỗi, '
+          + 'mở lại ứng dụng và kiểm tra quyền Micrô trong Cài đặt hệ thống.'));
       } else {
         // 其余一律给出「浏览器 + 站点」两个层面的排查指引，
         // 并把真实错误名写进 console，方便对方报障时定位。
@@ -762,24 +864,41 @@
 
   function renderAssess(r) {
     var box = document.getElementById('as-result');
+    if (!box) return;
     box.hidden = false;
 
-    var sc = (r.score && typeof r.score.overall === 'number') ? r.score.overall : 0;
+    // 归一化：服务端有可能只回 `ok:true` 而漏掉 score/words，
+    // 或者把分数写成字符串。历史上这里直接读 `r.score.phone`，
+    // 遇到畸形响应会抛 TypeError，catch 之后把英文异常原文甩给用户。
+    // 现在任何缺字段/类型不对都当成 0，页面永远能正常渲染。
+    r = (r && typeof r === 'object') ? r : {};
+    var score = (r.score && typeof r.score === 'object') ? r.score : {};
+    function num(v) {
+      var n = typeof v === 'number' ? v : parseFloat(v);
+      return (isFinite(n) ? n : 0);
+    }
+
+    var sc = num(score.overall);
     var el = document.getElementById('as-score');
-    el.textContent = sc;
-    el.className = 'as-score' + (sc >= 80 ? '' : sc >= 60 ? ' mid' : ' low');
+    if (el) {
+      el.textContent = sc;
+      el.className = 'as-score' + (sc >= 80 ? '' : sc >= 60 ? ' mid' : ' low');
+    }
 
     // 四个分项
     var dims = [
-      ['asDimPhone', r.score.phone,   'Âm tự'],
-      ['asDimTone',  r.score.tone,    'Thanh điệu'],
-      ['asDimFlu',   r.score.fluency, 'Trôi chảy'],
-      ['asDimComp',  compScore(r),    'Đầy đủ']
+      ['asDimPhone', num(score.phone),   'Âm tự'],
+      ['asDimTone',  num(score.tone),    'Thanh điệu'],
+      ['asDimFlu',   num(score.fluency), 'Trôi chảy'],
+      ['asDimComp',  num(compScore(r)),  'Đầy đủ']
     ];
-    document.getElementById('as-dims').innerHTML = dims.map(function (d) {
-      return '<div class="as-dim"><b>' + (d[1] > 0 ? d[1] : '—') + '</b><span>' +
-             asT(d[0], d[2]) + '</span></div>';
-    }).join('');
+    var dimsBox = document.getElementById('as-dims');
+    if (dimsBox) {
+      dimsBox.innerHTML = dims.map(function (d) {
+        return '<div class="as-dim"><b>' + (d[1] > 0 ? d[1] : '—') + '</b><span>' +
+               asT(d[0], d[2]) + '</span></div>';
+      }).join('');
+    }
 
     // 逐字得分
     // 调试：如果服务器带了讯飞的原始返回（_raw），显示出来。
@@ -882,6 +1001,23 @@
         });
       }
     }
+
+    // 设置页：代理访问口令（服务端配了 X-Proxy-Key 才需要）
+    var keyInput = document.getElementById('ise-proxy-key');
+    var keySave = document.getElementById('btn-ise-key-save');
+    if (keyInput && window.SpeechAssess) {
+      keyInput.value = window.SpeechAssess.proxyKey();
+      if (keySave) {
+        keySave.addEventListener('click', function () {
+          var v = (keyInput.value || '').trim();
+          window.SpeechAssess.setProxyKey(v);
+          keyInput.value = v;
+          toast(v
+            ? asT('asKeySaved', 'Đã lưu mật khẩu truy cập proxy.')
+            : asT('asKeyCleared', 'Đã xóa mật khẩu truy cập proxy.'));
+        });
+      }
+    }
   }
 
   var writer = null;
@@ -900,7 +1036,7 @@
         var hit = allWords().filter(function (v) { return v.hanzi.indexOf(ch) !== -1; })[0];
         hv = hit ? hit.han_viet : '';
       }
-      document.getElementById('stroke-hanviet').textContent = hv ? '🀄 ' + hv : '';
+      document.getElementById('stroke-hanviet').textContent = hv || '';
       toggleStrokeBtns(true);
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
@@ -938,13 +1074,11 @@
   /** 展示书写评分 */
   function showStrokeResult(r) {
     var stars = '';
-    for (var i = 1; i <= 3; i++) {
-      stars += i <= r.stars ? '★' : '☆';
-    }
+    stars = starRow(r.stars);
     var speedTxt = '';
     if (r.speedStars != null) {
       var sStars = '';
-      for (var j = 1; j <= 3; j++) sStars += j <= r.speedStars ? '⚡' : '';
+      for (var j = 1; j <= 3; j++) sStars += ico('zap','speed-zap' + (j <= r.speedStars ? ' on' : ''));
       speedTxt = '<div class="stroke-res-speed">' + T('speed') + ' ' +
         (sStars || '—') + '</div>';
     }
@@ -972,10 +1106,18 @@
 
   function closeStroke() {
     var m = document.getElementById('stroke-modal');
+    if (!m) return;
     m.classList.remove('open');
     m.setAttribute('aria-hidden', 'true');
     var box = document.getElementById('stroke-result-box');
     if (box) box.innerHTML = '';
+    // 关弹窗必须停掉笔顺动画与评分回调。
+    // HanziWriter 的 quiz 模式有自己的循环，不 cancel 就会一直跑：
+    // 关掉弹窗后仍在写、仍会回调评分，并往**已经隐藏**的弹窗里渲染结果。
+    if (writer) {
+      try { writer.cancelQuiz(); } catch (e) { /* 已结束，忽略 */ }
+      try { writer.animateCharacter(); } catch (e) { /* 同上 */ }
+    }
   }
 
   function initStrokeModal() {
@@ -1042,10 +1184,10 @@
     var opts = buildOptions(w, item);
     box.innerHTML =
       '<div class="quiz-q">' + (srsState.idx + 1) + '/' + srsState.pool.length +
-        (card ? ' · 📊' + card.interval + 'd' : '') + '</div>' +
+        (card ? ' · ' + ico('chart','inline-ico') + card.interval + 'd' : '') + '</div>' +
       '<div class="quiz-prompt">' + esc(w) + '</div>' +
       '<div class="quiz-pinyin">' + esc(item.pinyin || '') + '</div>' +
-      (item.han_viet ? '<div class="quiz-hanviet">🀄 ' + esc(item.han_viet) + '</div>' : '') +
+      (item.han_viet ? '<div class="quiz-hanviet">' + ico('globe','inline-ico') + esc(item.han_viet) + '</div>' : '') +
       '<div class="quiz-opts">' + opts.map(function (o) {
         return '<button class="quiz-opt" data-answer="' + esc(o.answer) + '">' + esc(o.label) + '</button>';
       }).join('') + '</div>';
@@ -1327,7 +1469,7 @@
     // 课序用于定位预生成音频 s_<课序>_<句序>
     var ci = COURSES.indexOf(course);
     box.innerHTML =
-      '<button class="course-back" data-back="1">← ' + T('backToCourses') + '</button>' +
+      '<button class="course-back" data-back="1">' + ico('arrow-left','inline-ico') + T('backToCourses') + '</button>' +
       '<div class="course-head">' +
         '<h3>' + esc(courseLabel(course)) + '</h3>' +
         '<span class="badge-level">HSK ' + (course.level || 1) + '</span>' +
@@ -1341,10 +1483,10 @@
             '<div class="sent-hanzi">' + esc(s.hanzi) + '</div>' +
             '<div class="sent-pinyin">' + esc(s.pinyin) + '</div>' +
             (s.han_viet
-              ? '<div class="sent-hanviet">🀄 ' + esc(s.han_viet) + '</div>' : '') +
+              ? '<div class="sent-hanviet">' + ico('globe','inline-ico') + esc(s.han_viet) + '</div>' : '') +
             '<div class="sent-vi">' + esc(s.vi) + '</div>' +
           '</div>' +
-          '<button class="sent-play" data-key="' + key + '" title="Nghe">🔊</button>' +
+          '<button class="sent-play" data-key="' + key + '" title="Nghe">' + ico('volume','inline-ico') + '</button>' +
         '</div>';
       }).join('') +
       '</div>';
@@ -1359,7 +1501,9 @@
       b.addEventListener('click', function (e) {
         e.stopPropagation();
         var src = 'audio/sentences/' + b.dataset.key + '.mp3';
-        if (audioEl && playLocal(src, b.closest('.sentence-row').dataset.say)) return;
+        // 不能用 audioEl 是否存在来判断能否播本地音频 —— audioEl 是懒创建的，
+        // 首次点击时必为 null，导致第一次永远走 TTS（WebView 里等于没声音）。
+        if (playLocal(src, b.closest('.sentence-row').dataset.say)) return;
         speak(b.closest('.sentence-row').dataset.say);
       });
     });
@@ -1379,7 +1523,7 @@
   function initQuiz() {
     document.getElementById('quiz-area').innerHTML =
       '<div class="quiz-intro">' +
-        '<div class="quiz-intro-icon">✨</div>' +
+        '<div class="quiz-intro-icon">' + ico('quiz','intro-ico') + '</div>' +
         '<p class="quiz-intro-text">' + T('quizIntro') + '</p>' +
         '<button id="quiz-start" class="btn btn-primary btn-large">' +
           T('startQuiz') + '</button>' +
@@ -1393,6 +1537,8 @@
       var j = Math.floor(Math.random() * (i + 1));
       var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
     }
+    // 新一轮开始前，取消上一轮可能还在跑的自动推进
+    if (quizAdvanceTimer) { clearTimeout(quizAdvanceTimer); quizAdvanceTimer = 0; }
     quizState = { pool: pool.slice(0, 10), idx: 0, correct: 0 };
     renderQuizQuestion();
   }
@@ -1409,12 +1555,10 @@
     var box = document.getElementById('quiz-area');
     if (quizState.idx >= quizState.pool.length) {
       var pct = Math.round(quizState.correct / quizState.pool.length * 100);
-      var face = pct >= 80 ? '🎉' : pct >= 50 ? '👍' : '💪';
       box.innerHTML = '<div class="quiz-result">' +
-        '<div class="result-emoji">' + face + '</div>' +
+        resultRing(pct) +
         '<div class="result-score">' + quizState.correct +
           '<span>/' + quizState.pool.length + '</span></div>' +
-        '<div class="result-pct">' + pct + '%</div>' +
         '<button id="quiz-again" class="btn btn-primary">' + T('again') + '</button>' +
         '</div>';
       document.getElementById('quiz-again').addEventListener('click', startQuiz);
@@ -1435,7 +1579,7 @@
         '<div class="quiz-progressbar"><i style="width:' + prog + '%"></i></div>' +
         // 题干只显示汉字，不显示拼音（避免提示）
         '<div class="quiz-prompt">' + esc(q.hanzi) + '</div>' +
-        (q.han_viet ? '<div class="quiz-hanviet">🀄 ' + esc(q.han_viet) + '</div>' : '') +
+        (q.han_viet ? '<div class="quiz-hanviet">' + ico('globe', 'inline-ico') + esc(q.han_viet) + '</div>' : '') +
         '<div class="quiz-hint">' + T('quizHint') + '</div>' +
         '<div class="quiz-opts">' + opts.map(function (o) {
           return '<button class="quiz-opt" data-answer="' + esc(o.answer) + '">' +
@@ -1459,7 +1603,12 @@
           });
         }
         speak(q.hanzi, { audioKey: q.has_audio ? ('w_' + q.hanzi) : null });
-        setTimeout(function () { quizState.idx++; renderQuizQuestion(); }, 1100);
+        // 登记句柄：切走分区时能被取消，不往隐藏分区里渲染
+        if (quizAdvanceTimer) clearTimeout(quizAdvanceTimer);
+        quizAdvanceTimer = setTimeout(function () {
+          quizAdvanceTimer = 0;
+          quizState.idx++; renderQuizQuestion();
+        }, 1100);
       });
     });
   }
@@ -1498,8 +1647,8 @@
     });
     if (bra) bra.addEventListener('click', function () {
       if (confirm(T('confirmResetAll'))) {
-        window.Settings.resetAll();
-        toast(T('resetDone'));
+        var cleared = window.Settings.resetAll();
+        toast(T('resetDone') + (cleared ? ' (' + cleared + ')' : ''));
         renderStats();
         renderSrsStats();
         updateBadge();
@@ -1563,13 +1712,13 @@
       .sort(function (a, b) { return b.at - a.at; }).slice(0, 30);
     listBox.innerHTML = recs.map(function (r) {
       var stars = '';
-      for (var i = 1; i <= 3; i++) stars += i <= r.stars ? '★' : '☆';
+      stars = starRow(r.stars);
       return '<div class="stroke-row">' +
         '<span class="sr-char">' + esc(r.ch) + '</span>' +
         '<span class="sr-stars">' + stars + '</span>' +
         '<span class="sr-meta">' + r.orderPct + '% · ' +
           r.correct + '/' + r.total + ' · ' +
-          (r.mistakes > 0 ? T('mistakes') + ' ' + r.mistakes : '✓') +
+          (r.mistakes > 0 ? T('mistakes') + ' ' + r.mistakes : ico('check','inline-ico')) +
         '</span>' +
       '</div>';
     }).join('');
@@ -1602,10 +1751,10 @@
       return '<div class="wrong-row">' +
         '<span class="wrong-char">' + esc(r.word) + '</span>' +
         '<span class="wrong-py">' + esc(v.pinyin || '') + '</span>' +
-        (v.han_viet ? '<span class="wrong-hv">🀄 ' + esc(v.han_viet) + '</span>' : '') +
+        (v.han_viet ? '<span class="wrong-hv">' + ico('globe','inline-ico') + esc(v.han_viet) + '</span>' : '') +
         '<span class="wrong-meta">×' + r.data.count +
           (src ? ' · ' + esc(src) : '') + '</span>' +
-        '<button class="wrong-play" data-word="' + esc(r.word) + '">🔊</button>' +
+        '<button class="wrong-play" data-word="' + esc(r.word) + '">' + ico('volume','inline-ico') + '</button>' +
       '</div>';
     }).join('');
     box.querySelectorAll('.wrong-play').forEach(function (b) {
@@ -1666,7 +1815,7 @@
   function initDictation() {
     document.getElementById('dict-area').innerHTML =
       '<div class="quiz-intro">' +
-        '<div class="quiz-intro-icon">🎧</div>' +
+        '<div class="quiz-intro-icon">' + ico('headphones','intro-ico') + '</div>' +
         '<p class="quiz-intro-text">' + T('dictIntro') + '</p>' +
         '<button id="dict-start" class="btn btn-primary btn-large">' +
           T('dictStart') + '</button>' +
@@ -1688,12 +1837,11 @@
 
     if (D.idx >= D.queue.length) {
       var pct = Math.round(D.correct / D.queue.length * 100);
-      var face = pct >= 80 ? '🎉' : pct >= 50 ? '👍' : '💪';
       box.innerHTML = '<div class="quiz-result">' +
-        '<div class="result-emoji">' + face + '</div>' +
+        resultRing(pct) +
         '<div class="result-score">' + D.correct +
           '<span>/' + D.queue.length + '</span></div>' +
-        '<div class="result-pct">' + pct + '% · ' +
+        '<div class="result-pct">' +
           T('dictPartial') + ' ' + D.partial +
           ' · ' + T('dictWrong') + ' ' + D.wrong + '</div>' +
         '<div class="dict-result-actions">' +
@@ -1724,7 +1872,7 @@
         '</div>' +
         '<div class="quiz-progressbar"><i style="width:' + prog + '%"></i></div>' +
 
-        '<button id="dict-play" class="dict-play">🔊</button>' +
+        '<button id="dict-play" class="dict-play">' + ico('volume','inline-ico') + '</button>' +
         '<div class="dict-hint">' + T('dictHint') + '</div>' +
 
         // 逐字作答区
@@ -1753,7 +1901,9 @@
       speak(w.hanzi, { audioKey: w.has_audio ? ('w_' + w.hanzi) : null });
     };
     playBtn.addEventListener('click', doPlay);
-    setTimeout(doPlay, 260);          // 进入题目自动播一次
+    // 登记句柄：切走分区时能被取消
+    if (dictPlayTimer) clearTimeout(dictPlayTimer);
+    dictPlayTimer = setTimeout(function () { dictPlayTimer = 0; doPlay(); }, 260);  // 进入题目自动播一次
 
     box.querySelectorAll('.slot-opt').forEach(function (b) {
       b.addEventListener('click', function () {
@@ -1783,15 +1933,15 @@
 
       if (r.level === 'correct') {
         fb.className = 'dict-feedback ok';
-        fb.innerHTML = '✅ ' + T('dictCorrect');
+        fb.innerHTML = ico('circle-check','fb-ico') + T('dictCorrect');
         if (window.Settings) window.Settings.clearWrong(w.hanzi);
         window.SRS.review(w.hanzi, 5);
       } else {
         fb.className = 'dict-feedback ng';
-        var tag = r.level === 'partial' ? '🟡' : '❌';
-        fb.innerHTML = tag + ' ' + T('dictAnswer') + ': <b>' + esc(w.hanzi) +
+        var tag = r.level === 'partial' ? 'circle-alert' : 'circle-x';
+        fb.innerHTML = ico(tag,'fb-ico') + T('dictAnswer') + ': <b>' + esc(w.hanzi) +
           '</b> (' + esc(w.pinyin) + ')' +
-          (w.han_viet ? ' · 🀄 ' + esc(w.han_viet) : '');
+          (w.han_viet ? ' · ' + ico('globe','inline-ico') + esc(w.han_viet) : '');
         if (window.Settings) window.Settings.addWrong(w.hanzi, 'dictation');
         window.SRS.review(w.hanzi, 1);
       }
@@ -1859,7 +2009,7 @@
       var done = Math.min(i.done, i.goal);
       var pct = i.goal > 0 ? Math.round(done / i.goal * 100) : 0;
       return '<div class="goal-item">' +
-        '<span class="goal-ico">' + (pct >= 100 ? '✅' : '⬜') + '</span>' +
+        '<span class="goal-ico">' + ico(pct >= 100 ? 'circle-check' : 'circle','goal-ico-svg') + '</span>' +
         '<span class="goal-lbl">' + T(i.label) + '</span>' +
         '<span class="goal-num">' + i.done + '/' + i.goal + '</span>' +
         '<span class="goal-bar"><i style="width:' + pct + '%"></i></span>' +
@@ -1887,7 +2037,7 @@
       '</div>' +
       '<div class="goal-items">' + items + '</div>' +
       '<div class="goal-foot">' +
-        '<span class="streak">🔥 ' + T('streak') + ' <b>' + streak + '</b>' +
+        '<span class="streak">' + ico('flame','streak-ico') + T('streak') + ' <b>' + streak + '</b>' +
           ' · ' + T('best') + ' ' + (g.best || 0) + '</span>' +
         '<span class="goal-days">' + dots + '</span>' +
       '</div>';
@@ -1949,6 +2099,20 @@
   };
 
   document.addEventListener('DOMContentLoaded', function () {
+    // ---- 存储层先初始化 ----
+    // 写失败必须**可见**：iOS Safari 无痕模式 / 存储配额满时，
+    // 学习进度会静默丢失，学员只看到「关掉就没了」，却不知道原因。
+    if (window.Store) {
+      window.Store.onError(function (msg) {
+        toast(T('storageFull',
+          'Không lưu được dữ liệu — bộ nhớ trình duyệt có thể đã đầy. '
+          + 'Hãy xóa bớt dữ liệu trình duyệt hoặc tắt chế độ riêng tư.'));
+      });
+      // 数据结构升级（老版本的数据补齐缺省字段）
+      try { window.Store.migrate(); } catch (e) { /* 迁移失败不能挡住启动 */ }
+      // 清理过期的每日记录，避免按天建键无限膨胀
+      try { window.Store.pruneDaily(); } catch (e) { /* 同上 */ }
+    }
     VOCAB = LEVELS[currentLevel] || [];
     initNav();
     renderLevelTabs();

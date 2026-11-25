@@ -161,7 +161,7 @@ def main() -> int:
     _, (xmin, ymin, xmax, ymax), upem = load_glyph()
     w = (xmax - xmin) / upem * GLYPH_H_DP
     print(f"[自检] 中字实际尺寸 {w:.1f} x {GLYPH_H_DP:.1f} dp"
-          f"（安全区直径 66dp，{'✅ 在安全区内' if w <= 66 and GLYPH_H_DP <= 66 else '❌ 越界'}）")
+          f"（安全区直径 66dp，{'[OK] 在安全区内' if w <= 66 and GLYPH_H_DP <= 66 else '[X] 越界'}）")
     return 0
 
 
