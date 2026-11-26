@@ -1,7 +1,6 @@
 # 越学中文（VietChinese）— 越南人从 0 学中文
 
-基于 **[ALiangPang/hsk1-chinese-learning](https://github.com/ALiangPang/hsk1-chinese-learning)**
-二次开发的**离线**中文学习 App。目标是让**零基础越南人**从拼音到会说会认中文。
+目标是让**零基础越南人**从拼音到会说会认中文。
 
 > 越学汉语 · 研究用途 · 非商用
 
