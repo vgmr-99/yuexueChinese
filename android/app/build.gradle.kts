@@ -12,8 +12,8 @@ android {
         // WebView API 21+ 即可；这里设 28 与译境保持一致
         minSdk = 28
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0-research"
+        versionCode = 2
+        versionName = "1.0.0"
     }
 
     buildTypes {
